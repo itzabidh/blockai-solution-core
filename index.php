@@ -1,9 +1,10 @@
 <?php 
 include 'db_connect.php'; 
 
-// Fetch all products from SQL once to handle filtering via JS for better speed
+// Fetch all products with ProductID from SQL
 try {
-    $sql = "SELECT Category, ProductName, ShortDescription, Price FROM BusinessProducts";
+    // এখানে ProductID যোগ করা হয়েছে
+    $sql = "SELECT ProductID, Category, ProductName, ShortDescription, Price FROM BusinessProducts";
     $stmt = $conn->query($sql);
     $db_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
@@ -11,6 +12,7 @@ try {
     $js_data = [];
     foreach ($db_products as $row) {
         $js_data[] = [
+            'id'    => $row['ProductID'], // এই 'id' টাই নিচের JavaScript-এ p.id হিসেবে কাজ করবে
             'cat'   => strtolower($row['Category']),
             'title' => $row['ProductName'],
             'desc'  => $row['ShortDescription'],
@@ -86,7 +88,10 @@ try {
                         <p class="text-slate-500 text-xs leading-relaxed">${p.desc}</p>
                         <p class="mt-3 text-indigo-600 font-bold">$${p.price}</p>
                     </div>
-                    <button class="mt-4 text-[10px] font-bold text-indigo-600 uppercase tracking-wider hover:underline">Buy with Crypto ₿</button>
+                    
+                    <a href="product-details.php?id=${p.id}" target="_blank" class="mt-4 text-[10px] font-bold text-center text-indigo-600 uppercase tracking-wider border border-indigo-100 py-2 rounded-lg hover:bg-indigo-50 transition">
+                        Learn More &rarr;
+                    </a>
                 </div>
             `).join('');
         }
