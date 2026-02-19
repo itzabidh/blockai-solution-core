@@ -7,57 +7,99 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-slate-50 font-sans">
-    <nav class="bg-white border-b p-6 shadow-sm">
+<body class="bg-slate-50 font-sans text-slate-900">
+
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-indigo-600">BlockAI Solution</a>
-            <div class="space-x-6 text-sm font-bold">
-                <a href="index.html" class="text-slate-600 hover:text-indigo-600">Home</a>
-                <a href="registration.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg">Apply as Vendor</a>
+            <a href="index.html" class="text-2xl font-black text-indigo-600">BlockAI <span class="text-slate-400 font-light">Solution</span></a>
+            <div class="flex items-center space-x-6">
+                <a href="index.html" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
+                <a href="registration.html" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md">Apply as Vendor</a>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto py-12 px-4">
-        <div class="text-center mb-16">
-            <h1 class="text-4xl font-extrabold text-slate-900">Explore AI Categories</h1>
-            <p class="text-slate-500 mt-4 max-w-2xl mx-auto">Connecting global businesses with industry-specific AI implementations for international scaling.</p>
+    <section class="bg-indigo-900 py-16 px-4 text-center text-white">
+        <h1 class="text-4xl font-extrabold mb-4">Find the Right AI Partner</h1>
+        <p class="text-indigo-200 mb-8">Search through our vetted directory of global AI solution providers.</p>
+        <div class="max-w-2xl mx-auto flex bg-white rounded-2xl overflow-hidden shadow-2xl">
+            <input type="text" placeholder="Search by industry (e.g. Finance, Healthcare)..." class="w-full p-4 text-slate-900 outline-none">
+            <button class="bg-indigo-600 px-8 py-4 font-bold hover:bg-indigo-700 transition">Search</button>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto py-16 px-4">
+        
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-4">
+            <h2 class="text-2xl font-bold">Explore AI Categories</h2>
+            <div class="flex gap-2">
+                <span class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold border border-indigo-200 cursor-pointer">All</span>
+                <span class="px-4 py-2 bg-white text-slate-500 rounded-full text-xs font-bold border border-slate-200 hover:border-indigo-600 cursor-pointer transition">GDPR Compliant</span>
+                <span class="px-4 py-2 bg-white text-slate-500 rounded-full text-xs font-bold border border-slate-200 hover:border-indigo-600 cursor-pointer transition">ISO Certified</span>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 hover:border-indigo-600 transition shadow-sm group">
-                <div class="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition">
-                    <i class="fa-solid fa-brain"></i>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 hover:border-indigo-600 transition shadow-sm hover:shadow-xl group">
+                <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition duration-500">
+                    <i class="fa-solid fa-brain text-2xl"></i>
                 </div>
-                <h3 class="font-bold text-xl mb-2 text-slate-800">ML Models</h3>
-                <p class="text-slate-500 text-sm mb-6">Custom training and deployment of machine learning models for predictive analysis.</p>
-                <a href="#" class="text-indigo-600 font-bold text-sm">320+ Vendors &rarr;</a>
+                <h3 class="font-bold text-xl mb-3">ML Models</h3>
+                <p class="text-slate-500 text-sm mb-6 leading-relaxed">Custom training and deployment of machine learning models for predictive analysis.</p>
+                <div class="pt-6 border-t border-slate-50 flex justify-between items-center">
+                    <span class="text-xs font-bold text-slate-400">320+ VENDORS</span>
+                    <a href="#" class="text-indigo-600 font-bold text-sm hover:underline text-right">View List &rarr;</a>
+                </div>
             </div>
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 hover:border-indigo-600 transition shadow-sm group">
-                <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-green-600 group-hover:text-white transition">
-                    <i class="fa-solid fa-comments"></i>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 hover:border-indigo-600 transition shadow-sm hover:shadow-xl group">
+                <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition duration-500">
+                    <i class="fa-solid fa-comments text-2xl"></i>
                 </div>
-                <h3 class="font-bold text-xl mb-2 text-slate-800">Conversational AI</h3>
-                <p class="text-slate-500 text-sm mb-6">Enterprise-grade chatbots and virtual assistants for customer engagement.</p>
-                <a href="#" class="text-indigo-600 font-bold text-sm">150+ Vendors &rarr;</a>
+                <h3 class="font-bold text-xl mb-3">Conversational AI</h3>
+                <p class="text-slate-500 text-sm mb-6 leading-relaxed">Enterprise-grade chatbots and virtual assistants for customer engagement.</p>
+                <div class="pt-6 border-t border-slate-50 flex justify-between items-center">
+                    <span class="text-xs font-bold text-slate-400">150+ VENDORS</span>
+                    <a href="#" class="text-indigo-600 font-bold text-sm hover:underline text-right">View List &rarr;</a>
+                </div>
             </div>
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 hover:border-indigo-600 transition shadow-sm group">
-                <div class="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-amber-600 group-hover:text-white transition">
-                    <i class="fa-solid fa-shield-virus"></i>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 hover:border-indigo-600 transition shadow-sm hover:shadow-xl group">
+                <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-600 group-hover:text-white transition duration-500">
+                    <i class="fa-solid fa-shield-virus text-2xl"></i>
                 </div>
-                <h3 class="font-bold text-xl mb-2 text-slate-800">AI Compliance</h3>
-                <p class="text-slate-500 text-sm mb-6">Regulatory audits and ethical AI frameworks for international operations.</p>
-                <a href="#" class="text-indigo-600 font-bold text-sm">85+ Vendors &rarr;</a>
+                <h3 class="font-bold text-xl mb-3">AI Compliance</h3>
+                <p class="text-slate-500 text-sm mb-6 leading-relaxed">Regulatory audits and ethical AI frameworks for international operations.</p>
+                <div class="pt-6 border-t border-slate-50 flex justify-between items-center">
+                    <span class="text-xs font-bold text-slate-400">85+ VENDORS</span>
+                    <a href="#" class="text-indigo-600 font-bold text-sm hover:underline text-right">View List &rarr;</a>
+                </div>
             </div>
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 hover:border-indigo-600 transition shadow-sm group">
-                <div class="w-12 h-12 bg-rose-50 rounded-lg flex items-center justify-center mb-6 group-hover:bg-rose-600 group-hover:text-white transition">
-                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 hover:border-indigo-600 transition shadow-sm hover:shadow-xl group">
+                <div class="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-rose-600 group-hover:text-white transition duration-500">
+                    <i class="fa-solid fa-magnifying-glass-chart text-2xl"></i>
                 </div>
-                <h3 class="font-bold text-xl mb-2 text-slate-800">Data Insights</h3>
-                <p class="text-slate-500 text-sm mb-6">Transforming raw data into strategic business intelligence using AI.</p>
-                <a href="#" class="text-indigo-600 font-bold text-sm">210+ Vendors &rarr;</a>
+                <h3 class="font-bold text-xl mb-3">Data Insights</h3>
+                <p class="text-slate-500 text-sm mb-6 leading-relaxed">Transforming raw data into strategic business intelligence using AI.</p>
+                <div class="pt-6 border-t border-slate-50 flex justify-between items-center">
+                    <span class="text-xs font-bold text-slate-400">210+ VENDORS</span>
+                    <a href="#" class="text-indigo-600 font-bold text-sm hover:underline text-right">View List &rarr;</a>
+                </div>
             </div>
         </div>
+
+        <div class="mt-20 p-8 bg-slate-900 rounded-3xl text-center">
+            <h4 class="text-white font-bold text-xl mb-4">The Strategic Advantage</h4>
+            <p class="text-slate-400 text-sm max-w-3xl mx-auto leading-relaxed">
+                By categorizing AI solutions into specialized hubs, we reduce the "Global Complexity Gap" for SMEs. Each category is managed by a subject matter expert to ensure that the vendors provided are not only technically sound but also legally compliant with local market laws.
+            </p>
+        </div>
     </main>
+
+    <footer class="py-10 text-center text-slate-400 text-xs border-t border-slate-100 uppercase tracking-widest bg-white">
+        &copy; 2026 BlockAI Solution | Global Operations Center
+    </footer>
+
 </body>
 </html>
