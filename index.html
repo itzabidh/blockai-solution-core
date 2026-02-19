@@ -132,6 +132,92 @@
             </div>
         </div>
     </section>
+    <section class="max-w-7xl mx-auto px-4 py-20 border-t border-slate-100">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">Our Complete Strategic Suite</h2>
+        <p class="text-slate-500">Explore our 20+ specialized solutions across four core technology pillars.</p>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-3 mb-12">
+        <button onclick="filterProducts('cloud', this)" class="tab-btn active-tab px-6 py-3 rounded-full font-bold text-sm transition shadow-sm">Cloud Computing</button>
+        <button onclick="filterProducts('ai', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm transition shadow-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600">Artificial Intelligence</button>
+        <button onclick="filterProducts('blockchain', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm transition shadow-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600">Blockchain</button>
+        <button onclick="filterProducts('crypto', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm transition shadow-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600">Crypto & Fintech</button>
+    </div>
+
+    <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        </div>
+</section>
+
+<style>
+    .active-tab {
+        background-color: #4f46e5 !important; /* Indigo-600 */
+        color: white !important;
+        border-color: #4f46e5 !important;
+    }
+</style>
+
+<script>
+    const products = [
+        // CLOUD (5)
+        { cat: 'cloud', title: 'Cloud Cost Optimizer', desc: 'Reduce Azure/AWS waste by 30% with automated FinOps.' },
+        { cat: 'cloud', title: 'Hybrid Cloud Bridge', desc: 'Securely connect on-prem data with cloud scalability.' },
+        { cat: 'cloud', title: 'Disaster Recovery Hub', desc: 'Automated backups and 99.9% up-time recovery.' },
+        { cat: 'cloud', title: 'Cloud Migration Suite', desc: 'Zero-loss data migration for legacy systems.' },
+        { cat: 'cloud', title: 'Serverless API Deployer', desc: 'Run apps globally without managing virtual servers.' },
+        
+        // AI (5)
+        { cat: 'ai', title: 'Autonomous CRM Agent', desc: 'AI that manages customer leads and updates CRM 24/7.' },
+        { cat: 'ai', title: 'Predictive Sales Engine', desc: 'Forecast demand and sales trends with deep learning.' },
+        { cat: 'ai', title: 'AI Contract Auditor', desc: 'Scan legal documents for risks in seconds.' },
+        { cat: 'ai', title: 'Smart Inventory Bot', desc: 'Auto-track stock levels and reorder supplies.' },
+        { cat: 'ai', title: 'Enterprise Private LLM', desc: 'Secure AI trained on your own company data.' },
+
+        // BLOCKCHAIN (5)
+        { cat: 'blockchain', title: 'RWA Tokenizer', desc: 'Convert real estate and assets into digital tokens.' },
+        { cat: 'blockchain', title: 'On-Chain Verifier', desc: 'Immutable verification for certificates and IDs.' },
+        { cat: 'blockchain', title: 'Supply Chain Tracker', desc: 'End-to-end transparency using private ledgers.' },
+        { cat: 'blockchain', title: 'Smart Contract Audit', desc: 'Security auditing for decentralized applications.' },
+        { cat: 'blockchain', title: 'DID Login System', desc: 'Passwordless, blockchain-based user authentication.' },
+
+        // CRYPTO (5)
+        { cat: 'crypto', title: 'Stablecoin Payroll', desc: 'Global instant payouts using USDC/USDT rails.' },
+        { cat: 'crypto', title: 'Crypto-to-Fiat Gateway', desc: 'Accept crypto and settle directly in USD/GBP.' },
+        { cat: 'crypto', title: 'Corporate Multi-Sig Vault', desc: 'Bank-grade security for institutional assets.' },
+        { cat: 'crypto', title: 'Tax Compliance Reporter', desc: 'Automated crypto tax and regulatory reporting.' },
+        { cat: 'crypto', title: 'Institutional Liquidity', desc: 'Access deep liquidity for large corporate trades.' }
+    ];
+
+    function filterProducts(category, btnElement) {
+        // Update Active Button Style
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active-tab', 'bg-indigo-600', 'text-white');
+            btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+        });
+        btnElement.classList.add('active-tab');
+        btnElement.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+
+        // Filter Grid Content
+        const grid = document.getElementById('product-grid');
+        const filtered = products.filter(p => p.cat === category);
+        
+        grid.innerHTML = filtered.map(p => `
+            <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-slate-800 mb-2 text-sm">${p.title}</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed">${p.desc}</p>
+                </div>
+                <button class="mt-4 text-[10px] font-bold text-indigo-600 uppercase tracking-wider hover:text-indigo-800">Learn More &rarr;</button>
+            </div>
+        `).join('');
+    }
+
+    // Default: Load Cloud on start
+    window.onload = function() {
+        const firstBtn = document.querySelector('.tab-btn');
+        filterProducts('cloud', firstBtn);
+    };
+</script>
 
     <section class="bg-indigo-600 py-20 px-4">
         <div class="max-w-4xl mx-auto text-center text-white">
