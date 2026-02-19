@@ -2,18 +2,18 @@
 // ১. ডাটাবেস কানেকশন
 include 'db_connect.php'; 
 
-// ২. Azure SQL থেকে প্রোডাক্ট ডেটা নিয়ে আসা
+// ২. Azure SQL থেকে ডেটা ফেচ করা
 try {
-    // ProductID সহ প্রয়োজনীয় সব কলাম সিলেক্ট করা হয়েছে
+    // এখানে ProductID মাস্ট সিলেক্ট করা হয়েছে
     $sql = "SELECT ProductID, Category, ProductName, ShortDescription, Price FROM BusinessProducts";
     $stmt = $conn->query($sql);
     $db_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // PHP ডেটাকে JavaScript এ ব্যবহার উপযোগী (JSON) ফরম্যাটে রূপান্তর
+    // JS এর জন্য ডেটা ফরম্যাট করা
     $js_data = [];
     foreach ($db_products as $row) {
         $js_data[] = [
-            'id'    => $row['ProductID'], // এই আইডি-ই লিঙ্কে যাবে
+            'id'    => $row['ProductID'], 
             'cat'   => strtolower($row['Category']),
             'title' => $row['ProductName'],
             'desc'  => $row['ShortDescription'],
@@ -22,7 +22,7 @@ try {
     }
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    $js_data = []; // এরর হলে খালি অ্যারে থাকবে যাতে সাইট ভেঙে না যায়
+    $js_data = [];
 }
 ?>
 <!DOCTYPE html>
@@ -43,9 +43,9 @@ try {
                 <span class="text-2xl font-light text-slate-400 ml-1">Solution</span>
             </div>
             <div class="hidden md:flex space-x-8">
-                <a href="#" class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition">Marketplace</a>
-                <a href="#" class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition">For Vendors</a>
-                <a href="#" class="text-sm font-bold text-slate-600 hover:text-indigo-600 transition">Our Strategy</a>
+                <a href="#" class="text-sm font-bold text-slate-600">Marketplace</a>
+                <a href="#" class="text-sm font-bold text-slate-600">For Vendors</a>
+                <a href="#" class="text-sm font-bold text-slate-600">Our Strategy</a>
             </div>
             <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-indigo-700 transition shadow-md">Get Started</a>
         </div>
@@ -54,7 +54,7 @@ try {
     <section class="max-w-7xl mx-auto px-4 py-20 border-t border-slate-100">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-extrabold text-slate-900 mb-4">Our Complete Strategic Suite</h2>
-            <p class="text-slate-500 text-lg">Explore specialized AI solutions fetched live from our secure infrastructure.</p>
+            <p class="text-slate-500 text-lg">Explore specialized AI solutions fetched live from Azure SQL.</p>
         </div>
 
         <div class="flex flex-wrap justify-center gap-3 mb-12">
@@ -69,23 +69,21 @@ try {
     </section>
 
     <script>
-        // PHP থেকে আসা ডেটা
         const products = <?php echo json_encode($js_data); ?>;
 
         function filterProducts(category, btnElement) {
-            // ১. বাটনের এক্টিভ স্টাইল ঠিক করা
+            // বাটন ডিজাইন আপডেট
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white', 'active-tab');
+                btn.classList.remove('bg-indigo-600', 'text-white');
                 btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
             });
-            btnElement.classList.add('bg-indigo-600', 'text-white', 'active-tab');
+            btnElement.classList.add('bg-indigo-600', 'text-white');
             btnElement.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
 
-            // ২. গ্রিড ফিল্টার করা
             const grid = document.getElementById('product-grid');
             const filtered = products.filter(p => p.cat === category);
             
-            // ৩. গ্রিডে ডেটা পুশ করা (Anchor Tag ব্যবহার করা হয়েছে সঠিক নেভিগেশনের জন্য)
+            // কার্ড জেনারেট করা (<a> ট্যাগ দিয়ে)
             grid.innerHTML = filtered.map(p => `
                 <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
                     <div>
@@ -94,14 +92,14 @@ try {
                         <p class="mt-3 text-indigo-600 font-bold">$${p.price}</p>
                     </div>
                     
-                    <a href="product-details.php?id=${p.id}" target="_blank" class="mt-4 text-[10px] font-bold text-center text-indigo-600 uppercase tracking-wider border border-indigo-100 py-2 rounded-lg hover:bg-indigo-50 transition block">
+                    <a href="product-details.php?id=${p.id}" target="_blank" class="mt-4 block w-full text-center text-[10px] font-bold text-indigo-600 uppercase tracking-wider border border-indigo-100 py-2 rounded-lg hover:bg-indigo-50 transition">
                         Learn More &rarr;
                     </a>
                 </div>
             `).join('');
         }
 
-        // পেজ লোড হলে প্রথম ক্যাটাগরি 'cloud' দেখাবে
+        // ডিফল্ট ক্যাটাগরি লোড
         window.onload = () => {
             const firstBtn = document.querySelector('.tab-btn');
             if(firstBtn) filterProducts('cloud', firstBtn);
@@ -109,8 +107,7 @@ try {
     </script>
 
     <footer class="bg-slate-900 text-white py-12 text-center mt-20">
-        <p class="text-sm font-bold mb-2">BlockAI Solution Infrastructure</p>
-        <p class="text-xs text-slate-500">&copy; 2026 BlockAI Solution. Registered Global Operations.</p>
+        <p class="text-xs text-slate-500">&copy; 2026 BlockAI Solution. SQL Live Data.</p>
     </footer>
 </body>
 </html>
