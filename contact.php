@@ -1,3 +1,14 @@
+<?php
+// Logic for handling contact form submission can be placed here
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $full_name = $_POST['full_name'];
+    $email = $_POST['email'];
+    $inquiry_type = $_POST['inquiry_type'];
+    $message = $_POST['message'];
+
+    // Future: Integrate with Azure SendGrid or PHPMailer
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,14 +22,14 @@
 
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="cursor-pointer" onclick="window.location.href='index.html'">
+            <div class="cursor-pointer" onclick="window.location.href='index.php'">
                 <span class="text-2xl font-black text-indigo-600">BlockAI</span>
                 <span class="text-2xl font-light text-slate-400 ml-1">Solution</span>
             </div>
             <div class="hidden md:flex space-x-8">
-                <a href="index.html" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
-                <a href="about.html" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Strategy</a>
-                <a href="contact.html" class="text-sm font-bold text-indigo-600">Contact</a>
+                <a href="index.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
+                <a href="about.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Strategy</a>
+                <a href="contact.php" class="text-sm font-bold text-indigo-600">Contact</a>
             </div>
         </div>
     </nav>
@@ -49,20 +60,30 @@
             </div>
 
             <div class="bg-white p-8 md:p-12 rounded-[40px] shadow-2xl border border-slate-100">
-                <form action="#" class="space-y-5">
-                    <input type="text" placeholder="Full Name" class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
-                    <input type="email" placeholder="Email Address" class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
-                    <select class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
-                        <option>Inquiry Type</option>
-                        <option>AI Vendor Registration</option>
-                        <option>Enterprise Partnership</option>
+                <form action="contact.php" method="POST" class="space-y-5">
+                    <input type="text" name="full_name" placeholder="Full Name" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
+                    
+                    <input type="email" name="email" placeholder="Email Address" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
+                    
+                    <select name="inquiry_type" class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
+                        <option value="general">Inquiry Type</option>
+                        <option value="vendor">AI Vendor Registration</option>
+                        <option value="partnership">Enterprise Partnership</option>
                     </select>
-                    <textarea placeholder="Your Message" rows="4" class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition"></textarea>
-                    <button type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition">Submit Inquiry</button>
+                    
+                    <textarea name="message" placeholder="Your Message" rows="4" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-600 transition"></textarea>
+                    
+                    <button type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition">
+                        Submit Inquiry
+                    </button>
                 </form>
             </div>
         </div>
     </main>
+
+    <footer class="mt-20 py-10 text-center text-slate-400 text-xs border-t border-slate-100 uppercase tracking-widest bg-white">
+        &copy; <?php echo date("Y"); ?> BlockAI Solution | Global Operations Center
+    </footer>
 
 </body>
 </html>
