@@ -1,3 +1,15 @@
+<?php
+// PHP logic can be added here to handle form submission to Azure SQL
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Collect data from the form
+    $company_name = $_POST['company_name'];
+    $business_email = $_POST['business_email'];
+    $specialization = $_POST['specialization'];
+    $website = $_POST['website'];
+
+    // Future: Add SQL INSERT query here to save vendor info
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +23,8 @@
 
     <nav class="bg-white border-b border-slate-200 p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-black text-indigo-600">BlockAI <span class="text-slate-400 font-light">Solution</span></a>
-            <a href="index.html" class="text-sm font-bold text-slate-600">Back to Home</a>
+            <a href="index.php" class="text-2xl font-black text-indigo-600">BlockAI <span class="text-slate-400 font-light">Solution</span></a>
+            <a href="index.php" class="text-sm font-bold text-slate-600">Back to Home</a>
         </div>
     </nav>
 
@@ -23,31 +35,31 @@
                 <p class="text-slate-500">Join our global ecosystem and connect with enterprise clients.</p>
             </div>
 
-            <form id="vendorForm" class="space-y-6">
+            <form id="vendorForm" action="registration.php" method="POST" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-bold mb-2">Company Name</label>
-                        <input type="text" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
+                        <input type="text" name="company_name" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2">Business Email</label>
-                        <input type="email" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
+                        <input type="email" name="business_email" required class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold mb-2">AI Specialization</label>
-                    <select class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
-                        <option>Machine Learning Models</option>
-                        <option>Natural Language Processing (NLP)</option>
-                        <option>Computer Vision</option>
-                        <option>AI Compliance & Ethics</option>
+                    <select name="specialization" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
+                        <option value="ml">Machine Learning Models</option>
+                        <option value="nlp">Natural Language Processing (NLP)</option>
+                        <option value="cv">Computer Vision</option>
+                        <option value="ethics">AI Compliance & Ethics</option>
                     </select>
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold mb-2">Company Website</label>
-                    <input type="url" placeholder="https://" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
+                    <input type="url" name="website" placeholder="https://" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-600 transition">
                 </div>
 
                 <div class="p-4 bg-indigo-50 rounded-xl">
@@ -80,17 +92,18 @@
 
     <script>
         document.getElementById('vendorForm').addEventListener('submit', function(e) {
+            // Preventing immediate redirect to show success animation
             e.preventDefault();
             
-            // ১. ফর্ম হাইড করো
+            // 1. Hide the Form
             document.getElementById('regFormContainer').classList.add('hidden');
             
-            // ২. সাকসেস মেসেজ দেখাও
+            // 2. Show Success Message
             document.getElementById('successMessage').classList.remove('hidden');
             
-            // ৩. ৩ সেকেন্ড পর ড্যাশবোর্ড পেজে পাঠিয়ে দাও
+            // 3. After 3 seconds, redirect to the PHP Vendor Dashboard
             setTimeout(function() {
-                window.location.href = 'dashboard.html';
+                window.location.href = 'vendor_dashboard.php';
             }, 3000); 
         });
     </script>
