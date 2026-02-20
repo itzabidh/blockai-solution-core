@@ -4,17 +4,17 @@ include 'db_connect.php';
 
 // ২. Azure SQL থেকে ডেটা ফেচ করা
 try {
-    // এখানে ProductID মাস্ট সিলেক্ট করা হয়েছে
+    // এখানে Category, ProductID, ProductName, ShortDescription, Price এবং ImageURL (থাকলে) সিলেক্ট করা হয়েছে
     $sql = "SELECT ProductID, Category, ProductName, ShortDescription, Price FROM BusinessProducts";
     $stmt = $conn->query($sql);
     $db_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // JS এর জন্য ডেটা ফরম্যাট করা
     $js_data = [];
     foreach ($db_products as $row) {
         $js_data[] = [
             'id'    => $row['ProductID'], 
-            'cat'   => strtolower($row['Category']),
+            // ক্যাটাগরিকে ছোট হাতের অক্ষরে এবং স্পেস রিমুভ করে ফরম্যাট করা (ম্যাচিং সহজ করতে)
+            'cat'   => strtolower(trim($row['Category'])),
             'title' => $row['ProductName'],
             'desc'  => $row['ShortDescription'],
             'price' => $row['Price']
@@ -25,6 +25,7 @@ try {
     $js_data = [];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,63 +52,77 @@ try {
         </div>
     </nav>
 
-    <section class="max-w-7xl mx-auto px-4 py-20 border-t border-slate-100">
+    <section class="max-w-7xl mx-auto px-4 py-20">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-extrabold text-slate-900 mb-4">Our Complete Strategic Suite</h2>
-            <p class="text-slate-500 text-lg">Explore specialized AI solutions fetched live from Azure SQL.</p>
+            <p class="text-slate-500 text-lg">Specialized solutions fetched live from Azure SQL.</p>
         </div>
 
         <div class="flex flex-wrap justify-center gap-3 mb-12">
-            <button onclick="filterProducts('cloud', this)" class="tab-btn active-tab px-6 py-3 rounded-full font-bold text-sm bg-indigo-600 text-white shadow-sm transition">Cloud Computing</button>
-            <button onclick="filterProducts('ai', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 transition">Artificial Intelligence</button>
+            <button onclick="filterProducts('cloud computing', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 transition">Cloud Computing</button>
+            <button onclick="filterProducts('artificial intelligence', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 transition">Artificial Intelligence</button>
             <button onclick="filterProducts('blockchain', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 transition">Blockchain</button>
-            <button onclick="filterProducts('crypto', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 transition">Crypto & Fintech</button>
+            <button onclick="filterProducts('crypto & fintech', this)" class="tab-btn px-6 py-3 rounded-full font-bold text-sm bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 transition">Crypto & Fintech</button>
         </div>
 
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             </div>
     </section>
 
     <script>
+        // PHP থেকে আসা ডেটা
         const products = <?php echo json_encode($js_data); ?>;
 
         function filterProducts(category, btnElement) {
-            // বাটন ডিজাইন আপডেট
+            // ১. সব বাটনের স্টাইল রিসেট করা
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white');
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg');
                 btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
             });
-            btnElement.classList.add('bg-indigo-600', 'text-white');
+            // ২. সিলেক্টেড বাটনের স্টাইল হাইলাইট করা
+            btnElement.classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
             btnElement.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
 
             const grid = document.getElementById('product-grid');
-            const filtered = products.filter(p => p.cat === category);
+            const filtered = products.filter(p => p.cat === category.toLowerCase());
             
-            // কার্ড জেনারেট করা (<a> ট্যাগ দিয়ে)
+            if(filtered.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10">No products found in this category.</p>`;
+                return;
+            }
+
+            // ৩. কার্ড জেনারেট করা
             grid.innerHTML = filtered.map(p => `
-                <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition duration-300 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-slate-800 mb-2 text-sm">${p.title}</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed">${p.desc}</p>
-                        <p class="mt-3 text-indigo-600 font-bold">$${p.price}</p>
+                <div class="bg-white border border-slate-100 p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <div class="mb-4">
+                        <div class="h-40 bg-slate-100 rounded-2xl mb-4 flex items-center justify-center overflow-hidden">
+                           <i class="fa-solid fa-cube text-4xl text-indigo-200"></i>
+                           </div>
+                        <h3 class="font-bold text-slate-800 mb-2 text-md leading-tight">${p.title}</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed line-clamp-3">${p.desc}</p>
                     </div>
-                    
-                    <a href="product-details.php?id=${p.id}" target="_blank" class="mt-4 block w-full text-center text-[10px] font-bold text-indigo-600 uppercase tracking-wider border border-indigo-100 py-2 rounded-lg hover:bg-indigo-50 transition">
-                        Learn More &rarr;
-                    </a>
+                    <div class="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between">
+                        <span class="text-indigo-600 font-bold">$${p.price}</span>
+                        <a href="product-details.php?id=${p.id}" target="_blank" class="text-xs font-bold text-indigo-600 uppercase tracking-widest hover:translate-x-1 transition-transform">
+                            Learn More &rarr;
+                        </a>
+                    </div>
                 </div>
             `).join('');
         }
 
-        // ডিফল্ট ক্যাটাগরি লোড
+        // পেজ লোড হলে ডিফল্ট ভাবে প্রথম ক্যাটাগরি দেখাবে
         window.onload = () => {
             const firstBtn = document.querySelector('.tab-btn');
-            if(firstBtn) filterProducts('cloud', firstBtn);
+            if(firstBtn) {
+                // তোমার প্রথম ক্যাটাগরি অনুযায়ী এখানে ভ্যালু দাও
+                filterProducts('cloud computing', firstBtn);
+            }
         };
     </script>
 
     <footer class="bg-slate-900 text-white py-12 text-center mt-20">
-        <p class="text-xs text-slate-500">&copy; 2026 BlockAI Solution. SQL Live Data.</p>
+        <p class="text-xs text-slate-500">&copy; 2026 BlockAI Solution. SQL Live Data API.</p>
     </footer>
 </body>
 </html>
