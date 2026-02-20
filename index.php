@@ -1,10 +1,10 @@
 <?php 
-// ১. ডাটাবেস কানেকশন
+// 1. Database Connection
 include 'db_connect.php'; 
 
-// ২. Azure SQL থেকে ডেটা ফেচ করা
+// 2. Fetch Data from Azure SQL
 try {
-    // এখানে Category, ProductID, ProductName, ShortDescription, Price এবং ImageURL (থাকলে) সিলেক্ট করা হয়েছে
+    // Selecting ProductID, Category, ProductName, ShortDescription, and Price
     $sql = "SELECT ProductID, Category, ProductName, ShortDescription, Price FROM BusinessProducts";
     $stmt = $conn->query($sql);
     $db_products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -13,7 +13,6 @@ try {
     foreach ($db_products as $row) {
         $js_data[] = [
             'id'    => $row['ProductID'], 
-            // ক্যাটাগরিকে ছোট হাতের অক্ষরে এবং স্পেস রিমুভ করে ফরম্যাট করা (ম্যাচিং সহজ করতে)
             'cat'   => strtolower(trim($row['Category'])),
             'title' => $row['ProductName'],
             'desc'  => $row['ShortDescription'],
@@ -31,7 +30,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlockAI Solution | Marketplace</title>
+    <title>Marketplace | BlockAI Solution</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -44,11 +43,12 @@ try {
                 <span class="text-2xl font-light text-slate-400 ml-1">Solution</span>
             </div>
             <div class="hidden md:flex space-x-8">
-                <a href="#" class="text-sm font-bold text-slate-600">Marketplace</a>
-                <a href="#" class="text-sm font-bold text-slate-600">For Vendors</a>
-                <a href="#" class="text-sm font-bold text-slate-600">Our Strategy</a>
+                <a href="index.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
+                <a href="services.php" class="text-sm font-bold text-indigo-600">Marketplace</a>
+                <a href="case-studies.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Strategy</a>
+                <a href="contact.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Contact</a>
             </div>
-            <a href="#" class="bg-indigo-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-indigo-700 transition shadow-md">Get Started</a>
+            <a href="registration.php" class="bg-indigo-600 text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-indigo-700 transition shadow-md">Get Started</a>
         </div>
     </nav>
 
@@ -70,16 +70,16 @@ try {
     </section>
 
     <script>
-        // PHP থেকে আসা ডেটা
+        // Data injected from PHP
         const products = <?php echo json_encode($js_data); ?>;
 
         function filterProducts(category, btnElement) {
-            // ১. সব বাটনের স্টাইল রিসেট করা
+            // 1. Reset button styles
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg');
                 btn.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
             });
-            // ২. সিলেক্টেড বাটনের স্টাইল হাইলাইট করা
+            // 2. Highlight selected button
             btnElement.classList.add('bg-indigo-600', 'text-white', 'shadow-lg');
             btnElement.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
 
@@ -87,42 +87,41 @@ try {
             const filtered = products.filter(p => p.cat === category.toLowerCase());
             
             if(filtered.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10">No products found in this category.</p>`;
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-400 py-10">No solutions found in this category.</p>`;
                 return;
             }
 
-            // ৩. কার্ড জেনারেট করা
+            // 3. Generate Solution Cards
             grid.innerHTML = filtered.map(p => `
                 <div class="bg-white border border-slate-100 p-6 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
                     <div class="mb-4">
                         <div class="h-40 bg-slate-100 rounded-2xl mb-4 flex items-center justify-center overflow-hidden">
                            <i class="fa-solid fa-cube text-4xl text-indigo-200"></i>
-                           </div>
+                        </div>
                         <h3 class="font-bold text-slate-800 mb-2 text-md leading-tight">${p.title}</h3>
                         <p class="text-slate-500 text-xs leading-relaxed line-clamp-3">${p.desc}</p>
                     </div>
                     <div class="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between">
                         <span class="text-indigo-600 font-bold">$${p.price}</span>
-                        <a href="product-details.php?id=${p.id}" target="_blank" class="text-xs font-bold text-indigo-600 uppercase tracking-widest hover:translate-x-1 transition-transform">
-                            Learn More &rarr;
+                        <a href="product-details.php?id=${p.id}" class="text-xs font-bold text-indigo-600 uppercase tracking-widest hover:translate-x-1 transition-transform">
+                            Details &rarr;
                         </a>
                     </div>
                 </div>
             `).join('');
         }
 
-        // পেজ লোড হলে ডিফল্ট ভাবে প্রথম ক্যাটাগরি দেখাবে
+        // Default Load
         window.onload = () => {
             const firstBtn = document.querySelector('.tab-btn');
             if(firstBtn) {
-                // তোমার প্রথম ক্যাটাগরি অনুযায়ী এখানে ভ্যালু দাও
                 filterProducts('cloud computing', firstBtn);
             }
         };
     </script>
 
     <footer class="bg-slate-900 text-white py-12 text-center mt-20">
-        <p class="text-xs text-slate-500">&copy; 2026 BlockAI Solution. SQL Live Data API.</p>
+        <p class="text-xs text-slate-500">&copy; <?php echo date("Y"); ?> BlockAI Solution. Real-time Strategic Data Integration.</p>
     </footer>
 </body>
 </html>
