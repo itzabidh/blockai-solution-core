@@ -1,24 +1,26 @@
 <?php
 include 'db_connect.php';
 
-// Get product ID from URL
+// 1. Get product ID from URL
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 
 if (!$id) {
-    die("Product not found!");
+    die("Product not found! (ID missing)");
 }
 
 try {
-    // Fetch product details from SQL
-    $stmt = $conn->prepare("SELECT * FROM BusinessProducts WHERE ProductID = :id");
-    $stmt->execute(['id' => $id]);
-    $product = $stmt->fetch();
+    // 2. Fetch product details from SQL
+    // Azure SQL/sqlsrv works best with anonymous placeholders (?) in some drivers
+    $stmt = $conn->prepare("SELECT * FROM BusinessProducts WHERE ProductID = ?");
+    $stmt->execute([$id]);
+    $product = $stmt->fetch(PDO::FETCH_ASSOC); // Fetching as associative array
 
     if (!$product) {
-        die("Product does not exist.");
+        die("Product does not exist in our database.");
     }
 } catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+    // In production, you might want to hide the $e->getMessage() for security
+    die("Connection failed: " . $e->getMessage());
 }
 ?>
 <!DOCTYPE html>
@@ -34,17 +36,18 @@ try {
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10">
             <div>
-                <img src="<?php echo htmlspecialchars($product['ImageURL']); ?>" alt="Product" class="rounded-3xl shadow-2xl border">
+                <img src="<?php echo htmlspecialchars($product['ImageURL'] ?? 'https://via.placeholder.com/400'); ?>" alt="Product" class="rounded-3xl shadow-2xl border">
             </div>
             
             <div>
                 <span class="text-indigo-500 font-bold uppercase tracking-widest text-sm"><?php echo htmlspecialchars($product['Category']); ?></span>
                 <h1 class="text-4xl font-black text-slate-900 mt-2"><?php echo htmlspecialchars($product['ProductName']); ?></h1>
-                <p class="text-2xl font-bold text-green-600 mt-4">$<?php echo number_format($product['Price'], 2); ?></p>
+                
+                <p class="text-2xl font-bold text-green-600 mt-4">$<?php echo number_format($product['Price'] ?? 0, 2); ?></p>
                 
                 <div class="mt-8 text-slate-600 leading-relaxed">
                     <h3 class="font-bold text-slate-800">Description:</h3>
-                    <p class="mt-2"><?php echo nl2br(htmlspecialchars($product['LongDescription'])); ?></p>
+                    <p class="mt-2"><?php echo nl2br(htmlspecialchars($product['LongDescription'] ?? 'No description available.')); ?></p>
                 </div>
 
                 <button class="mt-10 w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-indigo-600 transition">
