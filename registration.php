@@ -1,15 +1,57 @@
 <?php
-// PHP logic for Registration
+// ১. ডেটাবেস কানেকশন ফাইল ইমপোর্ট (নিশ্চিত করো এই ফাইলটি আছে)
+include 'db_connect.php';
+
+$error = null;
+$success = null;
+
+// ২. পিএইচপি হ্যান্ডলিং
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_type = $_POST['user_type'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
+    // পাসওয়ার্ড ম্যাচিং চেক
     if ($password !== $confirm_password) {
         $error = "Passwords do not match!";
     } else {
+        // পাসওয়ার্ড সিকিউরলি হ্যাশ করা
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-        // মডিউল কানেকশন এখানে হবে...
+
+        // ইউজার টাইপ অনুযায়ী ডেটা সেট করা
+        if ($user_type === 'vendor') {
+            $name = $_POST['company_name'] ?? '';
+            $email = $_POST['business_email'] ?? '';
+            $tax_id = $_POST['tax_id'] ?? '';
+            $spec = $_POST['specialization'] ?? '';
+            $extra_info = "TaxID: " . $tax_id . " | Spec: " . $spec;
+        } else {
+            $name = $_POST['full_name'] ?? '';
+            $email = $_POST['personal_email'] ?? '';
+            $extra_info = "Customer Account";
+        }
+
+        if (empty($email) || empty($name)) {
+            $error = "Please fill all required fields!";
+        } else {
+            // Azure SQL Insert Query (Prepared Statement)
+            $sql = "INSERT INTO Users (Name, Email, Password, UserType, ExtraInfo) VALUES (?, ?, ?, ?, ?)";
+            $params = array($name, $email, $hashed_password, $user_type, $extra_info);
+
+            $stmt = sqlsrv_query($conn, $sql, $params);
+
+            if ($stmt === false) {
+                $errors = sqlsrv_errors();
+                // ইমেইল অলরেডি থাকলে SQL Error Code 2627 দেয়
+                if ($errors[0]['code'] == 2627) {
+                    $error = "This email is already registered!";
+                } else {
+                    $error = "Registration failed! Database Error.";
+                }
+            } else {
+                $success = "Account created successfully! Welcome to BlockAI.";
+            }
+        }
     }
 }
 ?>
@@ -44,9 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main class="flex-grow flex items-center justify-center py-12 px-4">
         <div class="max-w-3xl w-full">
-            <?php if(isset($error)): ?>
-                <div class="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-xl mb-4 text-xs italic text-center">
-                    <?php echo $error; ?>
+            
+            <?php if($success): ?>
+                <div class="bg-green-500/10 border border-green-500 text-green-500 p-4 rounded-xl mb-6 text-center animate-pulse">
+                    <i class="fa-solid fa-circle-check mr-2"></i> <?php echo $success; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if($error): ?>
+                <div class="bg-red-500/10 border border-red-500 text-red-500 p-4 rounded-xl mb-6 text-center italic">
+                    <i class="fa-solid fa-circle-exclamation mr-2"></i> <?php echo $error; ?>
                 </div>
             <?php endif; ?>
 
@@ -56,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div id="regCard" class="glass p-8 md:p-10 rounded-[40px] shadow-2xl relative">
-                <form id="vendorForm" action="registration" method="POST" class="space-y-6" onsubmit="return validatePasswords('vendor')">
+                <form id="vendorForm" action="registration.php" method="POST" class="space-y-6" onsubmit="return validatePasswords('vendor')">
                     <input type="hidden" name="user_type" value="vendor">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
@@ -76,6 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <select name="specialization" class="w-full p-3 rounded-xl input-style transition">
                                 <option value="nlp">Natural Language Processing</option>
                                 <option value="cv">Computer Vision</option>
+                                <option value="blockchain">Blockchain AI</option>
                             </select>
                         </div>
                         <div class="space-y-2">
@@ -87,11 +137,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="password" id="v_confirm" name="confirm_password" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
                     </div>
-                    <p id="v_error" class="text-red-500 text-xs hidden italic">Passwords do not match!</p>
+                    <p id="v_error" class="text-red-500 text-[10px] hidden italic">Passwords do not match!</p>
                     <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition shadow-lg">Submit Enterprise Application</button>
                 </form>
 
-                <form id="customerForm" action="registration" method="POST" class="space-y-6 hidden" onsubmit="return validatePasswords('customer')">
+                <form id="customerForm" action="registration.php" method="POST" class="space-y-6 hidden" onsubmit="return validatePasswords('customer')">
                     <input type="hidden" name="user_type" value="customer">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
@@ -111,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="password" id="c_confirm" name="confirm_password" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
                     </div>
-                    <p id="c_error" class="text-red-500 text-xs hidden italic">Passwords do not match!</p>
+                    <p id="c_error" class="text-red-500 text-[10px] hidden italic">Passwords do not match!</p>
                     <button type="submit" class="w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-cyan-400 transition shadow-lg">Create Secure Account</button>
                 </form>
             </div>
