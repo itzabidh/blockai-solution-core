@@ -1,5 +1,5 @@
 <?php
-// PHP logic to handle data including passwords
+// PHP logic for Registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_type = $_POST['user_type'];
     $password = $_POST['password'];
@@ -8,9 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password !== $confirm_password) {
         $error = "Passwords do not match!";
     } else {
-        // password_hash() use kora best practice for Azure SQL
+        // password_hash() is mandatory for security
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-        // Process other data...
+        
+        // Future: Azure SQL INSERT logic will go here
+        // success redirect
+        // header("Location: dashboard"); 
     }
 }
 ?>
@@ -38,14 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <nav class="p-6 border-b border-white/5 bg-black/20 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.php" class="heading-font text-2xl font-bold tracking-tighter text-white uppercase">BlockAI</a>
-            <a href="index.php" class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-cyan-400">Back Home</a>
+            <a href="index" class="heading-font text-2xl font-bold tracking-tighter text-white uppercase">BlockAI</a>
+            <a href="index" class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-cyan-400">Back Home</a>
         </div>
     </nav>
 
     <main class="flex-grow flex items-center justify-center py-12 px-4">
         <div class="max-w-3xl w-full">
-            
             <div class="flex justify-center mb-8 space-x-12">
                 <button onclick="switchTab('vendor')" id="vendorTab" class="pb-2 text-sm font-bold uppercase tracking-widest transition tab-active">Vendor Onboarding</button>
                 <button onclick="switchTab('customer')" id="customerTab" class="pb-2 text-sm font-bold uppercase tracking-widest text-slate-500 transition">Customer Portal</button>
@@ -53,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div id="regCard" class="glass p-8 md:p-10 rounded-[40px] shadow-2xl relative">
                 
-                <form id="vendorForm" action="registration.php" method="POST" class="space-y-6" onsubmit="return validatePasswords('vendor')">
+                <form id="vendorForm" action="registration" method="POST" class="space-y-6" onsubmit="return validatePasswords('vendor')">
                     <input type="hidden" name="user_type" value="vendor">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
@@ -65,19 +67,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="email" name="business_email" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tax ID / Registration No.</label>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Tax ID</label>
                             <input type="text" name="tax_id" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">AI Specialization</label>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Specialization</label>
                             <select name="specialization" class="w-full p-3 rounded-xl input-style transition">
                                 <option value="nlp">Natural Language Processing</option>
                                 <option value="cv">Computer Vision</option>
                             </select>
                         </div>
-                        
                         <div class="space-y-2">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Create Password</label>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
                             <input type="password" id="v_pass" name="password" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
                         <div class="space-y-2">
@@ -86,10 +87,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                     <p id="v_error" class="text-red-500 text-xs hidden italic">Passwords do not match!</p>
-                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition">Apply as Vendor</button>
+                    <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white py-4 rounded-xl font-bold hover:opacity-90 transition shadow-lg">Submit Enterprise Application</button>
                 </form>
 
-                <form id="customerForm" action="registration.php" method="POST" class="space-y-6 hidden" onsubmit="return validatePasswords('customer')">
+                <form id="customerForm" action="registration" method="POST" class="space-y-6 hidden" onsubmit="return validatePasswords('customer')">
                     <input type="hidden" name="user_type" value="customer">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
@@ -97,12 +98,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" name="full_name" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Work Email</label>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Email</label>
                             <input type="email" name="personal_email" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
-                        
                         <div class="space-y-2">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Create Password</label>
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
                             <input type="password" id="c_pass" name="password" required class="w-full p-3 rounded-xl input-style transition">
                         </div>
                         <div class="space-y-2">
@@ -111,9 +111,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                     <p id="c_error" class="text-red-500 text-xs hidden italic">Passwords do not match!</p>
-                    <button type="submit" class="w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-cyan-400 transition">Create Secure Account</button>
+                    <button type="submit" class="w-full bg-white text-black py-4 rounded-xl font-bold hover:bg-cyan-400 transition shadow-lg">Create Secure Account</button>
                 </form>
-
             </div>
         </div>
     </main>
@@ -137,13 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             const pass = (type === 'vendor') ? document.getElementById('v_pass').value : document.getElementById('c_pass').value;
             const confirm = (type === 'vendor') ? document.getElementById('v_confirm').value : document.getElementById('c_confirm').value;
             const errorMsg = (type === 'vendor') ? document.getElementById('v_error') : document.getElementById('c_error');
-
-            if (pass !== confirm) {
-                errorMsg.classList.remove('hidden');
-                return false;
-            }
-            errorMsg.classList.add('hidden');
-            return true;
+            if (pass !== confirm) { errorMsg.classList.remove('hidden'); return false; }
+            errorMsg.classList.add('hidden'); return true;
         }
     </script>
 </body>
