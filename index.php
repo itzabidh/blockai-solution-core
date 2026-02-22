@@ -62,7 +62,7 @@
 
     <nav class="fixed w-full z-50 bg-transparent backdrop-blur-md transition-colors duration-300 border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="window.location.href='index'">
                 <div class="w-8 h-8 bg-gradient-to-tr from-cyan-400 to-purple-600 rounded-lg flex items-center justify-center rotate-12">
                     <i class="fa-solid fa-brain text-white text-lg"></i>
                 </div>
@@ -70,10 +70,10 @@
             </div>
             
             <div class="hidden md:flex space-x-8 items-center">
-                <a href="index.php" class="text-sm font-bold uppercase tracking-wide text-cyan-400">Network</a>
-                <a href="services.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Marketplace</a>
-                <a href="case-studies.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Insights</a>
-                <a href="contact.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Contact</a>
+                <a href="index" class="text-sm font-bold uppercase tracking-wide text-cyan-400">Network</a>
+                <a href="services" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Marketplace</a>
+                <a href="case-studies" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Insights</a>
+                <a href="contact" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Contact</a>
                 <a href="registration" class="px-5 py-2 rounded-full border border-cyan-400 text-cyan-400 text-sm font-bold hover:bg-cyan-400 hover:text-black transition shadow-md">Join BlockAI</a>
             </div>
         </div>
@@ -87,9 +87,9 @@
             <p class="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light leading-relaxed">
                 A secure, transparent, and autonomous ecosystem for AI algorithms, data assets, and intelligent agents.
             </p>
-            <div class="flex flex-col md:flex-row justify-center gap-6">
-                <a href="services.php" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg transform hover:scale-105 transition-all">Explore Solutions</a>
-                <a href="contact.php" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Get in Touch</a>
+            <div class="flex flex-col md:row justify-center gap-6">
+                <a href="services" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg transform hover:scale-105 transition-all">Explore Solutions</a>
+                <a href="contact" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Get in Touch</a>
             </div>
         </div>
     </header>
@@ -134,23 +134,6 @@
         </div>
     </section>
 
-    <section class="py-24 bg-[--main-bg]">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <h2 class="heading-font text-4xl md:text-5xl font-extrabold text-white mb-12">
-                The <span class="neon-gradient-text">Future of Intelligence</span>, Decoded.
-            </h2>
-            <div class="ocean-glass p-10 rounded-[40px] border border-cyan-400/20 shadow-2xl relative">
-                <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-16 h-16 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-full flex items-center justify-center">
-                    <i class="fa-solid fa-head-side-brain text-white text-2xl"></i>
-                </div>
-                <p class="text-white text-xl md:text-2xl font-light leading-relaxed mt-8 italic">
-                    "Humanity's next leap lies in collaborative intelligence. BlockAI empowers this evolution by making AI and data accessible and truly decentralized."
-                </p>
-                <div class="mt-8 text-cyan-400 text-sm font-bold tracking-widest uppercase">BlockAI Core Engine v3.0</div>
-            </div>
-        </div>
-    </section>
-
     <footer class="bg-[#06060c] pt-20 pb-10 border-t border-white/5">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
@@ -165,47 +148,32 @@
                     <p class="text-slate-400 text-sm leading-relaxed">
                         The world's first decentralized ecosystem for high-fidelity AI models and data liquidity. Empowering the next era of intelligence.
                     </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:bg-cyan-400 hover:text-black transition">
-                            <i class="fa-brands fa-discord"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:bg-cyan-400 hover:text-black transition">
-                            <i class="fa-brands fa-x-twitter"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-slate-400 hover:bg-cyan-400 hover:text-black transition">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                    </div>
                 </div>
 
                 <div>
                     <h4 class="heading-font text-white font-bold mb-6 uppercase tracking-widest text-sm">Ecosystem</h4>
                     <ul class="space-y-4 text-slate-400 text-sm">
-                        <li><a href="services.php" class="hover:text-cyan-400 transition">Marketplace</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Governance</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Developers</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Whitepaper</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Staking (Coming Soon)</a></li>
+                        <li><a href="services" class="hover:text-cyan-400 transition">Marketplace</a></li>
+                        <li><a href="governance" class="hover:text-cyan-400 transition">Governance</a></li>
+                        <li><a href="developers" class="hover:text-cyan-400 transition">Developers</a></li>
+                        <li><a href="whitepaper" class="hover:text-cyan-400 transition">Whitepaper</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="heading-font text-white font-bold mb-6 uppercase tracking-widest text-sm">Company</h4>
                     <ul class="space-y-4 text-slate-400 text-sm">
-                        <li><a href="case-studies.php" class="hover:text-cyan-400 transition">Insights</a></li>
-                        <li><a href="contact.php" class="hover:text-cyan-400 transition">About Us</a></li>
-                        <li><a href="contact.php" class="hover:text-cyan-400 transition">Contact</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Terms of Service</a></li>
+                        <li><a href="case-studies" class="hover:text-cyan-400 transition">Insights</a></li>
+                        <li><a href="contact" class="hover:text-cyan-400 transition">About Us</a></li>
+                        <li><a href="contact" class="hover:text-cyan-400 transition">Contact</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="heading-font text-white font-bold mb-6 uppercase tracking-widest text-sm">Stay Updated</h4>
-                    <p class="text-slate-400 text-sm mb-4">Join our newsletter to receive the latest AI research updates.</p>
                     <form class="space-y-3">
                         <input type="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cyan-400 transition">
-                        <button class="w-full bg-cyan-400 text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition text-sm">Subscribe</button>
+                        <button type="button" class="w-full bg-cyan-400 text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition text-sm">Subscribe</button>
                     </form>
                 </div>
 
@@ -222,5 +190,5 @@
             </div>
         </div>
     </footer>
-    </body>
+</body>
 </html>
