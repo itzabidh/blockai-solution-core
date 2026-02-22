@@ -62,7 +62,7 @@
 
     <nav class="fixed w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="index" class="flex items-center space-x-3">
+            <a href="index.php" class="flex items-center space-x-3">
                 <div class="w-8 h-8 bg-gradient-to-tr from-cyan-400 to-purple-600 rounded-lg flex items-center justify-center rotate-12">
                     <i class="fa-solid fa-brain text-white text-lg"></i>
                 </div>
@@ -70,11 +70,11 @@
             </a>
             
             <div class="hidden md:flex space-x-8 items-center">
-                <a href="index" class="text-sm font-bold uppercase tracking-wide text-cyan-400">Network</a>
-                <a href="services" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Marketplace</a>
-                <a href="case-studies" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Insights</a>
-                <a href="contact" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Contact</a>
-                <a href="registration" class="px-5 py-2 rounded-full border border-cyan-400 text-cyan-400 text-sm font-bold hover:bg-cyan-400 hover:text-black transition">Join BlockAI</a>
+                <a href="index.php" class="text-sm font-bold uppercase tracking-wide text-cyan-400">Network</a>
+                <a href="services.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Marketplace</a>
+                <a href="case-studies.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Insights</a>
+                <a href="contact.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Contact</a>
+                <a href="registration.php" class="px-5 py-2 rounded-full border border-cyan-400 text-cyan-400 text-sm font-bold hover:bg-cyan-400 hover:text-black transition">Join BlockAI</a>
             </div>
         </div>
     </nav>
@@ -88,8 +88,8 @@
                 A secure, transparent, and autonomous ecosystem for AI algorithms, data assets, and intelligent agents.
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-6">
-                <a href="services" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition">Explore Solutions</a>
-                <a href="contact" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Get in Touch</a>
+                <a href="services.php" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition">Explore Solutions</a>
+                <a href="contact.php" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Get in Touch</a>
             </div>
         </div>
     </header>
@@ -97,17 +97,15 @@
     <section class="bg-gray-900 py-4 border-y border-white/5 relative z-20 overflow-hidden">
         <div class="crypto-ticker-container">
             <div class="crypto-ticker-item text-sm font-medium">
-                <span class="text-slate-400">BTC</span> <span class="text-green-400 ml-1">$68,500 ▲</span>
+                <span class="text-slate-400 uppercase">BTC</span> <span class="text-green-400 ml-1">$68,500 ▲</span>
                 <span class="mx-8 text-slate-700">|</span>
-                <span class="text-slate-400">ETH</span> <span class="text-red-400 ml-1">$3,800 ▼</span>
+                <span class="text-slate-400 uppercase">ETH</span> <span class="text-red-400 ml-1">$3,800 ▼</span>
                 <span class="mx-8 text-slate-700">|</span>
-                <span class="text-slate-400">AGIX</span> <span class="text-green-400 ml-1">$0.75 ▲</span>
+                <span class="text-slate-400 uppercase">AGIX</span> <span class="text-green-400 ml-1">$0.75 ▲</span>
                 <span class="mx-8 text-slate-700">|</span>
-                <span class="text-slate-400">OCEAN</span> <span class="text-green-400 ml-1">$0.92 ▲</span>
-                <span class="mx-16 text-slate-700"></span>
-                <span class="text-slate-400">BTC</span> <span class="text-green-400 ml-1">$68,500 ▲</span>
-                <span class="mx-8 text-slate-700">|</span>
-                <span class="text-slate-400">ETH</span> <span class="text-red-400 ml-1">$3,800 ▼</span>
+                <span class="text-slate-400 uppercase">OCEAN</span> <span class="text-green-400 ml-1">$0.92 ▲</span>
+                <span class="mx-16"></span>
+                <span class="text-slate-400 uppercase">BTC</span> <span class="text-green-400 ml-1">$68,500 ▲</span>
             </div>
         </div>
     </section>
@@ -154,24 +152,24 @@
                 <div>
                     <h4 class="text-white font-bold mb-6 uppercase text-sm tracking-widest">Ecosystem</h4>
                     <ul class="space-y-4 text-slate-400 text-sm">
-                        <li><a href="services" class="hover:text-cyan-400 transition">Marketplace</a></li>
-                        <li><a href="governance" class="hover:text-cyan-400 transition">Governance</a></li>
-                        <li><a href="whitepaper" class="hover:text-cyan-400 transition">Whitepaper</a></li>
+                        <li><a href="services.php" class="hover:text-cyan-400 transition">Marketplace</a></li>
+                        <li><a href="governance.php" class="hover:text-cyan-400 transition">Governance</a></li>
+                        <li><a href="whitepaper.php" class="hover:text-cyan-400 transition">Whitepaper</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6 uppercase text-sm tracking-widest">Company</h4>
                     <ul class="space-y-4 text-slate-400 text-sm">
-                        <li><a href="case-studies" class="hover:text-cyan-400 transition">Insights</a></li>
-                        <li><a href="contact" class="hover:text-cyan-400 transition">Contact</a></li>
+                        <li><a href="case-studies.php" class="hover:text-cyan-400 transition">Insights</a></li>
+                        <li><a href="contact.php" class="hover:text-cyan-400 transition">Contact</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h4 class="text-white font-bold mb-6 uppercase text-sm tracking-widest">Newsletter</h4>
                     <form class="space-y-3">
-                        <input type="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-cyan-400 outline-none">
+                        <input type="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-cyan-400">
                         <button type="button" class="w-full bg-cyan-400 text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition text-sm">Join Now</button>
                     </form>
                 </div>
