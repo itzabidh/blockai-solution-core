@@ -1,53 +1,43 @@
 <?php
 session_start();
-// যদি লগইন করা না থাকে, তবে তাকে লগইন পেজে পাঠিয়ে দাও
+
+// ১. চেক করা হচ্ছে ইউজার লগইন করা কি না
 if (!isset($_SESSION['user_id'])) {
+    // লগইন করা না থাকলে লগইন পেজে পাঠিয়ে দাও
     header("Location: login.php");
     exit();
 }
+
+// ২. সেশন থেকে ইউজারের তথ্য নেওয়া
+$userName = $_SESSION['user_name'];
+$userEmail = $_SESSION['user_email'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard | BlockAI Solution</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlockAI Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .dashboard-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 350px; }
+        .welcome-msg { color: #333; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .user-email { color: #666; margin-bottom: 2rem; }
+        .logout-btn { background-color: #ff4757; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; font-weight: bold; }
+        .logout-btn:hover { background-color: #ff6b81; }
+    </style>
 </head>
-<body class="bg-[#0C0C14] text-white">
-    <div class="flex h-screen">
-        <aside class="w-64 bg-black/40 border-r border-white/5 p-6">
-            <h1 class="text-xl font-bold text-cyan-400 mb-10">BLOCKAI PANEL</h1>
-            <nav class="space-y-4">
-                <a href="#" class="block p-3 bg-cyan-400/10 text-cyan-400 rounded-xl"><i class="fa fa-home mr-2"></i> Overview</a>
-                <a href="#" class="block p-3 hover:bg-white/5 rounded-xl transition"><i class="fa fa-brain mr-2"></i> My AI Models</a>
-                <a href="logout.php" class="block p-3 text-red-400 hover:bg-red-400/10 rounded-xl mt-20"><i class="fa fa-sign-out mr-2"></i> Logout</a>
-            </nav>
-        </aside>
+<body>
 
-        <main class="flex-1 p-10">
-            <header class="flex justify-between items-center mb-10">
-                <h2 class="text-3xl font-bold">Welcome, <?php echo $_SESSION['user_name']; ?>! 👋</h2>
-                <div class="px-4 py-2 bg-purple-500/20 text-purple-400 rounded-full text-sm font-bold border border-purple-500/30">
-                    Mode: <?php echo strtoupper($_SESSION['user_type']); ?>
-                </div>
-            </header>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 bg-white/5 border border-white/10 rounded-[30px]">
-                    <p class="text-slate-400 text-sm">Account Status</p>
-                    <p class="text-2xl font-bold text-green-400">Active</p>
-                </div>
-                <div class="p-6 bg-white/5 border border-white/10 rounded-[30px]">
-                    <p class="text-slate-400 text-sm">Balance</p>
-                    <p class="text-2xl font-bold">0.00045 BTC</p>
-                </div>
-                <div class="p-6 bg-white/5 border border-white/10 rounded-[30px]">
-                    <p class="text-slate-400 text-sm">AI Processing</p>
-                    <p class="text-2xl font-bold">Ready</p>
-                </div>
-            </div>
-        </main>
+    <div class="dashboard-card">
+        <div class="welcome-msg">স্বাগতম, <?php echo htmlspecialchars($userName); ?>! 👋</div>
+        <p class="user-email"><?php echo htmlspecialchars($userEmail); ?></p>
+        <hr>
+        <p>আপনার <strong>BlockAI</strong> ড্যাশবোর্ডে আপনি এখন সাকসেসফুলি লগইন অবস্থায় আছেন।</p>
+        <br>
+        <a href="logout.php" class="logout-btn">Log Out</a>
     </div>
+
 </body>
 </html>
