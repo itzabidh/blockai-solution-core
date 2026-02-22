@@ -8,12 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password !== $confirm_password) {
         $error = "Passwords do not match!";
     } else {
-        // password_hash() is mandatory for security
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-        
-        // Future: Azure SQL INSERT logic will go here
-        // success redirect
-        // header("Location: dashboard"); 
+        // মডিউল কানেকশন এখানে হবে...
     }
 }
 ?>
@@ -48,13 +44,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main class="flex-grow flex items-center justify-center py-12 px-4">
         <div class="max-w-3xl w-full">
+            <?php if(isset($error)): ?>
+                <div class="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-xl mb-4 text-xs italic text-center">
+                    <?php echo $error; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="flex justify-center mb-8 space-x-12">
                 <button onclick="switchTab('vendor')" id="vendorTab" class="pb-2 text-sm font-bold uppercase tracking-widest transition tab-active">Vendor Onboarding</button>
                 <button onclick="switchTab('customer')" id="customerTab" class="pb-2 text-sm font-bold uppercase tracking-widest text-slate-500 transition">Customer Portal</button>
             </div>
 
             <div id="regCard" class="glass p-8 md:p-10 rounded-[40px] shadow-2xl relative">
-                
                 <form id="vendorForm" action="registration" method="POST" class="space-y-6" onsubmit="return validatePasswords('vendor')">
                     <input type="hidden" name="user_type" value="vendor">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
