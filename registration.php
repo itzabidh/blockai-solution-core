@@ -37,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <nav class="p-6 border-b border-white/5 bg-black/20 backdrop-blur-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index" class="heading-font text-2xl font-bold tracking-tighter text-white uppercase">BlockAI</a>
-            <a href="index" class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-cyan-400">Back Home</a>
+            <a href="index.php" class="heading-font text-2xl font-bold tracking-tighter text-white uppercase">BlockAI</a>
+            <a href="indexphp" class="text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-cyan-400">Back Home</a>
         </div>
     </nav>
 
