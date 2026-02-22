@@ -7,12 +7,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $company_name = $_POST['company_name'];
         $business_email = $_POST['business_email'];
         $specialization = $_POST['specialization'];
-        // SQL query logic for Vendor
     } else {
         $full_name = $_POST['full_name'];
         $personal_email = $_POST['personal_email'];
         $interest = $_POST['interest'];
-        // SQL query logic for Customer
     }
 }
 ?>
@@ -31,8 +29,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .heading-font { font-family: 'Space Grotesk', sans-serif; }
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .tab-active { border-bottom: 3px solid var(--primary-blue); color: var(--primary-blue); }
-        .input-style { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: white; outline: none; }
+        
+        /* Input and Select Fix */
+        .input-style { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: white; 
+            outline: none; 
+        }
         .input-style:focus { border-color: var(--primary-blue); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
+        
+        /* Dropdown Option Fix */
+        select option {
+            background-color: #161b22; /* Dark background for options */
+            color: white; /* White text for options */
+            padding: 10px;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col overflow-x-hidden">
@@ -59,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form id="vendorForm" action="registration.php" method="POST" class="space-y-6">
                     <input type="hidden" name="user_type" value="vendor">
                     <div class="text-center mb-10">
-                        <h2 class="text-2xl font-bold text-white mb-2">Vendor Portal</h2>
+                        <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-tight">Vendor Portal</h2>
                         <p class="text-slate-500 text-sm">Deploy your AI solutions to enterprise clients.</p>
                     </div>
 
@@ -76,7 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">AI Specialization</label>
-                        <select name="specialization" class="w-full p-4 rounded-2xl input-style transition appearance-none">
+                        <select name="specialization" class="w-full p-4 rounded-2xl input-style transition cursor-pointer">
+                            <option value="" disabled selected>Select Specialization</option>
                             <option value="ml">Machine Learning Models</option>
                             <option value="nlp">Natural Language Processing (NLP)</option>
                             <option value="cv">Computer Vision</option>
@@ -92,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form id="customerForm" action="registration.php" method="POST" class="space-y-6 hidden">
                     <input type="hidden" name="user_type" value="customer">
                     <div class="text-center mb-10">
-                        <h2 class="text-2xl font-bold text-white mb-2">Customer Account</h2>
+                        <h2 class="text-2xl font-bold text-white mb-2 uppercase tracking-tight">Customer Account</h2>
                         <p class="text-slate-500 text-sm">Explore and acquire top-tier AI services.</p>
                     </div>
 
@@ -102,24 +115,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Personal/Work Email</label>
+                        <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
                         <input type="email" name="personal_email" required class="w-full p-4 rounded-2xl input-style transition">
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Interested In</label>
-                        <select name="interest" class="w-full p-4 rounded-2xl input-style transition">
+                        <select name="interest" class="w-full p-4 rounded-2xl input-style transition cursor-pointer">
+                            <option value="" disabled selected>Select Interest</option>
                             <option value="retail">Retail AI Solutions</option>
                             <option value="data">Data Analytics</option>
                             <option value="automation">Process Automation</option>
                         </select>
                     </div>
 
-                    <button type="submit" class="w-full bg-white text-black py-5 rounded-2xl font-bold hover:bg-cyan-400 transition shadow-lg shadow-white/5">
+                    <button type="submit" class="w-full bg-white text-black py-5 rounded-2xl font-bold hover:bg-cyan-400 transition shadow-lg">
                         Create Customer Account
                     </button>
                 </form>
-
             </div>
 
             <div id="successBox" class="hidden glass p-12 rounded-[40px] text-center">
@@ -127,8 +140,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <i class="fa-solid fa-check text-3xl"></i>
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-4">Registration Successful!</h2>
-                <p class="text-slate-500 mb-8">Accessing your personalized dashboard...</p>
-                <i class="fa-solid fa-spinner animate-spin text-cyan-400 text-2xl"></i>
+                <p class="text-slate-500 mb-8 leading-relaxed">Securing your identity on the blockchain...</p>
+                <div class="flex items-center justify-center space-x-2 text-cyan-400">
+                    <i class="fa-solid fa-spinner animate-spin"></i>
+                    <span class="text-xs font-bold uppercase tracking-widest">Redirecting...</span>
+                </div>
             </div>
         </div>
     </main>
@@ -157,7 +173,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
-        // Form Submit Animation
         const forms = ['vendorForm', 'customerForm'];
         forms.forEach(id => {
             document.getElementById(id).addEventListener('submit', function(e) {
