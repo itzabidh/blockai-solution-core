@@ -1,14 +1,10 @@
-# Disable directory browsing
-Options -Indexes
-
-# Enable URL rewriting
 RewriteEngine On
 
-# 1. Redirect /filename.php to /filename (Clean URL)
+# Remove .php extension from URL (Redirect)
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^\ ]+)\.php\ HTTP/
 RewriteRule ^(.+)\.php$ /$1 [R=301,L]
 
-# 2. Map /filename to /filename.php internally
+# Internal mapping for Clean URL
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^([^/]+)$ $1.php [L]
