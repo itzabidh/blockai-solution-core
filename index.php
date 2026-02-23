@@ -88,7 +88,7 @@
                 A secure, transparent, and autonomous ecosystem for AI algorithms, data assets, and intelligent agents.
             </p>
             <div class="flex flex-col md:flex-row justify-center gap-6">
-                <a href="services.php" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition">Explore Solutions</a>
+                <a href="login.php" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition">Explore Solutions</a>
                 <a href="contact.php" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Get in Touch</a>
             </div>
         </div>
