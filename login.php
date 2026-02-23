@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// এরপর তোমার বাকি কোড...
+<?php
 // ১. কনফিগারেশন ফাইল লোড করা
 require_once 'auth_config.php';
 session_start();
