@@ -5,7 +5,7 @@ session_start();
 if (isset($_GET['code'])) {
     $code = $_GET['code'];
 
-    // ১. টোকেন পাওয়ার জন্য মাইক্রোসফটকে রিকোয়েস্ট পাঠানো
+    // টোকেন এন্ডপয়েন্ট (এখন login.php এর সাথে মিলবে)
     $token_url = "https://".TENANT_ID.".b2clogin.com/".TENANT_ID.".onmicrosoft.com/".USER_FLOW."/oauth2/v2.0/token";
 
     $post_data = [
@@ -28,21 +28,18 @@ if (isset($_GET['code'])) {
     $data = json_decode($response, true);
 
     if (isset($data['id_token'])) {
-        // ২. ID Token ডিকোড করা (Base64 Decode)
         $token_parts = explode('.', $data['id_token']);
         $payload = json_decode(base64_decode(str_replace(['-', '_'], ['+', '/'], $token_parts[1])), true);
 
-        // ৩. ইউজারের তথ্য সেশনে সেভ করা
         $_SESSION['user_id'] = $payload['oid'] ?? $payload['sub'];
         $_SESSION['user_name'] = $payload['name'] ?? 'User';
-        $_SESSION['user_email'] = $payload['emails'][0] ?? $payload['email'];
+        $_SESSION['user_email'] = $payload['emails'][0] ?? ($payload['email'] ?? 'No Email');
         $_SESSION['user_type'] = 'external_user';
 
-        // ৪. ড্যাশবোর্ডে রিডাইরেক্ট করা
         header("Location: dashboard.php");
         exit();
     } else {
-        die("Error: Login failed. " . ($data['error_description'] ?? 'Check your configuration.'));
+        die("Error: Login failed. " . ($data['error_description'] ?? 'Check Azure B2C Policy/User Flow.'));
     }
 } else {
     die("No authorization code received.");
