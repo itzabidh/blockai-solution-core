@@ -1,29 +1,19 @@
 <?php
-// ১. কনফিগারেশন ফাইল লোড করা
+// ১. কনফিগ ফাইল লোড করা
 require_once 'auth_config.php';
-session_start();
 
-/**
- * Entra External ID / B2C Authorize URL তৈরি করা
- * এই URL-এ ইউজারকে পাঠালে মাইক্রোসফট তার ইমেইল/পাসওয়ার্ড ভেরিফাই করবে
- */
-
-// সিকিউরিটির জন্য একটি র‍্যান্ডম স্টেট জেনারেট করা
-$state = bin2hex(random_bytes(16));
-$_SESSION['oauth_state'] = $state;
-
-// মাইক্রোসফট অথরাইজেশন এন্ডপয়েন্ট ইউআরএল তৈরি
-// আমরা 'code' রেসপন্স টাইপ ব্যবহার করছি যা সবচেয়ে সিকিউর
-$authUrl = "https://".TENANT_ID.".b2clogin.com/".TENANT_ID.".onmicrosoft.com/".USER_FLOW."/oauth2/v2.0/authorize?".http_build_query([
-    'client_id'    => CLIENT_ID,
+// ২. মাইক্রোসফট এন্ট্রা-র লগইন ইউআরএল তৈরি করা
+// এখানে আমরা ইউজারকে মাইক্রোসফটের পেজে পাঠাবো
+$authUrl = "https://login.microsoftonline.com/" . TENANT_ID . "/oauth2/v2.0/authorize?" . http_build_query([
+    'client_id'     => CLIENT_ID,
     'response_type' => 'code',
     'redirect_uri'  => REDIRECT_URI,
     'response_mode' => 'query',
-    'scope'         => 'openid profile email',
-    'state'         => $state
+    'scope'         => 'openid profile email', // ইউজারের নাম ও ইমেইল পাওয়ার জন্য
+    'state'         => bin2hex(random_bytes(16)), // সিকিউরিটির জন্য র‍্যান্ডম স্টেট
 ]);
 
-// ইউজারকে মাইক্রোসফট লগইন পেজে পাঠিয়ে দাও
+// ৩. ইউজারকে রিডাইরেক্ট করা
 header("Location: " . $authUrl);
 exit();
 ?>
