@@ -15,7 +15,7 @@ define('CLIENT_SECRET', 'iV68Q~~I-6Da.QV5p-Q9mSSdNTfQnTrw_EydWcr8');
 
 // ৪. Redirect URI (তোমার Azure পোর্টালে যা সেট করা আছে)
 // যদি লোকালহোস্টে টেস্ট করো তবে নিচেরটা ব্যবহার করো:
-define('REDIRECT_URI', 'http://localhost/blockai/callback.php'); 
+define('REDIRECT_URI', 'https://blockaisolution.com/callback.php'); 
 
 // ৫. User Flow Name (তোমার পোর্টালে বানানো ফ্লো-এর নাম)
 define('USER_FLOW', 'SignUpSignIn'); 
