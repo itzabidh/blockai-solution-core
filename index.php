@@ -294,7 +294,7 @@
                         <li><a href="services.php" class="hover:text-cyan-400 transition">Marketplace</a></li>
                         <li><a href="governance.php" class="hover:text-cyan-400 transition">Governance</a></li>
                         <li><a href="whitepaper.php" class="hover:text-cyan-400 transition">Whitepaper</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Node Setup</a></li>
+                        <li><a href="terms.php" class="hover:text-cyan-400 transition">Terms of Use</a></li>
                     </ul>
                 </div>
 
@@ -303,8 +303,8 @@
                     <ul class="space-y-4 text-slate-400 text-sm">
                         <li><a href="case-studies.php" class="hover:text-cyan-400 transition">Insights</a></li>
                         <li><a href="contact.php" class="hover:text-cyan-400 transition">Contact</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Careers</a></li>
-                        <li><a href="#" class="hover:text-cyan-400 transition">Privacy Policy</a></li>
+                        <li><a href="careers.php" class="hover:text-cyan-400 transition">Careers</a></li>
+                        <li><a href="privacy-policy.php" class="hover:text-cyan-400 transition">Privacy Policy</a></li>
                     </ul>
                 </div>
 
