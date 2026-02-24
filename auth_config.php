@@ -1,24 +1,27 @@
 <?php
 /**
- * BlockAI Solution - Azure Configuration Fix
+ * BlockAI Solution - Final Azure Fix
+ * Mama, this version uses the specific tenant domain to avoid AADSTS500209.
  */
 
-// Core Credentials
-define('CLIENT_ID', 'f07dd32f-7d6b-4a54-b815-77b7a1867bd9'); // Your Client ID
-define('CLIENT_SECRET', 'YOUR_ACTUAL_CLIENT_SECRET'); // Put your secret here
-define('TENANT_ID', '26d2f4c7-19ac-4d14-b5e4-d501448826b1'); // Your Directory ID
-define('TENANT_NAME', 'blockaisolution26'); // Your Tenant Prefix
+// 1. Core Credentials (Hardcoded for maximum stability)
+define('CLIENT_ID', 'f07dd32f-7d6b-4a54-b815-77b7a1867bd9');
+define('CLIENT_SECRET', 'YOUR_ACTUAL_CLIENT_SECRET'); // Replace with your secret
+define('TENANT_ID', '26d2f4c7-19ac-4d14-b5e4-d501448826b1');
+define('TENANT_NAME', 'blockaisolution26');
 
-// Important: Fixed Authority URL for External ID (CIAM)
-// This format removes the 'v2.0' error by structuring the path correctly
-define('AUTHORITY_URL', "https://" . TENANT_NAME . ".ciamlogin.com/common/oauth2/v2.0/authorize");
-define('TOKEN_URL', "https://" . TENANT_NAME . ".ciamlogin.com/common/oauth2/v2.0/token");
+// 2. Updated Authority URL (Using Domain instead of 'common')
+// This fixes the "Unspecific Tenant" error
+$tenant_domain = TENANT_NAME . ".onmicrosoft.com"; 
+define('AUTHORITY_URL', "https://" . TENANT_NAME . ".ciamlogin.com/" . $tenant_domain . "/oauth2/v2.0/authorize");
+define('TOKEN_URL', "https://" . TENANT_NAME . ".ciamlogin.com/" . $tenant_domain . "/oauth2/v2.0/token");
 
+// 3. Other Settings
 define('REDIRECT_URI', 'https://blockaisolution.com/callback.php');
 define('SCOPES', 'openid profile email offline_access');
 
 /**
- * Generates the login URL without double slashes
+ * Generates the login URL
  */
 function getLoginUrl() {
     $params = [
