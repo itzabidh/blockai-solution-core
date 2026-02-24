@@ -1,23 +1,18 @@
-// callback.php এর শুরুতে যোগ করুন
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Azure যদি POST পাঠায় তবে আমরা কোড পাবো $_POST['code'] এ
-    $code = $_POST['code'] ?? null;
-} else {
-    // নাহলে $_GET['code'] এ
-    $code = $_GET['code'] ?? null;
-}
 <?php
 /**
- * BlockAI Solution - Azure CIAM Callback Handler
- * Purpose: Exchange Auth Code for Access Token and Redirect to Dashboard
+ * BlockAI Solution - Fixed Azure Callback
  */
-
-require_once 'auth_config.php'; // Ensure your constants are defined here
+require_once 'auth_config.php';
 session_start();
 
-if (isset($_GET['code'])) {
-    $code = $_GET['code'];
+// আপনার দেওয়া লজিক অনুযায়ী কোডটি ধরা
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $code = $_POST['code'] ?? null;
+} else {
+    $code = $_GET['code'] ?? null;
+}
 
+if ($code) {
     // 1. Prepare Data for Token Exchange
     $post_data = [
         'client_id'     => CLIENT_ID,
@@ -40,39 +35,22 @@ if (isset($_GET['code'])) {
     curl_close($ch);
 
     if (isset($data['id_token'])) {
-        // 3. Safe Base64 Decoding of ID Token Payload
+        // 3. Decoding and Session Setting
         $token_parts = explode('.', $data['id_token']);
-        if (count($token_parts) >= 2) {
-            $base64Payload = str_replace(['-', '_'], ['+', '/'], $token_parts[1]);
-            
-            // Add padding if missing
-            $padding = strlen($base64Payload) % 4;
-            if ($padding) {
-                $base64Payload .= str_repeat('=', 4 - $padding);
-            }
-            
-            $payload = json_decode(base64_decode($base64Payload), true);
+        $base64Payload = str_replace(['-', '_'], ['+', '/'], $token_parts[1]);
+        $payload = json_decode(base64_decode($base64Payload), true);
 
-            // 4. Set Session Variables
-            $_SESSION['user_id']    = $payload['oid'] ?? ($payload['sub'] ?? 'N/A');
-            $_SESSION['user_name']  = $payload['name'] ?? ($payload['given_name'] ?? 'User');
-            $_SESSION['user_email'] = $payload['email'] ?? ($payload['preferred_username'] ?? 'No Email');
-            $_SESSION['user_logged_in'] = true;
+        $_SESSION['user_name']  = $payload['name'] ?? 'User';
+        $_SESSION['user_email'] = $payload['email'] ?? 'No Email';
+        $_SESSION['user_logged_in'] = true;
 
-            // 5. Success! Redirect to Dashboard
-            header("Location: dashboard.php");
-            exit();
-        } else {
-            die("Error: Invalid Token Format.");
-        }
+        header("Location: dashboard.php");
+        exit();
     } else {
-        // Log Azure specific errors
-        error_log("Azure Token Error: " . json_encode($data));
-        die("Error: Token exchange failed. " . ($data['error_description'] ?? 'Check Client Secret and Redirect URI.'));
+        error_log("Azure Error: " . json_encode($data));
+        die("Error: Token exchange failed. " . ($data['error_description'] ?? 'Check Secret.'));
     }
 } else {
-    // If user cancels or direct access
-    header("Location: index.php?error=no_code");
-    exit();
+    die("Error: No code received from Azure.");
 }
 ?>
