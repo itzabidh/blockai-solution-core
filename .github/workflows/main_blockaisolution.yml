@@ -1,6 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# This file is now optimized for PHP deployment
-
+# BlockAI Solution - Optimized Azure PHP Deployment Workflow
 name: Build and deploy PHP app to Azure Web App - blockaisolution
 
 on:
@@ -19,8 +17,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # PHP does not require an "npm build" step. 
-      # We just prepare the files to be uploaded as an artifact.
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -39,7 +35,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: php-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -54,3 +50,27 @@ jobs:
           app-name: 'blockaisolution'
           slot-name: 'Production'
           package: .
+          # এই পার্টটি আপনার সিক্রেটগুলোকে সরাসরি সার্ভারের Configuration-এ সেট করে দিবে
+          app-settings-json: |
+            [
+                {
+                    "name": "AZURE_CLIENT_ID",
+                    "value": "${{ secrets.AZURE_CLIENT_ID }}",
+                    "slotSetting": false
+                },
+                {
+                    "name": "AZURE_CLIENT_SECRET",
+                    "value": "${{ secrets.AZURE_CLIENT_SECRET }}",
+                    "slotSetting": false
+                },
+                {
+                    "name": "AZURE_TENANT_ID",
+                    "value": "${{ secrets.AZURE_TENANT_ID }}",
+                    "slotSetting": false
+                },
+                {
+                    "name": "AZURE_USER_FLOW",
+                    "value": "${{ secrets.AZURE_USER_FLOW }}",
+                    "slotSetting": false
+                }
+            ]
