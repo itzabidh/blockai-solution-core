@@ -1,3 +1,11 @@
+// callback.php এর শুরুতে যোগ করুন
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Azure যদি POST পাঠায় তবে আমরা কোড পাবো $_POST['code'] এ
+    $code = $_POST['code'] ?? null;
+} else {
+    // নাহলে $_GET['code'] এ
+    $code = $_GET['code'] ?? null;
+}
 <?php
 /**
  * BlockAI Solution - Azure CIAM Callback Handler
