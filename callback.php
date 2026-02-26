@@ -33,23 +33,64 @@ function decodeIdTokenPayload(string $idToken): ?array
     return is_array($json) ? $json : null;
 }
 
+function extractProviderCode(string $description): ?string
+{
+    if (preg_match('/(AADB2C\d{5})/i', $description, $matches) !== 1) {
+        return null;
+    }
+
+    return strtoupper((string) $matches[1]);
+}
+
+function buildProviderErrorMessage(string $providerError, string $providerDescription): string
+{
+    $errorCode = extractProviderCode($providerDescription);
+    if ($errorCode === 'AADB2C90091') {
+        return 'Sign-in was cancelled before completion. Please try again.';
+    }
+    if ($errorCode === 'AADB2C90118') {
+        return 'Password reset was requested. Please use password reset flow or contact support.';
+    }
+    if ($errorCode === 'AADB2C90006') {
+        return 'Authentication failed due to redirect URI mismatch. Please contact support.';
+    }
+    if ($errorCode === 'AADB2C90079' || $errorCode === 'AADB2C90057') {
+        return 'Authentication application settings are incomplete. Please contact support.';
+    }
+    if ($errorCode === 'AADB2C99059') {
+        return 'Authentication request is missing required security parameters. Please try again.';
+    }
+
+    if (strtolower($providerError) === 'access_denied') {
+        return 'Authentication request was denied by identity provider. Please try again.';
+    }
+
+    return 'Authentication could not be completed. Please try again.';
+}
+
 if (!hasAuthConfig()) {
     redirectToLoginWithError('Authentication is not configured. Please contact support.');
 }
 
 $providerError = $_GET['error'] ?? $_POST['error'] ?? null;
 if (is_string($providerError) && $providerError !== '') {
-    $providerDescription = $_GET['error_description'] ?? $_POST['error_description'] ?? 'Authentication request was rejected.';
-    redirectToLoginWithError('Sign-in was cancelled or denied. Please try again.', [
+    $providerDescription = (string) ($_GET['error_description'] ?? $_POST['error_description'] ?? 'Authentication request was rejected.');
+    $friendlyMessage = buildProviderErrorMessage($providerError, $providerDescription);
+    redirectToLoginWithError($friendlyMessage, [
         'provider_error' => $providerError,
         'provider_description' => $providerDescription,
+        'provider_code' => extractProviderCode($providerDescription),
     ]);
 }
 
 $code = $_SERVER['REQUEST_METHOD'] === 'POST' ? ($_POST['code'] ?? null) : ($_GET['code'] ?? null);
 $incomingState = $_SERVER['REQUEST_METHOD'] === 'POST' ? ($_POST['state'] ?? null) : ($_GET['state'] ?? null);
 $expectedState = $_SESSION[AUTH_SESSION_STATE_KEY] ?? null;
+$expectedCodeVerifier = $_SESSION[AUTH_SESSION_PKCE_KEY] ?? null;
+$expectedNonce = $_SESSION[AUTH_SESSION_NONCE_KEY] ?? null;
 unset($_SESSION[AUTH_SESSION_STATE_KEY]);
+unset($_SESSION[AUTH_SESSION_PKCE_KEY]);
+unset($_SESSION[AUTH_SESSION_NONCE_KEY]);
 
 if (!is_string($code) || $code === '') {
     redirectToLoginWithError('No authorization code received from identity provider.');
@@ -62,6 +103,12 @@ if (!is_string($incomingState) || $incomingState === '' || !is_string($expectedS
     ]);
 }
 
+if (!is_string($expectedCodeVerifier) || $expectedCodeVerifier === '') {
+    redirectToLoginWithError('Session validation failed. Please login again.', [
+        'missing_pkce_verifier' => true,
+    ]);
+}
+
 $postData = [
     'client_id'     => CLIENT_ID,
     'scope'         => SCOPES,
@@ -69,6 +116,7 @@ $postData = [
     'redirect_uri'  => REDIRECT_URI,
     'grant_type'    => 'authorization_code',
     'client_secret' => CLIENT_SECRET,
+    'code_verifier' => $expectedCodeVerifier,
 ];
 
 $ch = curl_init();
@@ -123,6 +171,13 @@ if (!is_string($idToken) || $idToken === '') {
 $payload = decodeIdTokenPayload($idToken);
 if (!is_array($payload)) {
     redirectToLoginWithError('Unable to decode identity token from provider.');
+}
+
+$tokenNonce = $payload['nonce'] ?? null;
+if (is_string($expectedNonce) && $expectedNonce !== '' && is_string($tokenNonce) && $tokenNonce !== '' && !hash_equals($expectedNonce, $tokenNonce)) {
+    redirectToLoginWithError('Session validation failed. Please login again.', [
+        'nonce_mismatch' => true,
+    ]);
 }
 
 $emailFromList = null;
