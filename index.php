@@ -188,9 +188,87 @@ function escapeHtml(string|int|float $value): string
         .insight-card:hover img {
             transform: scale(1.08);
         }
+
+        /* Neural preloader */
+        .neural-preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.72s ease, visibility 0.72s ease;
+        }
+
+        .neural-preloader.is-fading {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .neural-preloader.is-hidden {
+            display: none;
+        }
+
+        .neural-preloader__stage {
+            width: min(700px, 90vw);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            pointer-events: none;
+        }
+
+        #neuralPreloaderCanvas {
+            width: min(640px, 86vw);
+            height: 320px;
+            border-radius: 24px;
+            border: 1px solid rgba(86, 255, 137, 0.18);
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0, 212, 255, 0.08), transparent 50%),
+                radial-gradient(circle at 80% 75%, rgba(86, 255, 137, 0.08), transparent 52%),
+                rgba(3, 10, 29, 0.78);
+            box-shadow: 0 0 40px rgba(86, 255, 137, 0.11), inset 0 0 60px rgba(0, 212, 255, 0.05);
+        }
+
+        .neural-preloader__brand {
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 800;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: #e6edf3;
+            font-size: 0.82rem;
+            animation: breathingGlow 3s ease-in-out infinite;
+        }
+
+        .neural-preloader__subtitle {
+            font-size: 0.65rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(148, 163, 184, 0.9);
+        }
+
+        @keyframes breathingGlow {
+            0%,
+            100% {
+                opacity: 0.74;
+                text-shadow: 0 0 8px rgba(86, 255, 137, 0.24), 0 0 14px rgba(0, 212, 255, 0.16);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 14px rgba(86, 255, 137, 0.48), 0 0 24px rgba(0, 212, 255, 0.34);
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
+    <div id="neuralPreloader" class="neural-preloader" aria-live="polite" aria-label="Loading BlockAI Solution">
+        <div class="neural-preloader__stage">
+            <canvas id="neuralPreloaderCanvas" width="640" height="320" aria-hidden="true"></canvas>
+            <p class="neural-preloader__brand">BlockAI Solution</p>
+            <p class="neural-preloader__subtitle">Neural Fabric Initializing</p>
+        </div>
+    </div>
 
     <div class="scroll-progress" id="scrollBar"></div>
 
@@ -712,6 +790,185 @@ function escapeHtml(string|int|float $value): string
         const mainNav = document.getElementById("mainNav");
         const mainNavShell = document.getElementById("mainNavShell");
 
+        const initNeuralPreloader = () => {
+            const preloader = document.getElementById("neuralPreloader");
+            const canvas = document.getElementById("neuralPreloaderCanvas");
+            if (!preloader || !canvas) {
+                return;
+            }
+
+            const ctx = canvas.getContext("2d");
+            if (!ctx) {
+                return;
+            }
+
+            const prefersReducedMotion =
+                typeof window.matchMedia === "function" &&
+                window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+            const nodeTotal = window.innerWidth < 768 ? 18 : 30;
+            const nodes = [];
+
+            let width = 0;
+            let height = 0;
+            let animationFrame = 0;
+            let renderTime = 0;
+            let running = true;
+
+            for (let i = 0; i < nodeTotal; i += 1) {
+                nodes.push({
+                    x: 0,
+                    y: 0,
+                    vx: (Math.random() - 0.5) * 0.38,
+                    vy: (Math.random() - 0.5) * 0.38,
+                    radius: 1.4 + (Math.random() * 1.7),
+                });
+            }
+
+            const assignNodePositions = () => {
+                nodes.forEach((node) => {
+                    node.x = 18 + (Math.random() * (width - 36));
+                    node.y = 18 + (Math.random() * (height - 36));
+                });
+            };
+
+            const resizeCanvas = () => {
+                const rect = canvas.getBoundingClientRect();
+                width = Math.max(rect.width, 320);
+                height = Math.max(rect.height, 220);
+                canvas.width = Math.floor(width * dpr);
+                canvas.height = Math.floor(height * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                assignNodePositions();
+            };
+
+            const renderFrame = () => {
+                if (!running) {
+                    return;
+                }
+
+                renderTime += 0.015;
+                ctx.clearRect(0, 0, width, height);
+
+                const maxDistance = width < 520 ? 116 : 156;
+                const links = [];
+
+                nodes.forEach((node) => {
+                    if (!prefersReducedMotion) {
+                        node.x += node.vx;
+                        node.y += node.vy;
+
+                        if (node.x <= 12 || node.x >= width - 12) {
+                            node.vx *= -1;
+                            node.x = Math.max(12, Math.min(width - 12, node.x));
+                        }
+
+                        if (node.y <= 12 || node.y >= height - 12) {
+                            node.vy *= -1;
+                            node.y = Math.max(12, Math.min(height - 12, node.y));
+                        }
+                    }
+                });
+
+                outerLoop:
+                for (let i = 0; i < nodes.length; i += 1) {
+                    for (let j = i + 1; j < nodes.length; j += 1) {
+                        const source = nodes[i];
+                        const target = nodes[j];
+                        const dx = target.x - source.x;
+                        const dy = target.y - source.y;
+                        const distance = Math.hypot(dx, dy);
+
+                        if (distance < maxDistance) {
+                            links.push({ source, target, distance });
+                            if (links.length >= 150) {
+                                break outerLoop;
+                            }
+                        }
+                    }
+                }
+
+                ctx.shadowColor = "rgba(86, 255, 137, 0.32)";
+                ctx.shadowBlur = 4;
+                links.forEach((link, index) => {
+                    const { source, target, distance } = link;
+                    const proximity = 1 - (distance / maxDistance);
+                    const pulse = (Math.sin((renderTime * 3.4) + (index * 0.7)) + 1) / 2;
+
+                    ctx.beginPath();
+                    ctx.moveTo(source.x, source.y);
+                    ctx.lineTo(target.x, target.y);
+                    ctx.lineWidth = 0.5 + (proximity * 1.25);
+                    ctx.strokeStyle = `rgba(86, 255, 137, ${0.04 + (proximity * 0.29) + (pulse * 0.1)})`;
+                    ctx.stroke();
+
+                    const progress = (renderTime * 0.2 + (index * 0.065)) % 1;
+                    const pulseX = source.x + ((target.x - source.x) * progress);
+                    const pulseY = source.y + ((target.y - source.y) * progress);
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(0, 212, 255, ${0.18 + (pulse * 0.68)})`;
+                    ctx.arc(pulseX, pulseY, 1.4 + (proximity * 0.9), 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.shadowBlur = 0;
+
+                nodes.forEach((node, index) => {
+                    const breathing = (Math.sin((renderTime * 2.2) + (index * 0.8)) + 1) / 2;
+                    ctx.beginPath();
+                    ctx.fillStyle = `rgba(86, 255, 137, ${0.12 + (breathing * 0.22)})`;
+                    ctx.arc(node.x, node.y, node.radius + (breathing * 1.8), 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.fillStyle = "rgba(213, 255, 231, 0.95)";
+                    ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                if (!prefersReducedMotion) {
+                    animationFrame = window.requestAnimationFrame(renderFrame);
+                }
+            };
+
+            const hidePreloader = () => {
+                if (preloader.classList.contains("is-fading") || preloader.classList.contains("is-hidden")) {
+                    return;
+                }
+
+                preloader.classList.add("is-fading");
+                window.setTimeout(() => {
+                    preloader.classList.add("is-hidden");
+                    running = false;
+                    window.cancelAnimationFrame(animationFrame);
+                }, 760);
+            };
+
+            resizeCanvas();
+            renderFrame();
+
+            window.addEventListener("resize", () => {
+                if (!running) {
+                    return;
+                }
+                resizeCanvas();
+                if (prefersReducedMotion) {
+                    renderFrame();
+                }
+            }, { passive: true });
+
+            const dismissWhenReady = () => {
+                window.setTimeout(hidePreloader, 180);
+            };
+
+            if (document.readyState === "complete") {
+                dismissWhenReady();
+                return;
+            }
+
+            window.addEventListener("load", dismissWhenReady, { once: true });
+            window.setTimeout(hidePreloader, 6200);
+        };
+
         const handleScroll = () => {
             const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -923,6 +1180,7 @@ function escapeHtml(string|int|float $value): string
             });
         });
 
+        initNeuralPreloader();
         initGlobalNeuralMap();
         initComputeEstimator();
         initNetworkComputeChart();
