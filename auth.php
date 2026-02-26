@@ -12,6 +12,9 @@ if (!hasAuthConfig()) {
         'has_client_id' => CLIENT_ID !== '',
         'has_client_secret' => CLIENT_SECRET !== '',
         'tenant_name' => TENANT_NAME,
+        'auth_mode' => AUTH_MODE,
+        'has_user_flow' => USER_FLOW !== '',
+        'authority_url' => AUTHORITY_URL,
     ]);
 
     http_response_code(500);
@@ -33,7 +36,8 @@ if (!hasAuthConfig()) {
     <body>
         <div class="card">
             <h1>Login is not configured yet</h1>
-            <p>Required OAuth environment variables are missing. Please configure Azure credentials and try again.</p>
+            <p>Required OAuth environment variables are missing or incomplete. Please configure Azure credentials and try again.</p>
+            <p>If you use Microsoft B2C, ensure <strong>AZURE_USER_FLOW</strong> is configured (for example: <code>B2C_1_signupsignin</code>).</p>
             <p><a href="index.php">Back to homepage</a></p>
         </div>
     </body>

@@ -7,32 +7,121 @@ declare(strict_types=1);
 const AUTH_SESSION_STATE_KEY = 'oauth2_state';
 const AUTH_SESSION_ERROR_KEY = 'auth_error';
 
-define('CLIENT_ID', (string) getenv('AZURE_CLIENT_ID'));
-define('CLIENT_SECRET', (string) getenv('AZURE_CLIENT_SECRET'));
-define('TENANT_ID', (string) getenv('AZURE_TENANT_ID'));
-define('TENANT_NAME', (string) (getenv('AZURE_TENANT_NAME') ?: 'blockaisolution26'));
+define('CLIENT_ID', trim((string) getenv('AZURE_CLIENT_ID')));
+define('CLIENT_SECRET', trim((string) getenv('AZURE_CLIENT_SECRET')));
+define('TENANT_ID', trim((string) getenv('AZURE_TENANT_ID')));
+define('TENANT_NAME', trim((string) (getenv('AZURE_TENANT_NAME') ?: 'blockaisolution26')));
+define('TENANT_DOMAIN', TENANT_NAME !== '' ? TENANT_NAME . '.onmicrosoft.com' : '');
+define('USER_FLOW', trim((string) (getenv('AZURE_USER_FLOW') ?: getenv('AZURE_B2C_USER_FLOW'))));
 
-$tenantDomain = TENANT_NAME . '.onmicrosoft.com';
-define('AUTHORITY_URL', 'https://' . TENANT_NAME . '.ciamlogin.com/' . $tenantDomain . '/oauth2/v2.0/authorize');
-define('TOKEN_URL', 'https://' . TENANT_NAME . '.ciamlogin.com/' . $tenantDomain . '/oauth2/v2.0/token');
-define('SCOPES', 'openid profile email offline_access');
+$authorityConfig = resolveAuthorityConfig();
+define('AUTH_MODE', $authorityConfig['mode']);
+define('AUTHORITY_HOST', $authorityConfig['authority_host']);
+define('AUTHORITY_URL', $authorityConfig['authority_url']);
+define('TOKEN_URL', $authorityConfig['token_url']);
+define('SCOPES', resolveScopes());
 
 /**
  * Select a redirect URI that works for production and local testing.
  */
 define('REDIRECT_URI', resolveRedirectUri());
 
+function resolveAuthorityConfig(): array
+{
+    $configuredHost = trim((string) (getenv('AZURE_AUTHORITY_HOST') ?: getenv('AZURE_AUTH_HOST')));
+    if ($configuredHost !== '') {
+        $configuredHost = preg_replace('#^https?://#i', '', $configuredHost) ?? $configuredHost;
+        $configuredHost = rtrim($configuredHost, '/');
+    }
+
+    $explicitMode = strtolower(trim((string) getenv('AZURE_AUTH_MODE')));
+    if ($explicitMode === 'b2c' || $explicitMode === 'ciam') {
+        $mode = $explicitMode;
+    } elseif ($configuredHost !== '' && stripos($configuredHost, 'b2clogin.com') !== false) {
+        $mode = 'b2c';
+    } elseif ($configuredHost !== '' && stripos($configuredHost, 'ciamlogin.com') !== false) {
+        $mode = 'ciam';
+    } elseif (USER_FLOW !== '' && preg_match('/^b2c_/i', USER_FLOW) === 1) {
+        // B2C user flows are commonly named with a B2C_ prefix.
+        $mode = 'b2c';
+    } else {
+        $mode = 'ciam';
+    }
+
+    $authorityHost = $configuredHost;
+    if ($authorityHost === '' && TENANT_NAME !== '') {
+        $authorityHost = TENANT_NAME . ($mode === 'b2c' ? '.b2clogin.com' : '.ciamlogin.com');
+    }
+
+    $pathPrefix = TENANT_DOMAIN;
+    if ($mode === 'b2c' && USER_FLOW !== '') {
+        $pathPrefix .= '/' . USER_FLOW;
+    }
+
+    $oauthBase = ($authorityHost !== '' && $pathPrefix !== '')
+        ? 'https://' . $authorityHost . '/' . $pathPrefix . '/oauth2/v2.0'
+        : '';
+
+    return [
+        'mode' => $mode,
+        'authority_host' => $authorityHost,
+        'authority_url' => $oauthBase !== '' ? $oauthBase . '/authorize' : '',
+        'token_url' => $oauthBase !== '' ? $oauthBase . '/token' : '',
+    ];
+}
+
+function resolveScopes(): string
+{
+    $scopes = trim((string) (getenv('AZURE_SCOPES') ?: getenv('AZURE_SCOPE')));
+    if ($scopes !== '') {
+        return $scopes;
+    }
+
+    return 'openid profile email offline_access';
+}
+
+function currentAppBaseUrl(): ?string
+{
+    $host = trim((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    if ($host === '') {
+        return null;
+    }
+
+    $isHttps = (
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+        (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
+    );
+    $scheme = $isHttps ? 'https' : 'http';
+    return $scheme . '://' . $host;
+}
+
 function resolveRedirectUri(): string
 {
     $envRedirect = (string) getenv('AZURE_REDIRECT_URI');
+    $envRedirect = trim($envRedirect);
+
+    $dynamicBase = currentAppBaseUrl();
+    $dynamicRedirect = $dynamicBase !== null ? $dynamicBase . '/callback.php' : null;
+
     if ($envRedirect !== '') {
+        $strictRedirect = trim((string) getenv('AZURE_REDIRECT_URI_STRICT')) === '1';
+        if (!$strictRedirect && $dynamicRedirect !== null) {
+            $envHost = parse_url($envRedirect, PHP_URL_HOST);
+            $dynamicHost = parse_url($dynamicRedirect, PHP_URL_HOST);
+            if (is_string($envHost) && is_string($dynamicHost) && $envHost !== '' && $dynamicHost !== '' && strcasecmp($envHost, $dynamicHost) !== 0) {
+                authLog('Using dynamic redirect URI to match current host', [
+                    'configured_redirect_uri' => $envRedirect,
+                    'dynamic_redirect_uri' => $dynamicRedirect,
+                ]);
+                return $dynamicRedirect;
+            }
+        }
+
         return $envRedirect;
     }
 
-    if (!empty($_SERVER['HTTP_HOST'])) {
-        $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-        $scheme = $isHttps ? 'https' : 'http';
-        return $scheme . '://' . $_SERVER['HTTP_HOST'] . '/callback.php';
+    if ($dynamicRedirect !== null) {
+        return $dynamicRedirect;
     }
 
     return 'https://blockaisolution.com/callback.php';
@@ -47,7 +136,15 @@ function ensureSessionStarted(): void
 
 function hasAuthConfig(): bool
 {
-    return CLIENT_ID !== '' && CLIENT_SECRET !== '' && TENANT_NAME !== '';
+    if (CLIENT_ID === '' || CLIENT_SECRET === '' || TENANT_NAME === '') {
+        return false;
+    }
+
+    if (AUTH_MODE === 'b2c' && USER_FLOW === '') {
+        return false;
+    }
+
+    return AUTHORITY_URL !== '' && TOKEN_URL !== '';
 }
 
 /**

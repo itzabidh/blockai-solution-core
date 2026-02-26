@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * OAuth callback endpoint for Azure CIAM.
+ * OAuth callback endpoint for Azure B2C / CIAM.
  */
 require_once 'auth_config.php';
 ensureSessionStarted();
@@ -101,6 +101,17 @@ if (!is_array($tokenResponse)) {
     ]);
 }
 
+$tokenError = $tokenResponse['error'] ?? null;
+if (is_string($tokenError) && $tokenError !== '') {
+    $tokenErrorDescription = $tokenResponse['error_description'] ?? 'Token exchange failed.';
+    redirectToLoginWithError('Authentication failed at token exchange. Please try again.', [
+        'http_status' => $httpStatus,
+        'token_error' => $tokenError,
+        'token_error_description' => $tokenErrorDescription,
+        'response' => $tokenResponse,
+    ]);
+}
+
 $idToken = $tokenResponse['id_token'] ?? null;
 if (!is_string($idToken) || $idToken === '') {
     redirectToLoginWithError('Token exchange failed. Please verify OAuth settings.', [
@@ -114,7 +125,15 @@ if (!is_array($payload)) {
     redirectToLoginWithError('Unable to decode identity token from provider.');
 }
 
-$userId = $payload['oid'] ?? $payload['sub'] ?? $payload['email'] ?? $payload['preferred_username'] ?? null;
+$emailFromList = null;
+if (isset($payload['emails']) && is_array($payload['emails'])) {
+    $firstEmail = $payload['emails'][0] ?? null;
+    if (is_string($firstEmail) && $firstEmail !== '') {
+        $emailFromList = $firstEmail;
+    }
+}
+
+$userId = $payload['oid'] ?? $payload['sub'] ?? $payload['email'] ?? $payload['preferred_username'] ?? $emailFromList ?? null;
 if (!is_string($userId) || $userId === '') {
     redirectToLoginWithError('Identity token did not include a usable user id.', [
         'available_claims' => array_keys($payload),
@@ -123,10 +142,18 @@ if (!is_string($userId) || $userId === '') {
 
 $userName = $payload['name'] ?? 'User';
 if (!is_string($userName) || $userName === '') {
-    $userName = 'User';
+    $givenName = $payload['given_name'] ?? null;
+    $familyName = $payload['family_name'] ?? null;
+    if (is_string($givenName) && $givenName !== '' && is_string($familyName) && $familyName !== '') {
+        $userName = $givenName . ' ' . $familyName;
+    } elseif (is_string($givenName) && $givenName !== '') {
+        $userName = $givenName;
+    } else {
+        $userName = 'User';
+    }
 }
 
-$userEmail = $payload['email'] ?? $payload['preferred_username'] ?? 'No Email';
+$userEmail = $payload['email'] ?? $payload['preferred_username'] ?? $emailFromList ?? null;
 if (!is_string($userEmail) || $userEmail === '') {
     $userEmail = 'No Email';
 }
