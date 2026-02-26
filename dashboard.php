@@ -1,16 +1,21 @@
 <?php
-session_start();
+declare(strict_types=1);
 
-// 1. Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    // If not logged in, redirect to the login page
-    header("Location: login.php");
+require_once 'auth_config.php';
+ensureSessionStarted();
+
+$hasIdentity = !empty($_SESSION['user_id']) || !empty($_SESSION['user_email']);
+$isLoggedIn = !empty($_SESSION['user_logged_in']) && $hasIdentity;
+if (!$isLoggedIn) {
+    authLog('Unauthorized dashboard access blocked', [
+        'remote_addr' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+    ]);
+    header('Location: login.php');
     exit();
 }
 
-// 2. Retrieve user information from session
-$userName = $_SESSION['user_name'];
-$userEmail = $_SESSION['user_email'];
+$userName = (string) ($_SESSION['user_name'] ?? 'User');
+$userEmail = (string) ($_SESSION['user_email'] ?? 'No Email');
 ?>
 
 <!DOCTYPE html>
@@ -33,8 +38,8 @@ $userEmail = $_SESSION['user_email'];
 <body>
 
     <div class="dashboard-card">
-        <div class="welcome-msg">Welcome, <?php echo htmlspecialchars($userName); ?>! 👋</div>
-        <p class="user-email"><?php echo htmlspecialchars($userEmail); ?></p>
+        <div class="welcome-msg">Welcome, <?php echo htmlspecialchars($userName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?>! 👋</div>
+        <p class="user-email"><?php echo htmlspecialchars($userEmail, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); ?></p>
         <hr>
         <div class="info-text">
             You have successfully logged into your <strong>BlockAI</strong> dashboard using Azure Authentication.
