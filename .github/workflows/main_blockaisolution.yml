@@ -63,6 +63,7 @@ jobs:
               AZURE_CLIENT_SECRET="${{ secrets.AZURE_CLIENT_SECRET }}" \
               AZURE_TENANT_ID="${{ secrets.AZURE_TENANT_ID }}" \
               AZURE_USER_FLOW="${{ secrets.AZURE_USER_FLOW }}" \
+              AZURE_AUTH_MODE="b2c" \
               AZURE_TENANT_NAME="blockaisolution26" \
               AZURE_REDIRECT_URI="https://blockaisolution.com/callback.php" \
               WEBSITE_RUN_FROM_PACKAGE="1" \
