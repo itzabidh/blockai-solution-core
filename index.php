@@ -9,6 +9,39 @@ redirectPhpToCleanRoute('index.php', '');
  */
 $marketplaceItems = range(1, 8);
 $currentYear = (int) date('Y');
+$globalAiNodes = [
+    ['city' => 'New York', 'region' => 'North America', 'lat' => 40.7128, 'lng' => -74.0060, 'status' => 'Active', 'compute' => '132K infer/min'],
+    ['city' => 'London', 'region' => 'Europe', 'lat' => 51.5074, 'lng' => -0.1278, 'status' => 'Active', 'compute' => '118K infer/min'],
+    ['city' => 'Tokyo', 'region' => 'Asia Pacific', 'lat' => 35.6762, 'lng' => 139.6503, 'status' => 'Active', 'compute' => '147K infer/min'],
+    ['city' => 'Dubai', 'region' => 'Middle East', 'lat' => 25.2048, 'lng' => 55.2708, 'status' => 'Active', 'compute' => '104K infer/min'],
+    ['city' => 'Singapore', 'region' => 'Asia Pacific', 'lat' => 1.3521, 'lng' => 103.8198, 'status' => 'Active', 'compute' => '111K infer/min'],
+    ['city' => 'Frankfurt', 'region' => 'Europe', 'lat' => 50.1109, 'lng' => 8.6821, 'status' => 'Active', 'compute' => '109K infer/min'],
+];
+$gpuRates = [
+    'A100' => 14,
+    'H100' => 25,
+    'RTX 4090' => 9,
+];
+$latestInsights = [
+    [
+        'tag' => '#Blockchain',
+        'title' => 'Neural Settlement Layers for Trustless AI Execution',
+        'description' => 'How decentralized settlement rails are reducing latency for multi-region AI transaction orchestration.',
+        'image' => 'https://images.unsplash.com/photo-1639762681057-408e52192e55?auto=format&fit=crop&w=1200&q=80',
+    ],
+    [
+        'tag' => '#AI',
+        'title' => 'Model Routing Strategies for Enterprise Agent Workloads',
+        'description' => 'A practical blueprint for routing requests between private and public models without sacrificing governance.',
+        'image' => 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80',
+    ],
+    [
+        'tag' => '#Web3',
+        'title' => 'Tokenized Compute Markets and the Next Growth Cycle',
+        'description' => 'Why compute tokenization is becoming the operating backbone for AI-native Web3 products.',
+        'image' => 'https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&w=1200&q=80',
+    ],
+];
 
 /**
  * Escape dynamic content for safe HTML output.
@@ -33,8 +66,11 @@ function escapeHtml(string|int|float $value): string
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
         :root {
@@ -42,6 +78,8 @@ function escapeHtml(string|int|float $value): string
             --accent-cyan: #00d4ff;
             --accent-purple: #7000ff;
             --accent-pink: #ff00c8;
+            --accent-neon: #56ff89;
+            --bg-dark-blue: #071335;
             --text-main: #e6edf3;
         }
 
@@ -111,6 +149,44 @@ function escapeHtml(string|int|float $value): string
         }
         .card-3d:hover {
             transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+        }
+
+        /* New high-end platform sections */
+        .section-shell {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(16px);
+        }
+
+        #globalNodeMap {
+            height: 440px;
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(86, 255, 137, 0.2);
+            background: var(--bg-dark-blue);
+        }
+
+        .node-core {
+            filter: drop-shadow(0 0 8px rgba(86, 255, 137, 0.9));
+        }
+
+        .node-pulse {
+            filter: drop-shadow(0 0 10px rgba(86, 255, 137, 0.45));
+        }
+
+        .estimator-output {
+            background: linear-gradient(140deg, rgba(0, 212, 255, 0.12), rgba(86, 255, 137, 0.12));
+            border: 1px solid rgba(86, 255, 137, 0.25);
+        }
+
+        .insight-card img {
+            transform: scale(1.02);
+            transition: transform 0.5s ease;
+        }
+
+        .insight-card:hover img {
+            transform: scale(1.08);
         }
     </style>
 </head>
@@ -397,6 +473,118 @@ function escapeHtml(string|int|float $value): string
         </div>
     </section>
 
+    <section id="global-neural-network" class="py-32">
+        <div class="max-w-7xl mx-auto px-8 reveal-section">
+            <div class="text-center mb-12">
+                <p class="text-xs uppercase tracking-[0.26em] text-green-300 font-bold mb-3">Live Infrastructure</p>
+                <h2 class="heading-font text-5xl md:text-6xl font-black mb-4">Global Neural Network</h2>
+                <p class="text-slate-400 max-w-3xl mx-auto">Real-time visibility into active AI node clusters powering decentralized compute orchestration for global workloads.</p>
+            </div>
+            <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-8 section-shell rounded-[32px] p-4">
+                    <div id="globalNodeMap" aria-label="Global neural network map"></div>
+                </div>
+                <aside class="lg:col-span-4 section-shell rounded-[32px] p-6 flex flex-col">
+                    <h3 class="heading-font text-2xl font-bold mb-4">Active Node Hubs</h3>
+                    <div class="space-y-3">
+                        <?php foreach ($globalAiNodes as $node): ?>
+                            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                <div class="flex items-center justify-between gap-3 mb-2">
+                                    <p class="font-bold text-white"><?= escapeHtml($node['city']) ?></p>
+                                    <span class="text-[10px] uppercase tracking-[0.16em] px-2 py-1 rounded-full border border-green-300/30 bg-green-400/10 text-green-300"><?= escapeHtml($node['status']) ?></span>
+                                </div>
+                                <p class="text-xs text-slate-400 mb-2"><?= escapeHtml($node['region']) ?></p>
+                                <p class="text-xs text-cyan-300 uppercase tracking-[0.12em] font-bold"><?= escapeHtml($node['compute']) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="mt-4 rounded-2xl border border-white/10 bg-black/25 p-4 text-sm text-slate-300">
+                        <p class="text-xs uppercase tracking-[0.16em] text-slate-400 mb-2">Network Status</p>
+                        <p><span class="text-green-300 font-bold">99.99%</span> service availability across all active regions.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <section id="compute-estimator" class="py-20 bg-white/[0.015]">
+        <div class="max-w-7xl mx-auto px-8 reveal-section">
+            <div class="grid lg:grid-cols-2 gap-8">
+                <article class="section-shell rounded-[32px] p-7">
+                    <p class="text-xs uppercase tracking-[0.24em] text-cyan-300 font-bold mb-3">Cost Intelligence</p>
+                    <h3 class="heading-font text-4xl font-black mb-4">Compute Estimator</h3>
+                    <p class="text-slate-400 mb-7">Select model and workload duration to estimate usage cost in BAI Tokens.</p>
+
+                    <div class="space-y-5">
+                        <label class="block">
+                            <span class="text-xs uppercase tracking-[0.14em] text-slate-400 font-bold">GPU Model</span>
+                            <select id="gpuModelSelect" class="mt-2 w-full rounded-xl border border-white/15 bg-black/30 px-4 py-3 text-white focus:outline-none focus:border-cyan-300">
+                                <?php foreach ($gpuRates as $model => $rate): ?>
+                                    <option value="<?= escapeHtml($model) ?>"><?= escapeHtml($model) ?> (<?= escapeHtml($rate) ?> BAI/hour)</option>
+                                <?php endforeach; ?>
+                            </select>
+                        </label>
+
+                        <label class="block">
+                            <span class="text-xs uppercase tracking-[0.14em] text-slate-400 font-bold">Duration</span>
+                            <input id="durationSlider" type="range" min="1" max="30" value="7" class="mt-3 w-full accent-cyan-400">
+                            <div class="mt-2 flex items-center justify-between text-sm">
+                                <span id="durationValue" class="font-bold text-white">7</span>
+                                <select id="durationUnit" class="rounded-lg border border-white/15 bg-black/30 px-3 py-1.5 text-slate-200">
+                                    <option value="hours">Hours</option>
+                                    <option value="days" selected>Days</option>
+                                </select>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="estimator-output rounded-2xl mt-7 p-5">
+                        <p class="text-xs uppercase tracking-[0.18em] text-slate-300 mb-2">Estimated Cost</p>
+                        <p class="text-5xl font-black leading-none text-white mb-2"><span id="tokenEstimate">0</span> <span class="text-xl text-green-300">BAI</span></p>
+                        <p class="text-xs text-slate-300">Projected compute throughput: <span id="throughputEstimate" class="text-cyan-300 font-bold">0</span></p>
+                    </div>
+                </article>
+
+                <article class="section-shell rounded-[32px] p-7">
+                    <p class="text-xs uppercase tracking-[0.24em] text-purple-300 font-bold mb-3">Performance Analytics</p>
+                    <h3 class="heading-font text-4xl font-black mb-4">Network Compute Power</h3>
+                    <p class="text-slate-400 mb-6">Rolling 30-day compute growth across the decentralized inference network.</p>
+                    <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
+                        <canvas id="networkComputeChart" height="230"></canvas>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="latest-insights" class="py-28">
+        <div class="max-w-7xl mx-auto px-8 reveal-section">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-10">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.24em] text-cyan-300 font-bold mb-3">AI Blog and News</p>
+                    <h2 class="heading-font text-5xl font-black">Latest Insights</h2>
+                </div>
+                <a href="whitepaper.php" class="inline-flex items-center gap-2 text-sm font-bold text-cyan-300 hover:text-white transition">
+                    View all research <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <?php foreach ($latestInsights as $insight): ?>
+                    <article class="insight-card section-shell rounded-[28px] overflow-hidden">
+                        <div class="h-44 overflow-hidden">
+                            <img src="<?= escapeHtml($insight['image']) ?>" alt="<?= escapeHtml($insight['title']) ?>" class="w-full h-full object-cover" loading="lazy" decoding="async">
+                        </div>
+                        <div class="p-5">
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-cyan-300 font-bold mb-3"><?= escapeHtml($insight['tag']) ?></p>
+                            <h3 class="text-xl font-black text-white mb-3 leading-tight"><?= escapeHtml($insight['title']) ?></h3>
+                            <p class="text-sm text-slate-400 leading-relaxed"><?= escapeHtml($insight['description']) ?></p>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
     <section class="py-24 px-8">
         <div class="max-w-7xl mx-auto">
             <div class="text-center mb-14">
@@ -455,14 +643,14 @@ function escapeHtml(string|int|float $value): string
 
     <footer id="contact" class="bg-black pt-40 pb-12 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-20 mb-32">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-14 mb-32">
                 <div class="col-span-2">
                     <h2 class="heading-font text-5xl font-black mb-8 leading-none">JOIN THE <br> <span class="text-cyan-400">REVOLUTION.</span></h2>
                     <div class="max-w-md">
                         <p class="text-slate-500 mb-8">Subscribe to our technical newsletter and stay updated on decentralized AI trends.</p>
                         <form class="flex gap-4">
                             <input type="email" placeholder="Your work email" class="flex-1 bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-cyan-500 text-white">
-                            <button class="px-8 bg-white text-black font-black rounded-2xl hover:bg-cyan-400 transition">JOIN</button>
+                            <button class="px-8 bg-white text-black font-black rounded-2xl hover:bg-cyan-400 transition">SUBSCRIBE</button>
                         </form>
                     </div>
                 </div>
@@ -473,6 +661,15 @@ function escapeHtml(string|int|float $value): string
                         <li><a href="vendor_list.php" class="hover:text-white transition">Vendor Directory</a></li>
                         <li><a href="whitepaper.php" class="hover:text-white transition">Whitepaper</a></li>
                         <li><a href="case-studies.php" class="hover:text-white transition">Case Studies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-black text-xs uppercase tracking-[0.3em] mb-8 text-emerald-300">Platform</h5>
+                    <ul class="space-y-4 text-sm font-bold text-slate-500">
+                        <li><a href="#global-neural-network" class="hover:text-white transition">Global Neural Network</a></li>
+                        <li><a href="#compute-estimator" class="hover:text-white transition">Compute Estimator</a></li>
+                        <li><a href="#latest-insights" class="hover:text-white transition">Latest Insights</a></li>
+                        <li><a href="contact.php" class="hover:text-white transition">Enterprise Support</a></li>
                     </ul>
                 </div>
                 <div>
@@ -489,10 +686,16 @@ function escapeHtml(string|int|float $value): string
             <div class="pt-12 border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-8">
                 <div class="flex items-center gap-8">
                     <span class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-600">© <?= escapeHtml($currentYear) ?> BLOCKAI SOLUTION CORE</span>
-                    <div class="flex gap-6 text-slate-600 text-lg">
-                        <i class="fa-brands fa-discord hover:text-white cursor-pointer"></i>
-                        <i class="fa-brands fa-x-twitter hover:text-white cursor-pointer"></i>
-                        <i class="fa-brands fa-github hover:text-white cursor-pointer"></i>
+                    <div class="flex gap-3 text-lg">
+                        <a href="https://discord.com" aria-label="Discord" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-400/40 transition">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                        <a href="https://x.com" aria-label="X" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-400/40 transition">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a href="https://github.com" aria-label="GitHub" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:border-cyan-400/40 transition">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
                     </div>
                 </div>
                 <div class="flex gap-8 text-[10px] font-black uppercase tracking-widest text-slate-700">
@@ -541,7 +744,162 @@ function escapeHtml(string|int|float $value): string
         window.addEventListener("scroll", handleScroll, { passive: true });
         handleScroll();
 
-        // Scroll Reveal Animation
+        const nodeMapPayload = <?= json_encode($globalAiNodes, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+        const gpuPricingTable = <?= json_encode($gpuRates, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+
+        const initGlobalNeuralMap = () => {
+            const mapEl = document.getElementById("globalNodeMap");
+            if (!mapEl || typeof L === "undefined") {
+                return;
+            }
+
+            const map = L.map(mapEl, {
+                zoomControl: false,
+                attributionControl: false,
+                scrollWheelZoom: false
+            }).setView([25, 15], 2);
+
+            L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+                subdomains: "abcd",
+                maxZoom: 19
+            }).addTo(map);
+
+            const pulseMarkers = [];
+            nodeMapPayload.forEach((node) => {
+                const latLng = [Number(node.lat), Number(node.lng)];
+                L.circleMarker(latLng, {
+                    radius: 6,
+                    color: "#56ff89",
+                    fillColor: "#56ff89",
+                    fillOpacity: 0.95,
+                    weight: 1.5,
+                    className: "node-core"
+                })
+                .bindPopup(
+                    `<div style="font-family: Inter, sans-serif; min-width: 170px;">
+                        <strong style="display:block; margin-bottom:4px;">${node.city}</strong>
+                        <span style="font-size:12px; color:#94a3b8;">${node.region}</span><br>
+                        <span style="font-size:11px; color:#22d3ee; text-transform:uppercase; letter-spacing:0.08em;">${node.compute}</span>
+                    </div>`
+                )
+                .addTo(map);
+
+                const pulse = L.circleMarker(latLng, {
+                    radius: 12,
+                    color: "#56ff89",
+                    fillColor: "#56ff89",
+                    fillOpacity: 0.05,
+                    opacity: 0.24,
+                    weight: 2,
+                    className: "node-pulse"
+                }).addTo(map);
+                pulseMarkers.push(pulse);
+            });
+
+            let phase = 0;
+            setInterval(() => {
+                phase += 0.16;
+                pulseMarkers.forEach((pulse, index) => {
+                    const wave = Math.sin(phase + index);
+                    pulse.setRadius(10 + ((wave + 1) * 3.5));
+                    pulse.setStyle({
+                        opacity: 0.12 + (((wave + 1) / 2) * 0.22)
+                    });
+                });
+            }, 120);
+
+            setTimeout(() => map.invalidateSize(), 200);
+        };
+
+        const initComputeEstimator = () => {
+            const modelSelect = document.getElementById("gpuModelSelect");
+            const durationSlider = document.getElementById("durationSlider");
+            const durationUnit = document.getElementById("durationUnit");
+            const durationValue = document.getElementById("durationValue");
+            const tokenEstimate = document.getElementById("tokenEstimate");
+            const throughputEstimate = document.getElementById("throughputEstimate");
+
+            if (!modelSelect || !durationSlider || !durationUnit || !durationValue || !tokenEstimate || !throughputEstimate) {
+                return;
+            }
+
+            const updateEstimator = () => {
+                const selectedModel = modelSelect.value;
+                const quantity = Number(durationSlider.value);
+                const unit = durationUnit.value;
+                const multiplier = unit === "days" ? 24 : 1;
+                const totalHours = quantity * multiplier;
+                const rate = Number(gpuPricingTable[selectedModel] ?? 0);
+                const estimate = Math.round(totalHours * rate);
+                const throughput = Math.round(estimate * 13.6);
+
+                durationValue.textContent = `${quantity} ${unit}`;
+                tokenEstimate.textContent = estimate.toLocaleString("en-US");
+                throughputEstimate.textContent = `${throughput.toLocaleString("en-US")} req/day`;
+            };
+
+            modelSelect.addEventListener("change", updateEstimator);
+            durationSlider.addEventListener("input", updateEstimator);
+            durationUnit.addEventListener("change", updateEstimator);
+            updateEstimator();
+        };
+
+        const initNetworkComputeChart = () => {
+            const chartCanvas = document.getElementById("networkComputeChart");
+            if (!chartCanvas || typeof Chart === "undefined") {
+                return;
+            }
+
+            let base = 860;
+            const growthSeries = Array.from({ length: 30 }, () => {
+                base += 8 + Math.random() * 12;
+                return Math.round(base);
+            });
+            const labels = growthSeries.map((_, i) => `D${i + 1}`);
+
+            const ctx = chartCanvas.getContext("2d");
+            const gradient = ctx.createLinearGradient(0, 0, 0, chartCanvas.height);
+            gradient.addColorStop(0, "rgba(0, 212, 255, 0.45)");
+            gradient.addColorStop(1, "rgba(86, 255, 137, 0.04)");
+
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels,
+                    datasets: [{
+                        label: "Network Compute Power",
+                        data: growthSeries,
+                        borderColor: "#00d4ff",
+                        backgroundColor: gradient,
+                        fill: true,
+                        pointRadius: 0,
+                        tension: 0.35,
+                        borderWidth: 2.4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: "rgba(255,255,255,0.05)" },
+                            ticks: { color: "rgba(203,213,225,0.7)", maxTicksLimit: 8 }
+                        },
+                        y: {
+                            grid: { color: "rgba(255,255,255,0.05)" },
+                            ticks: {
+                                color: "rgba(203,213,225,0.7)",
+                                callback: (value) => `${value} TF`
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        // Scroll Reveal Animations
         gsap.registerPlugin(ScrollTrigger);
         gsap.from(".reveal-content", {
             duration: 1.5,
@@ -550,6 +908,24 @@ function escapeHtml(string|int|float $value): string
             ease: "power4.out",
             stagger: 0.2
         });
+
+        gsap.utils.toArray(".reveal-section").forEach((section) => {
+            gsap.from(section, {
+                y: 56,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 82%",
+                    toggleActions: "play none none none"
+                }
+            });
+        });
+
+        initGlobalNeuralMap();
+        initComputeEstimator();
+        initNetworkComputeChart();
     </script>
 </body>
 </html>
