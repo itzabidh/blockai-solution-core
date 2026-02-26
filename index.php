@@ -1,9 +1,20 @@
 <?php
+declare(strict_types=1);
+
 /**
  * BlockAI Solution Core - Enterprise Portal v2.0
  * Fully Scalable & High-End Performance UI
  */
-// session_start();
+$marketplaceItems = range(1, 8);
+$currentYear = (int) date('Y');
+
+/**
+ * Escape dynamic content for safe HTML output.
+ */
+function escapeHtml(string|int|float $value): string
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -253,7 +264,7 @@
                             <p>model = client.<span class="text-yellow-400">LoadModel</span>(<span class="text-green-400">'llama-3-dcentral'</span>)</p>
                             <p class="mt-2 text-slate-500"># Decentralized inference start</p>
                             <p>response = model.<span class="text-yellow-400">Ask</span>(<span class="text-green-400">'Analyze Global Markets'</span>)</p>
-                            <p class="mt-2 text-purple-400">print</p>(response)
+                            <p class="mt-2 text-purple-400">print(response)</p>
                         </div>
                     </div>
                 </div>
@@ -267,22 +278,22 @@
                 <h2 class="heading-font text-5xl font-black uppercase tracking-tighter">Marketplace <span class="text-purple-500">Top Sellers</span></h2>
              </div>
              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <?php for($i=1; $i<=8; $i++): ?>
+                <?php foreach ($marketplaceItems as $itemIndex): ?>
                 <div class="glass-morphism p-6 rounded-3xl hover:-translate-y-3 transition duration-500 border border-white/5">
                     <div class="h-48 bg-gray-800 rounded-2xl mb-6 overflow-hidden relative group">
-                        <img src="https://picsum.photos/seed/<?php echo $i; ?>/400/300" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="https://picsum.photos/seed/<?= escapeHtml($itemIndex) ?>/400/300" alt="Preview of Neural Predictor v<?= escapeHtml($itemIndex) ?>.0" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                         <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                             <button class="bg-white text-black px-6 py-2 rounded-full font-bold text-xs">BUY MODEL</button>
                         </div>
                     </div>
-                    <h5 class="text-lg font-black mb-1">Neural Predictor v<?php echo $i; ?>.0</h5>
-                    <p class="text-[10px] text-cyan-400 font-bold uppercase mb-4">By CyberDev_<?php echo $i; ?></p>
+                    <h5 class="text-lg font-black mb-1">Neural Predictor v<?= escapeHtml($itemIndex) ?>.0</h5>
+                    <p class="text-[10px] text-cyan-400 font-bold uppercase mb-4">By CyberDev_<?= escapeHtml($itemIndex) ?></p>
                     <div class="flex justify-between items-center pt-4 border-t border-white/5">
                         <span class="text-sm font-bold">2.5 ETH</span>
                         <span class="text-[10px] text-slate-500 uppercase">12 Sales</span>
                     </div>
                 </div>
-                <?php endfor; ?>
+                <?php endforeach; ?>
              </div>
         </div>
     </section>
@@ -365,7 +376,7 @@
 
             <div class="pt-12 border-t border-white/5 flex flex-col lg:flex-row justify-between items-center gap-8">
                 <div class="flex items-center gap-8">
-                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-600">© 2026 BLOCKAI SOLUTION CORE</span>
+                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-slate-600">© <?= escapeHtml($currentYear) ?> BLOCKAI SOLUTION CORE</span>
                     <div class="flex gap-6 text-slate-600 text-lg">
                         <i class="fa-brands fa-discord hover:text-white cursor-pointer"></i>
                         <i class="fa-brands fa-x-twitter hover:text-white cursor-pointer"></i>
@@ -382,19 +393,33 @@
     </footer>
 
     <script>
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("scrollBar").style.width = scrolled + "%";
-            
-            if (winScroll > 100) {
-                document.getElementById("mainNav").classList.add("py-2", "bg-black/90");
-                document.getElementById("mainNav").classList.remove("py-0");
-            } else {
-                document.getElementById("mainNav").classList.remove("py-2", "bg-black/90");
+        const scrollBar = document.getElementById("scrollBar");
+        const mainNav = document.getElementById("mainNav");
+
+        const handleScroll = () => {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+
+            if (scrollBar) {
+                scrollBar.style.width = `${scrolled}%`;
             }
+
+            if (!mainNav) {
+                return;
+            }
+
+            if (winScroll > 100) {
+                mainNav.classList.add("py-2", "bg-black/90");
+                mainNav.classList.remove("py-0");
+                return;
+            }
+
+            mainNav.classList.remove("py-2", "bg-black/90");
         };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
 
         // Scroll Reveal Animation
         gsap.registerPlugin(ScrollTrigger);
