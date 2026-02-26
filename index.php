@@ -1,3 +1,6 @@
+<?php
+include('db_connect.php'); // Tomar database connection file-er nam
+?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
