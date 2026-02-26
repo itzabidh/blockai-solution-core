@@ -6,6 +6,8 @@ declare(strict_types=1);
  */
 const AUTH_SESSION_STATE_KEY = 'oauth2_state';
 const AUTH_SESSION_ERROR_KEY = 'auth_error';
+const AUTH_SESSION_PKCE_KEY = 'oauth2_pkce_verifier';
+const AUTH_SESSION_NONCE_KEY = 'oauth2_nonce';
 
 define('CLIENT_ID', trim((string) getenv('AZURE_CLIENT_ID')));
 define('CLIENT_SECRET', trim((string) getenv('AZURE_CLIENT_SECRET')));
@@ -78,6 +80,27 @@ function resolveScopes(): string
     }
 
     return 'openid profile email offline_access';
+}
+
+function toBase64Url(string $binary): string
+{
+    return rtrim(strtr(base64_encode($binary), '+/', '-_'), '=');
+}
+
+/**
+ * Build PKCE verifier and challenge pair for authorization code flow.
+ *
+ * @return array{verifier: string, challenge: string}
+ */
+function createPkcePair(): array
+{
+    $verifier = toBase64Url(random_bytes(64));
+    $challenge = toBase64Url(hash('sha256', $verifier, true));
+
+    return [
+        'verifier' => $verifier,
+        'challenge' => $challenge,
+    ];
 }
 
 function currentAppBaseUrl(): ?string
@@ -167,7 +190,11 @@ function getLoginUrl(): string
     ensureSessionStarted();
 
     $state = bin2hex(random_bytes(16));
+    $nonce = bin2hex(random_bytes(16));
+    $pkce = createPkcePair();
     $_SESSION[AUTH_SESSION_STATE_KEY] = $state;
+    $_SESSION[AUTH_SESSION_NONCE_KEY] = $nonce;
+    $_SESSION[AUTH_SESSION_PKCE_KEY] = $pkce['verifier'];
 
     $params = [
         'client_id'     => CLIENT_ID,
@@ -176,7 +203,15 @@ function getLoginUrl(): string
         'response_mode' => 'query',
         'scope'         => SCOPES,
         'state'         => $state,
+        'nonce'         => $nonce,
+        'code_challenge' => $pkce['challenge'],
+        'code_challenge_method' => 'S256',
     ];
+
+    // Add policy as query parameter for broad B2C compatibility.
+    if (AUTH_MODE === 'b2c' && USER_FLOW !== '') {
+        $params['p'] = USER_FLOW;
+    }
 
     return AUTHORITY_URL . '?' . http_build_query($params);
 }
