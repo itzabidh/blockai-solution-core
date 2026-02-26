@@ -111,33 +111,36 @@ function escapeHtml(string|int|float $value): string
 
     <div class="scroll-progress" id="scrollBar"></div>
 
-    <nav class="fixed w-full z-[100] transition-all duration-300 glass-morphism border-none" id="mainNav">
-        <div class="max-w-[1400px] mx-auto px-8 h-24 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gradient-to-tr from-cyan-400 to-purple-600 rounded-2xl flex items-center justify-center rotate-12 shadow-[0_0_20px_rgba(0,212,255,0.4)]">
-                    <i class="fa-solid fa-bolt-lightning text-white text-xl"></i>
-                </div>
-                <div class="flex flex-col">
-                    <span class="heading-font text-2xl font-black tracking-tighter leading-none">BLOCKAI</span>
-                    <span class="text-[9px] font-bold text-cyan-400 tracking-[0.3em] uppercase">Solution Core</span>
-                </div>
-            </div>
+    <nav class="fixed inset-x-0 top-0 z-[100] transition-all duration-300 py-5" id="mainNav">
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-8">
+            <div id="mainNavShell" class="glass-morphism border border-white/10 rounded-2xl h-20 px-6 lg:px-8 flex justify-between items-center">
+                <a href="#home" class="flex items-center gap-3">
+                    <div class="w-11 h-11 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl flex items-center justify-center shadow-[0_0_25px_rgba(0,212,255,0.35)]">
+                        <i class="fa-solid fa-brain text-white text-lg"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="heading-font text-xl font-black tracking-tight leading-none">BLOCKAI</span>
+                        <span class="text-[10px] font-semibold text-cyan-300 tracking-[0.25em] uppercase">Enterprise Cloud</span>
+                    </div>
+                </a>
 
-            <div class="hidden xl:flex items-center space-x-12 text-xs font-black uppercase tracking-[0.2em]">
-                <a href="#home" class="hover:text-cyan-400 transition-colors">Origins</a>
-                <a href="#about" class="hover:text-cyan-400 transition-colors">Technology</a>
-                <a href="#ecosystem" class="hover:text-cyan-400 transition-colors">Ecosystem</a>
-                <a href="#market" class="hover:text-cyan-400 transition-colors">Marketplace</a>
-                <a href="#nodes" class="hover:text-cyan-400 transition-colors">Global Nodes</a>
-                <a href="#roadmap" class="hover:text-cyan-400 transition-colors">Timeline</a>
-                <a href="#contact" class="hover:text-cyan-400 transition-colors">Support</a>
-            </div>
+                <div class="hidden xl:flex items-center gap-9 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-300">
+                    <a href="#home" class="hover:text-white transition-colors">Home</a>
+                    <a href="#about" class="hover:text-white transition-colors">Platform</a>
+                    <a href="#ecosystem" class="hover:text-white transition-colors">Solutions</a>
+                    <a href="#market" class="hover:text-white transition-colors">Marketplace</a>
+                    <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+                    <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+                </div>
 
-            <div class="flex items-center gap-6">
-                <a href="login.php" class="hidden md:block text-xs font-black uppercase tracking-widest border-b-2 border-cyan-400 pb-1">Portal Login</a>
-                <button class="px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full font-black text-xs uppercase tracking-widest hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] transition duration-500">
-                    Connect Node
-                </button>
+                <div class="flex items-center gap-3">
+                    <a href="login.php" class="hidden md:inline-flex items-center px-5 py-2.5 rounded-xl border border-white/15 text-xs font-semibold uppercase tracking-[0.14em] text-slate-200 hover:border-cyan-400/60 hover:text-white transition">
+                        Client Login
+                    </a>
+                    <a href="#contact" class="inline-flex items-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:shadow-[0_0_28px_rgba(0,212,255,0.35)] transition">
+                        Request Demo
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
@@ -145,36 +148,81 @@ function escapeHtml(string|int|float $value): string
     <div class="blob w-[600px] h-[600px] bg-cyan-600 top-[-200px] left-[-200px]"></div>
     <div class="blob w-[500px] h-[500px] bg-purple-600 bottom-[-100px] right-[-100px]"></div>
 
-    <section id="home" class="relative min-h-screen flex items-center justify-center pt-24">
+    <section id="home" class="relative min-h-screen pt-36 lg:pt-40 pb-24 flex items-center">
         <div class="grid-overlay"></div>
-        <div class="max-w-[1400px] mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div class="reveal-content">
-                <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 mb-8">
-                    <span class="flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-cyan-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-                    </span>
-                    <span class="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-400">Mainnet v3.0 Is Now Operational</span>
+        <div class="max-w-[1280px] mx-auto px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                <div class="reveal-content lg:col-span-7">
+                    <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-cyan-400/20 bg-cyan-400/5 mb-8">
+                        <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                        <span class="text-[10px] font-semibold uppercase tracking-[0.28em] text-cyan-300">Enterprise-ready AI infrastructure</span>
+                    </div>
+                    <h1 class="heading-font text-5xl md:text-7xl lg:text-[84px] font-black leading-[0.95] mb-7 text-white max-w-4xl">
+                        AI Infrastructure Built for <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-cyan-400 to-purple-500">Enterprise Teams</span>
+                    </h1>
+                    <p class="text-slate-300 text-lg md:text-xl font-light mb-10 max-w-2xl leading-relaxed">
+                        Deploy, scale, and govern high-performance AI workloads on decentralized compute with predictable costs, built-in privacy, and 24/7 reliability.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="#contact" class="group inline-flex items-center gap-3 px-7 py-4 bg-white text-black font-semibold rounded-xl hover:bg-cyan-300 transition-all">
+                            Schedule Consultation
+                            <i class="fa-solid fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="whitepaper.php" class="inline-flex items-center px-7 py-4 rounded-xl border border-white/20 bg-white/5 text-sm font-semibold tracking-wide hover:bg-white/10 transition">
+                            View Technical Brief
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 max-w-3xl">
+                        <div class="glass-morphism rounded-2xl p-4 border border-white/10">
+                            <p class="text-[10px] uppercase tracking-[0.22em] text-slate-400 mb-2">Inference latency</p>
+                            <p class="text-2xl font-black text-white">&lt; 120ms</p>
+                        </div>
+                        <div class="glass-morphism rounded-2xl p-4 border border-white/10">
+                            <p class="text-[10px] uppercase tracking-[0.22em] text-slate-400 mb-2">Global regions</p>
+                            <p class="text-2xl font-black text-white">47</p>
+                        </div>
+                        <div class="glass-morphism rounded-2xl p-4 border border-white/10">
+                            <p class="text-[10px] uppercase tracking-[0.22em] text-slate-400 mb-2">Uptime SLA</p>
+                            <p class="text-2xl font-black text-white">99.99%</p>
+                        </div>
+                    </div>
                 </div>
-                <h1 class="heading-font text-7xl md:text-[110px] font-black leading-[0.9] mb-8 text-white">
-                    BUILD THE <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500">NEXT GEN</span> <br> INTELLIGENCE
-                </h1>
-                <p class="text-slate-400 text-xl md:text-2xl font-light mb-12 max-w-xl leading-relaxed">
-                    The ultimate decentralized substrate for AI/ML development. Harness world-class GPU power without the enterprise cost.
-                </p>
-                <div class="flex flex-wrap gap-6">
-                    <button class="group px-10 py-5 bg-white text-black font-black rounded-2xl hover:bg-cyan-400 transition-all flex items-center gap-3">
-                        EXPLORE BLOCKAI <i class="fa-solid fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                    </button>
-                    <button class="px-10 py-5 glass-morphism rounded-2xl font-black text-xs uppercase tracking-widest border border-white/10 hover:bg-white/5 transition-all">
-                        Technical Paper
-                    </button>
-                </div>
-            </div>
 
-            <div class="relative hidden lg:block float-anim">
-                <div class="absolute -inset-10 bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 blur-[100px] rounded-full"></div>
-                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800" class="rounded-[60px] border border-white/10 shadow-2xl relative z-10">
+                <div class="reveal-content lg:col-span-5">
+                    <div class="glass-morphism rounded-[36px] p-8 border border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.45)]">
+                        <div class="flex items-start justify-between mb-7">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-[0.26em] text-cyan-300">Platform Status</p>
+                                <h3 class="heading-font text-3xl font-bold mt-2 text-white">Control Center</h3>
+                            </div>
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-400/10 border border-emerald-300/25 text-emerald-200 text-xs font-semibold">
+                                <span class="h-2 w-2 rounded-full bg-emerald-300"></span>
+                                Live
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="rounded-2xl bg-black/35 border border-white/10 p-4">
+                                <p class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">Compute in use</p>
+                                <p class="text-xl font-bold text-white">68.4%</p>
+                            </div>
+                            <div class="rounded-2xl bg-black/35 border border-white/10 p-4">
+                                <p class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-2">Queued jobs</p>
+                                <p class="text-xl font-bold text-white">214</p>
+                            </div>
+                        </div>
+                        <div class="rounded-2xl bg-black/45 border border-white/10 p-5 font-mono text-xs leading-7 text-slate-300">
+                            <p><span class="text-purple-300">POST</span> /v1/inference/jobs</p>
+                            <p>model: <span class="text-cyan-300">"secure-llm-pro"</span></p>
+                            <p>region: <span class="text-cyan-300">"multi-region"</span></p>
+                            <p>encryption: <span class="text-cyan-300">"zkp-enabled"</span></p>
+                        </div>
+                        <div class="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-400">
+                            <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">ISO 27001 Aligned</span>
+                            <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">SOC 2 Type II</span>
+                            <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5">24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -395,6 +443,7 @@ function escapeHtml(string|int|float $value): string
     <script>
         const scrollBar = document.getElementById("scrollBar");
         const mainNav = document.getElementById("mainNav");
+        const mainNavShell = document.getElementById("mainNavShell");
 
         const handleScroll = () => {
             const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
@@ -410,12 +459,19 @@ function escapeHtml(string|int|float $value): string
             }
 
             if (winScroll > 100) {
-                mainNav.classList.add("py-2", "bg-black/90");
-                mainNav.classList.remove("py-0");
+                mainNav.classList.remove("py-5");
+                mainNav.classList.add("py-3");
+                if (mainNavShell) {
+                    mainNavShell.classList.add("border-cyan-400/30", "shadow-[0_20px_55px_rgba(0,0,0,0.55)]");
+                }
                 return;
             }
 
-            mainNav.classList.remove("py-2", "bg-black/90");
+            mainNav.classList.remove("py-3");
+            mainNav.classList.add("py-5");
+            if (mainNavShell) {
+                mainNavShell.classList.remove("border-cyan-400/30", "shadow-[0_20px_55px_rgba(0,0,0,0.55)]");
+            }
         };
 
         window.addEventListener("scroll", handleScroll, { passive: true });
