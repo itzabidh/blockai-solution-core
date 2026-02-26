@@ -126,18 +126,19 @@ function escapeHtml(string|int|float $value): string
 
                 <div class="hidden xl:flex items-center gap-9 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-300">
                     <a href="#home" class="hover:text-white transition-colors">Home</a>
-                    <a href="#about" class="hover:text-white transition-colors">Platform</a>
-                    <a href="#ecosystem" class="hover:text-white transition-colors">Solutions</a>
-                    <a href="#market" class="hover:text-white transition-colors">Marketplace</a>
-                    <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
-                    <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+                    <a href="services.php" class="hover:text-white transition-colors">Services</a>
+                    <a href="about.php" class="hover:text-white transition-colors">Strategy</a>
+                    <a href="case-studies.php" class="hover:text-white transition-colors">Case Studies</a>
+                    <a href="whitepaper.php" class="hover:text-white transition-colors">Whitepaper</a>
+                    <a href="governance.php" class="hover:text-white transition-colors">Governance</a>
+                    <a href="contact.php" class="hover:text-white transition-colors">Contact</a>
                 </div>
 
                 <div class="flex items-center gap-3">
                     <a href="auth.php" class="hidden md:inline-flex items-center px-5 py-2.5 rounded-xl border border-white/15 text-xs font-semibold uppercase tracking-[0.14em] text-slate-200 hover:border-cyan-400/60 hover:text-white transition">
                         Client Login
                     </a>
-                    <a href="#contact" class="inline-flex items-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:shadow-[0_0_28px_rgba(0,212,255,0.35)] transition">
+                    <a href="contact.php" class="inline-flex items-center px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:shadow-[0_0_28px_rgba(0,212,255,0.35)] transition">
                         Request Demo
                     </a>
                 </div>
@@ -389,6 +390,62 @@ function escapeHtml(string|int|float $value): string
         </div>
     </section>
 
+    <section class="py-24 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-14">
+                <h2 class="heading-font text-4xl md:text-6xl font-black mb-5">EXPLORE THE <span class="text-cyan-400">BLOCKAI PLATFORM</span></h2>
+                <p class="text-slate-400 max-w-3xl mx-auto">Navigate every business page from one place for a structured enterprise browsing experience.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="services.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Services</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">AI Service Marketplace</h3>
+                    <p class="text-slate-400 text-sm">Discover verified categories, search vendors, and compare capabilities.</p>
+                </a>
+                <a href="registration.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Partners</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Vendor Registration</h3>
+                    <p class="text-slate-400 text-sm">Apply as a certified partner and join the global provider network.</p>
+                </a>
+                <a href="vendor_list.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Directory</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Vendor Directory</h3>
+                    <p class="text-slate-400 text-sm">Browse partner companies by specialization, region, and certifications.</p>
+                </a>
+                <a href="about.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Corporate</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Strategy and Infrastructure</h3>
+                    <p class="text-slate-400 text-sm">Understand the operating model behind global BlockAI expansion.</p>
+                </a>
+                <a href="case-studies.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Outcomes</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Case Studies</h3>
+                    <p class="text-slate-400 text-sm">Review measurable client outcomes across industries and regions.</p>
+                </a>
+                <a href="whitepaper.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Documentation</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Technical Whitepaper</h3>
+                    <p class="text-slate-400 text-sm">Read architecture, governance, security, and roadmap details.</p>
+                </a>
+                <a href="governance.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">DAO</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Governance Portal</h3>
+                    <p class="text-slate-400 text-sm">Follow active proposals and protocol decisions from tokenholders.</p>
+                </a>
+                <a href="careers.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Talent</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Careers</h3>
+                    <p class="text-slate-400 text-sm">Join product, infrastructure, and ecosystem teams around the world.</p>
+                </a>
+                <a href="contact.php" class="glass-morphism rounded-3xl p-6 border border-white/10 hover:border-cyan-400/40 transition">
+                    <p class="text-xs uppercase tracking-widest text-cyan-300 mb-3">Support</p>
+                    <h3 class="text-2xl font-bold text-white mb-2">Contact and Sales</h3>
+                    <p class="text-slate-400 text-sm">Reach architecture, partnership, and support teams directly.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <footer id="contact" class="bg-black pt-40 pb-12 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-8">
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-20 mb-32">
@@ -405,19 +462,19 @@ function escapeHtml(string|int|float $value): string
                 <div>
                     <h5 class="font-black text-xs uppercase tracking-[0.3em] mb-8 text-cyan-400">Navigation</h5>
                     <ul class="space-y-4 text-sm font-bold text-slate-500">
-                        <li><a href="#" class="hover:text-white transition">Research Lab</a></li>
-                        <li><a href="#" class="hover:text-white transition">GPU Marketplace</a></li>
-                        <li><a href="#" class="hover:text-white transition">Whitepaper 2.0</a></li>
-                        <li><a href="#" class="hover:text-white transition">Tokenomics</a></li>
+                        <li><a href="services.php" class="hover:text-white transition">AI Marketplace</a></li>
+                        <li><a href="vendor_list.php" class="hover:text-white transition">Vendor Directory</a></li>
+                        <li><a href="whitepaper.php" class="hover:text-white transition">Whitepaper</a></li>
+                        <li><a href="case-studies.php" class="hover:text-white transition">Case Studies</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5 class="font-black text-xs uppercase tracking-[0.3em] mb-8 text-purple-400">Governance</h5>
                     <ul class="space-y-4 text-sm font-bold text-slate-500">
-                        <li><a href="#" class="hover:text-white transition">Snapshot Vote</a></li>
-                        <li><a href="#" class="hover:text-white transition">Foundation</a></li>
-                        <li><a href="#" class="hover:text-white transition">Legal Archive</a></li>
-                        <li><a href="#" class="hover:text-white transition">Audit Reports</a></li>
+                        <li><a href="governance.php" class="hover:text-white transition">DAO Governance</a></li>
+                        <li><a href="about.php" class="hover:text-white transition">Foundation Strategy</a></li>
+                        <li><a href="privacy-policy.php" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="terms.php" class="hover:text-white transition">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -432,9 +489,9 @@ function escapeHtml(string|int|float $value): string
                     </div>
                 </div>
                 <div class="flex gap-8 text-[10px] font-black uppercase tracking-widest text-slate-700">
-                    <a href="#">Privacy Protocol</a>
-                    <a href="#">Terms of Use</a>
-                    <a href="#">Cookie Policy</a>
+                    <a href="privacy-policy.php">Privacy Policy</a>
+                    <a href="terms.php">Terms of Use</a>
+                    <a href="contact.php">Contact</a>
                 </div>
             </div>
         </div>

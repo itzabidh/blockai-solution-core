@@ -50,6 +50,8 @@ $services = [
             <a href="index.php" class="text-2xl font-black text-indigo-600">BlockAI <span class="text-slate-400 font-light">Solution</span></a>
             <div class="flex items-center space-x-6">
                 <a href="index.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
+                <a href="vendor_list.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Vendor Directory</a>
+                <a href="case-studies.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Case Studies</a>
                 <a href="registration.php" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-md">Apply as Vendor</a>
             </div>
         </div>
@@ -96,6 +98,11 @@ $services = [
             <p class="text-slate-400 text-sm max-w-3xl mx-auto leading-relaxed">
                 By categorizing AI solutions into specialized hubs, we reduce the "Global Complexity Gap" for SMEs. Each category is managed by a subject matter expert to ensure that the vendors provided are not only technically sound but also legally compliant with local market laws.
             </p>
+            <div class="flex flex-wrap justify-center gap-3 mt-8">
+                <a href="vendor_list.php" class="px-5 py-2 rounded-full border border-slate-600 text-slate-200 text-xs font-bold uppercase tracking-widest hover:border-indigo-400 hover:text-white transition">Browse Vendor Directory</a>
+                <a href="registration.php" class="px-5 py-2 rounded-full bg-indigo-600 text-white text-xs font-bold uppercase tracking-widest hover:bg-indigo-700 transition">Become a Partner</a>
+                <a href="contact.php" class="px-5 py-2 rounded-full border border-slate-600 text-slate-200 text-xs font-bold uppercase tracking-widest hover:border-indigo-400 hover:text-white transition">Talk to Sales</a>
+            </div>
         </div>
     </main>
 

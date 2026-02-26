@@ -28,6 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="index.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
+                <a href="services.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Services</a>
+                <a href="vendor_list.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Vendor Directory</a>
+                <a href="case-studies.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Case Studies</a>
                 <a href="about.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Strategy</a>
                 <a href="contact.php" class="text-sm font-bold text-indigo-600">Contact</a>
             </div>
@@ -82,6 +85,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
 
     <footer class="mt-20 py-10 text-center text-slate-400 text-xs border-t border-slate-100 uppercase tracking-widest bg-white">
+        <div class="mb-4 flex flex-wrap items-center justify-center gap-5 text-[11px] font-bold tracking-wide normal-case">
+            <a href="services.php" class="hover:text-indigo-600">Services</a>
+            <a href="registration.php" class="hover:text-indigo-600">Vendor Registration</a>
+            <a href="whitepaper.php" class="hover:text-indigo-600">Whitepaper</a>
+            <a href="privacy-policy.php" class="hover:text-indigo-600">Privacy Policy</a>
+            <a href="terms.php" class="hover:text-indigo-600">Terms</a>
+        </div>
         &copy; <?php echo date("Y"); ?> BlockAI Solution | Global Operations Center
     </footer>
 

@@ -33,6 +33,8 @@
             </a>
             <div class="flex items-center gap-6">
                 <a href="index.php" class="hidden md:block text-sm font-bold uppercase tracking-wide text-slate-400 hover:text-white transition">Home</a>
+                <a href="whitepaper.php" class="hidden md:block text-sm font-bold uppercase tracking-wide text-slate-400 hover:text-white transition">Whitepaper</a>
+                <a href="contact.php" class="hidden md:block text-sm font-bold uppercase tracking-wide text-slate-400 hover:text-white transition">Contact</a>
                 <button class="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 text-white text-xs font-bold uppercase tracking-widest hover:scale-105 transition shadow-lg">Connect Wallet</button>
             </div>
         </div>

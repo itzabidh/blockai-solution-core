@@ -1,6 +1,5 @@
-<?php 
-// Include the database connection for future use
-include 'db_connect.php'; 
+<?php
+declare(strict_types=1);
 
 // Control lead strategist info via PHP variables
 $lead_name = "Abid Hasan";
@@ -26,11 +25,12 @@ $lead_title = "Global Infrastructure & Strategy Lead";
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a href="index.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
-                    <a href="services.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Marketplace</a>
-                    <a href="registration.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">For Vendors</a>
+                    <a href="services.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Services</a>
+                    <a href="vendor_list.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Vendor Directory</a>
+                    <a href="case-studies.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Case Studies</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <button class="bg-indigo-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg hover:bg-indigo-700 transition">Contact Us</button>
+                    <a href="contact.php" class="bg-indigo-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg hover:bg-indigo-700 transition">Contact Us</a>
                 </div>
             </div>
         </div>
@@ -149,13 +149,15 @@ $lead_title = "Global Infrastructure & Strategy Lead";
             <div>
                 <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-indigo-400">Platform</h4>
                 <ul class="text-slate-400 text-sm space-y-4">
-                    <li><a href="services.php" class="hover:text-white transition">Marketplace</a></li>
-                    <li><a href="registration.php" class="hover:text-white transition">For Vendors</a></li>
+                    <li><a href="services.php" class="hover:text-white transition">AI Services</a></li>
+                    <li><a href="vendor_list.php" class="hover:text-white transition">Vendor Directory</a></li>
+                    <li><a href="registration.php" class="hover:text-white transition">Vendor Registration</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-indigo-400">Corporate</h4>
                 <ul class="text-slate-400 text-sm space-y-4">
+                    <li><a href="case-studies.php" class="hover:text-white transition">Case Studies</a></li>
                     <li><a href="about.php" class="hover:text-white transition">Strategy</a></li>
                     <li><a href="contact.php" class="hover:text-white transition">Contact Us</a></li>
                 </ul>

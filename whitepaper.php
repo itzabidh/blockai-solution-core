@@ -231,9 +231,9 @@ function escapeHtml(string|int|float $value): string
                     <a href="index.php" class="hidden sm:inline-flex items-center px-4 py-2 rounded-lg border border-white/15 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300 hover:text-white hover:border-white/30 transition">
                         Back to Site
                     </a>
-                    <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-[11px] font-semibold uppercase tracking-[0.16em] text-white hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] transition" aria-label="Download whitepaper as PDF">
+                    <a href="contact.php" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-purple-600 text-[11px] font-semibold uppercase tracking-[0.16em] text-white hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] transition" aria-label="Request whitepaper PDF by email">
                         <i class="fa-solid fa-download text-[10px]" aria-hidden="true"></i>
-                        Download PDF
+                        Request PDF
                     </a>
                 </div>
             </div>
