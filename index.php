@@ -107,41 +107,6 @@
             </div>
         </div>
     </section>
-    <section class="section">
-    <div class="container">
-        <div class="section-title text-center">
-            <h2>Our Featured Products</h2>
-            <p>Check out our latest AI solutions and products.</p>
-        </div>
-        
-        <div class="row">
-            <?php
-            // Database theke product ana hocche
-            $query = "SELECT * FROM dbo.BusinessProducts LIMIT 8";
-            $result = mysqli_query($conn, $query);
-
-            if(mysqli_num_rows($result) > 0) {
-                while($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="uploads/<?php echo $row['ProductImage']; ?>" class="card-img-top" alt="Product Image" style="height: 200px; object-fit: cover;">
-                            <div class="card-body text-center">
-                                <h5 class="card-title"><?php echo $row['ProductName']; ?></h5>
-                                <p class="card-text text-primary">Price: $<?php echo $row['ProductPrice']; ?></p>
-                                <a href="product-details.php?id=<?php echo $row['ProductID']; ?>" class="btn btn-primary btn-sm">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
-            } else {
-                echo "<p class='text-center'>No products found in database!</p>";
-            }
-            ?>
-        </div>
-    </div>
-</section>
 
     <section class="py-20 relative z-10">
         <div class="max-w-7xl mx-auto px-6">
