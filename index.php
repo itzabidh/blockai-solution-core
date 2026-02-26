@@ -1,5 +1,5 @@
 <?php
-// Database connection include kora holo
+// 1. Database Connection Include
 include('db_connect.php'); 
 ?>
 <!DOCTYPE html>
@@ -35,7 +35,8 @@ include('db_connect.php');
             </a>
             <div class="hidden md:flex space-x-8 items-center">
                 <a href="#marketplace" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Marketplace</a>
-                <a href="services.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Services</a>
+                <a href="#services" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Ecosystem</a>
+                <a href="#roadmap" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Roadmap</a>
                 <a href="contact.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Contact</a>
                 <a href="login.php" class="px-5 py-2 rounded-full border border-cyan-400 text-cyan-400 text-sm font-bold hover:bg-cyan-400 hover:text-black transition">Join BlockAI</a>
             </div>
@@ -50,10 +51,10 @@ include('db_connect.php');
             <h1 class="heading-font text-5xl md:text-8xl font-extrabold text-white mb-6 leading-tight">
                 Pioneering <span class="neon-gradient-text">Decentralized Intelligence</span>
             </h1>
-            <p class="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">Empowering the next generation of AI through blockchain. Secure, transparent, and autonomous ecosystem for global intelligence.</p>
+            <p class="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">Empowering the next generation of AI through blockchain. Secure, transparent, and autonomous ecosystem.</p>
             <div class="flex flex-col md:flex-row justify-center gap-6">
                 <a href="#marketplace" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition">Explore Marketplace</a>
-                <a href="contact.php" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Whitepaper</a>
+                <a href="#" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Whitepaper</a>
             </div>
         </div>
     </header>
@@ -72,78 +73,45 @@ include('db_connect.php');
     <section id="marketplace" class="py-24 relative z-10">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="heading-font text-4xl md:text-5xl font-bold text-white mb-4">AI Marketplace</h2>
-                <p class="text-slate-400 max-w-xl mx-auto">Browse our top-tier decentralized AI solutions from the Business Products vault.</p>
+                <h2 class="heading-font text-4xl font-bold text-white mb-4">AI Product Marketplace</h2>
+                <div class="w-24 h-1 bg-cyan-400 mx-auto rounded-full mb-6"></div>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 <?php
-                // Fixed Database Query
+                // Fetching from your table: dbo.BusinessProducts
                 $query = "SELECT * FROM dbo.BusinessProducts LIMIT 8";
                 $result = mysqli_query($conn, $query);
 
                 if($result && mysqli_num_rows($result) > 0) {
-                    while($row = mysqli_fetch_assoc($result)) {
-                        ?>
-                        <div class="ocean-glass rounded-[30px] p-4 flex flex-col transition-all hover:-translate-y-2">
-                            <img src="uploads/<?php echo $row['ProductImage']; ?>" 
-                                 class="w-full h-48 object-cover rounded-[20px] mb-4" 
-                                 alt="<?php echo $row['ProductName']; ?>">
-                            <div class="px-2 pb-2">
-                                <h3 class="heading-font text-xl font-bold text-white mb-2 truncate"><?php echo $row['ProductName']; ?></h3>
-                                <div class="flex justify-between items-center mb-4">
-                                    <span class="text-cyan-400 font-bold">$<?php echo $row['ProductPrice']; ?></span>
-                                    <span class="text-[10px] uppercase tracking-tighter text-slate-500 bg-white/5 px-2 py-1 rounded">BLOCKAI Network</span>
-                                </div>
-                                <a href="product-details.php?id=<?php echo $row['ProductID']; ?>" 
-                                   class="block text-center bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white font-bold py-3 rounded-xl transition-all text-sm uppercase">
-                                   View Details
-                                </a>
+                    while($row = mysqli_fetch_assoc($result)) { ?>
+                        <div class="ocean-glass rounded-[30px] p-4 flex flex-col group transition-all duration-500 hover:border-cyan-400/50">
+                            <div class="relative overflow-hidden rounded-[20px] mb-4">
+                                <img src="uploads/<?php echo $row['ProductImage']; ?>" class="w-full h-48 object-cover transform group-hover:scale-110 transition duration-500" alt="">
+                            </div>
+                            <h3 class="heading-font text-xl font-bold text-white mb-2"><?php echo $row['ProductName']; ?></h3>
+                            <div class="flex justify-between items-center mt-auto">
+                                <span class="text-cyan-400 font-bold">$<?php echo $row['ProductPrice']; ?></span>
+                                <a href="product-details.php?id=<?php echo $row['ProductID']; ?>" class="text-[10px] text-white bg-white/10 hover:bg-cyan-400 hover:text-black px-4 py-2 rounded-full font-bold uppercase transition">Details</a>
                             </div>
                         </div>
-                        <?php
-                    }
-                } else {
-                    echo "<div class='col-span-full text-center text-slate-500'>No products found in the database.</div>";
-                }
-                ?>
+                <?php } } ?>
             </div>
         </div>
     </section>
 
-    <section class="py-24 bg-black/30">
-        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
-            <h2 class="heading-font text-4xl font-bold text-white mb-4">Our Services</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-12">
-                <div class="ocean-glass p-8 rounded-[30px] group transition">
-                    <i class="fa-solid fa-flask text-3xl text-cyan-400 mb-6"></i>
-                    <h3 class="text-xl font-bold text-white mb-3">AI Research</h3>
-                    <p class="text-slate-400 text-sm">Access decentralized computing power for complex AI training.</p>
-                </div>
-                <div class="ocean-glass p-8 rounded-[30px] group transition">
-                    <i class="fa-solid fa-database text-3xl text-purple-400 mb-6"></i>
-                    <h3 class="text-xl font-bold text-white mb-3">Data Monetization</h3>
-                    <p class="text-slate-400 text-sm">Securely trade datasets on our encrypted blockchain.</p>
-                </div>
-                <div class="ocean-glass p-8 rounded-[30px] group transition">
-                    <i class="fa-solid fa-robot text-3xl text-accent-light mb-6"></i>
-                    <h3 class="text-xl font-bold text-white mb-3">AI Agents</h3>
-                    <p class="text-slate-400 text-sm">Autonomous agents working across global networks.</p>
-                </div>
-            </div>
+    <section class="py-20 bg-black/20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div><h2 class="text-4xl font-bold text-white">500+</h2><p class="text-slate-500 text-xs uppercase tracking-widest">Active Nodes</p></div>
+            <div><h2 class="text-4xl font-bold text-white">1.2M</h2><p class="text-slate-500 text-xs uppercase tracking-widest">Data Assets</p></div>
+            <div><h2 class="text-4xl font-bold text-white">150+</h2><h2 class="text-4xl font-bold text-white">24/7</h2><p class="text-slate-500 text-xs uppercase tracking-widest">Uptime</p></div>
+            <div><h2 class="text-4xl font-bold text-white">24/7</h2><p class="text-slate-500 text-xs uppercase tracking-widest">Uptime</p></div>
         </div>
     </section>
 
-    <footer class="bg-[#06060c] pt-20 pb-10 border-t border-white/5 relative z-10">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-bold tracking-widest uppercase gap-4">
-                <p>&copy; <?php echo date("Y"); ?> BLOCKAI SOLUTION | ALL RIGHTS RESERVED.</p>
-                <div class="flex items-center space-x-2">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span>System Status: Online</span>
-                </div>
-            </div>
-        </div>
+    <footer class="bg-[#06060c] pt-20 pb-10 border-t border-white/5 relative z-10 text-center">
+        <p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">&copy; <?php echo date("Y"); ?> BLOCKAI SOLUTION | ALL RIGHTS RESERVED.</p>
     </footer>
+
 </body>
 </html>
