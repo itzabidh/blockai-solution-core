@@ -47,10 +47,11 @@ $case_studies = [
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a href="index.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Home</a>
-                    <a href="services.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Marketplace</a>
+                    <a href="services.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Services</a>
+                    <a href="vendor_list.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Vendor Directory</a>
                     <a href="about.php" class="text-sm font-bold text-slate-600 hover:text-indigo-600">Strategy</a>
                 </div>
-                <button class="bg-indigo-600 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-indigo-700 transition shadow-md">Get Started</button>
+                <a href="registration.php" class="bg-indigo-600 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-indigo-700 transition shadow-md">Get Started</a>
             </div>
         </div>
     </nav>
@@ -120,7 +121,8 @@ $case_studies = [
                 <h4 class="font-bold mb-6 text-xs uppercase tracking-widest">Resources</h4>
                 <ul class="text-slate-400 text-sm space-y-4">
                     <li><a href="case-studies.php" class="hover:text-white transition">Case Studies</a></li>
-                    <li><a href="services.php" class="hover:text-white transition">Marketplace</a></li>
+                    <li><a href="services.php" class="hover:text-white transition">AI Services</a></li>
+                    <li><a href="vendor_list.php" class="hover:text-white transition">Vendor Directory</a></li>
                     <li><a href="about.php" class="hover:text-white transition">Strategy</a></li>
                 </ul>
             </div>
