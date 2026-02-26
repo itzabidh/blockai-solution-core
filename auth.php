@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('auth.php', 'auth');
 
 /**
  * BlockAI Solution - Login entry point.
@@ -24,6 +26,7 @@ if (!hasAuthConfig()) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <base href="/">
         <title>Login Configuration Error</title>
         <style>
             body { font-family: Arial, sans-serif; background: #0b1020; color: #e2e8f0; display: flex; min-height: 100vh; align-items: center; justify-content: center; margin: 0; padding: 20px; }
@@ -38,7 +41,7 @@ if (!hasAuthConfig()) {
             <h1>Login is not configured yet</h1>
             <p>Required OAuth environment variables are missing or incomplete. Please configure Azure credentials and try again.</p>
             <p>If you use Microsoft B2C, ensure <strong>AZURE_USER_FLOW</strong> is configured (for example: <code>B2C_1_signupsignin</code>).</p>
-            <p><a href="index.php">Back to homepage</a></p>
+            <p><a href="/">Back to homepage</a></p>
         </div>
     </body>
     </html>
@@ -48,7 +51,7 @@ if (!hasAuthConfig()) {
 
 $isAlreadyLoggedIn = !empty($_SESSION['user_logged_in']) && (!empty($_SESSION['user_id']) || !empty($_SESSION['user_email']));
 if ($isAlreadyLoggedIn) {
-    header('Location: dashboard.php');
+    header('Location: /dashboard/');
     exit();
 }
 
@@ -64,6 +67,7 @@ if ($showErrorPage) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <base href="/">
         <title>Login Failed</title>
         <style>
             body { font-family: Arial, sans-serif; background: #0b1020; color: #e2e8f0; display: flex; min-height: 100vh; align-items: center; justify-content: center; margin: 0; padding: 20px; }
@@ -77,7 +81,7 @@ if ($showErrorPage) {
         <div class="card">
             <h1>Authentication failed</h1>
             <p><?= htmlspecialchars($authError, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></p>
-            <a href="auth.php?retry=1" class="btn">Try again</a>
+            <a href="/auth/?retry=1" class="btn">Try again</a>
         </div>
     </body>
     </html>

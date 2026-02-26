@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('careers.php', 'careers');
 
 $currentYear = (int) date('Y');
 
@@ -62,6 +64,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Careers | BlockAI Solution</title>
     <meta name="description" content="Join BlockAI Solution and help build enterprise-grade AI infrastructure, governance systems, and global delivery programs.">
     <script src="https://cdn.tailwindcss.com"></script>

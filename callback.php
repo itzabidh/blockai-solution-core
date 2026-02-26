@@ -11,7 +11,7 @@ function redirectToLoginWithError(string $userMessage, array $context = []): voi
 {
     authLog('OAuth callback failure', ['message' => $userMessage] + $context);
     $_SESSION[AUTH_SESSION_ERROR_KEY] = $userMessage;
-    header('Location: auth.php');
+    header('Location: /auth/');
     exit();
 }
 
@@ -225,6 +225,6 @@ authLog('User authenticated successfully', [
     'user_email' => $userEmail,
 ]);
 
-header('Location: dashboard.php');
+header('Location: /dashboard/');
 exit();
 ?>

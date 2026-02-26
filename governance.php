@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('governance.php', 'governance');
 
 $currentYear = (int) date('Y');
 $pageVersion = '2.0.0';
@@ -107,6 +109,7 @@ function clampPercent(int|float $value): int
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Governance | BlockAI Solution</title>
     <meta name="description" content="Explore BlockAI Solution governance framework, live proposals, voting outcomes, and participation model.">
     <script src="https://cdn.tailwindcss.com"></script>

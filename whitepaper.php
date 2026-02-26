@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('whitepaper.php', 'whitepaper');
 
 $currentYear = (int) date('Y');
 
@@ -165,6 +167,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Whitepaper | BlockAI Protocol</title>
     <meta name="description" content="BlockAI whitepaper covering architecture, token economics, governance, security, and enterprise adoption strategy.">
     <script src="https://cdn.tailwindcss.com"></script>

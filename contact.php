@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('contact.php', 'contact');
 
 $currentYear = (int) date('Y');
 $isSubmitted = false;
@@ -68,6 +70,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Contact | BlockAI Solution</title>
     <meta name="description" content="Contact BlockAI Solution for enterprise AI partnerships, vendor onboarding, and platform support.">
     <script src="https://cdn.tailwindcss.com"></script>
