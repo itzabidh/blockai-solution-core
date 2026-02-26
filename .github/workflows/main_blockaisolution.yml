@@ -43,6 +43,31 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B64D27F921D5401199BDD80B0F22361E }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E7B16A0CA18D4194B1F57D909325FC80 }}
 
+      - name: Resolve Azure resource group
+        id: webapp-resource
+        run: |
+          RESOURCE_GROUP=$(az webapp list --query "[?name=='blockaisolution'].resourceGroup | [0]" -o tsv)
+          if [ -z "$RESOURCE_GROUP" ]; then
+            echo "Unable to resolve resource group for app: blockaisolution"
+            exit 1
+          fi
+          echo "resource_group=$RESOURCE_GROUP" >> "$GITHUB_OUTPUT"
+
+      - name: Configure Azure app settings
+        run: |
+          az webapp config appsettings set \
+            --name "blockaisolution" \
+            --resource-group "${{ steps.webapp-resource.outputs.resource_group }}" \
+            --settings \
+              AZURE_CLIENT_ID="${{ secrets.AZURE_CLIENT_ID }}" \
+              AZURE_CLIENT_SECRET="${{ secrets.AZURE_CLIENT_SECRET }}" \
+              AZURE_TENANT_ID="${{ secrets.AZURE_TENANT_ID }}" \
+              AZURE_USER_FLOW="${{ secrets.AZURE_USER_FLOW }}" \
+              AZURE_TENANT_NAME="blockaisolution26" \
+              AZURE_REDIRECT_URI="https://blockaisolution.com/callback.php" \
+              WEBSITE_RUN_FROM_PACKAGE="1" \
+            --output none
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -50,27 +75,3 @@ jobs:
           app-name: 'blockaisolution'
           slot-name: 'Production'
           package: .
-          # এই পার্টটি আপনার সিক্রেটগুলোকে সরাসরি সার্ভারের Configuration-এ সেট করে দিবে
-          app-settings-json: |
-            [
-                {
-                    "name": "AZURE_CLIENT_ID",
-                    "value": "${{ secrets.AZURE_CLIENT_ID }}",
-                    "slotSetting": false
-                },
-                {
-                    "name": "AZURE_CLIENT_SECRET",
-                    "value": "${{ secrets.AZURE_CLIENT_SECRET }}",
-                    "slotSetting": false
-                },
-                {
-                    "name": "AZURE_TENANT_ID",
-                    "value": "${{ secrets.AZURE_TENANT_ID }}",
-                    "slotSetting": false
-                },
-                {
-                    "name": "AZURE_USER_FLOW",
-                    "value": "${{ secrets.AZURE_USER_FLOW }}",
-                    "slotSetting": false
-                }
-            ]

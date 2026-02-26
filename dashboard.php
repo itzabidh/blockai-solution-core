@@ -10,7 +10,7 @@ if (!$isLoggedIn) {
     authLog('Unauthorized dashboard access blocked', [
         'remote_addr' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
     ]);
-    header('Location: login.php');
+    header('Location: auth.php');
     exit();
 }
 
