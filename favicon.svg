@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="BlockAI logo">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6a5cff"/>
+      <stop offset="100%" stop-color="#34d3ff"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9d2cff"/>
+      <stop offset="100%" stop-color="#4bb4ff"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="512" height="512" fill="#010a2a"/>
+
+  <g opacity="0.95">
+    <polygon points="256,84 327,125 327,207 256,248 185,207 185,125" fill="url(#g1)"/>
+    <polygon points="390,162 461,203 461,285 390,326 319,285 319,203" fill="#3aa5ff"/>
+    <polygon points="390,318 461,359 461,441 390,482 319,441 319,359" fill="#5f8dff"/>
+    <polygon points="256,394 327,435 327,517 256,558 185,517 185,435" transform="translate(0,-46)" fill="#b429ff"/>
+    <polygon points="122,318 193,359 193,441 122,482 51,441 51,359" fill="#7f2bff"/>
+    <polygon points="122,162 193,203 193,285 122,326 51,285 51,203" fill="#6b5bff"/>
+  </g>
+
+  <polygon points="256,136 373,204 373,340 256,408 139,340 139,204" fill="#040f3a" stroke="#1a2f72" stroke-width="3"/>
+
+  <g stroke="#55d7ff" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.95" filter="url(#glow)">
+    <line x1="256" y1="256" x2="200" y2="206"/>
+    <line x1="256" y1="256" x2="314" y2="206"/>
+    <line x1="256" y1="256" x2="332" y2="264"/>
+    <line x1="256" y1="256" x2="295" y2="322"/>
+    <line x1="256" y1="256" x2="217" y2="322"/>
+    <line x1="256" y1="256" x2="180" y2="264"/>
+  </g>
+
+  <g fill="#68ddff" filter="url(#glow)">
+    <circle cx="200" cy="206" r="10"/>
+    <circle cx="314" cy="206" r="10"/>
+    <circle cx="332" cy="264" r="10"/>
+    <circle cx="295" cy="322" r="10"/>
+    <circle cx="217" cy="322" r="10"/>
+    <circle cx="180" cy="264" r="10"/>
+    <circle cx="256" cy="256" r="12"/>
+  </g>
+
+  <path d="M284 214a58 58 0 1 0 0 84a48 48 0 1 1 0-84z" fill="#4ad5ff"/>
+  <path d="M228 230c24 8 40 28 47 56c-13-9-27-14-43-14c-24 0-43 12-57 32c4-43 18-65 53-74z" fill="#9d2cff"/>
+</svg>
