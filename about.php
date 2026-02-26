@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('about.php', 'about');
 
 $currentYear = (int) date('Y');
 $pageVersion = '3.0.0';
@@ -90,6 +92,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>About and Strategy | BlockAI Solution</title>
     <meta name="description" content="Learn about BlockAI Solution strategy, leadership, operating model, governance approach, and global enterprise infrastructure roadmap.">
     <script src="https://cdn.tailwindcss.com"></script>

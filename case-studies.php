@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('case-studies.php', 'case-studies');
 
 $currentYear = (int) date('Y');
 $pageVersion = '2.0.0';
@@ -75,6 +77,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Case Studies | BlockAI Solution</title>
     <meta name="description" content="Explore enterprise case studies showing measurable AI outcomes across logistics, healthcare, and multi-region operations.">
     <script src="https://cdn.tailwindcss.com"></script>

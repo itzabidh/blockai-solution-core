@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('privacy-policy.php', 'privacy-policy');
 
 $currentYear = (int) date('Y');
 $lastUpdated = 'February 26, 2026';
@@ -31,6 +33,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Privacy Policy | BlockAI Solution</title>
     <meta name="description" content="Business-standard privacy policy for BlockAI Solution, covering data collection, legal bases, retention, security, and user rights.">
     <script src="https://cdn.tailwindcss.com"></script>

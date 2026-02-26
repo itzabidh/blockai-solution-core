@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('logout.php', 'logout');
 
 require_once 'auth_config.php';
 ensureSessionStarted();
@@ -28,6 +30,6 @@ if (ini_get('session.use_cookies')) {
 }
 
 session_destroy();
-header('Location: auth.php');
+header('Location: /auth/');
 exit();
 ?>

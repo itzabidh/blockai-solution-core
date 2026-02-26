@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('index.php', '');
 
 /**
  * BlockAI Solution Core - Enterprise Portal v2.0
@@ -21,6 +23,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>BlockAI Solution | Decentralized Super-Intelligence Ecosystem</title>
     
     <script src="https://cdn.tailwindcss.com"></script>

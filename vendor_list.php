@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('vendor_list.php', 'vendor-list');
 
 $vendors = [
     [
@@ -167,6 +169,7 @@ function escapeHtml(string|int|float $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>Vendor Directory | BlockAI Solution</title>
     <meta name="description" content="Browse verified enterprise AI vendors by category, region, and specialization in the BlockAI partner network.">
     <script src="https://cdn.tailwindcss.com"></script>

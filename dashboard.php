@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/route_helpers.php';
+redirectPhpToCleanRoute('dashboard.php', 'dashboard');
 
 require_once 'auth_config.php';
 ensureSessionStarted();
@@ -10,7 +12,7 @@ if (!$isLoggedIn) {
     authLog('Unauthorized dashboard access blocked', [
         'remote_addr' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
     ]);
-    header('Location: auth.php');
+    header('Location: /auth/');
     exit();
 }
 
@@ -23,6 +25,7 @@ $userEmail = (string) ($_SESSION['user_email'] ?? 'No Email');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/">
     <title>BlockAI Dashboard</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
