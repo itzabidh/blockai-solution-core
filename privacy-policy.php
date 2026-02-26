@@ -231,9 +231,20 @@ function escapeHtml(string|int|float $value): string
                     <h2 class="heading-font text-3xl font-bold text-white mb-4">13. Contact details</h2>
                     <p class="text-slate-300 leading-relaxed mb-4">For privacy questions, rights requests, or data protection concerns, contact:</p>
                     <div class="rounded-xl border border-cyan-400/20 bg-cyan-400/5 p-5">
-                        <p class="text-sm text-slate-200"><strong class="text-white">Privacy Team:</strong> support@blockaisolution.com</p>
-                        <p class="text-sm text-slate-200 mt-2"><strong class="text-white">Legal:</strong> legal@blockaisolution.com</p>
-                        <p class="text-sm text-slate-200 mt-2"><strong class="text-white">Website:</strong> https://blockaisolution.com</p>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <a href="mailto:support@blockaisolution.com" class="rounded-lg border border-white/10 bg-white/5 p-4 hover:border-cyan-300/40 transition">
+                                <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-2">Privacy Team</p>
+                                <p class="text-cyan-300 font-semibold break-all">support@blockaisolution.com</p>
+                            </a>
+                            <a href="mailto:legal@blockaisolution.com" class="rounded-lg border border-white/10 bg-white/5 p-4 hover:border-cyan-300/40 transition">
+                                <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-2">Legal</p>
+                                <p class="text-cyan-300 font-semibold break-all">legal@blockaisolution.com</p>
+                            </a>
+                        </div>
+                        <div class="mt-3 rounded-lg border border-white/10 bg-white/5 p-4">
+                            <p class="text-[11px] uppercase tracking-[0.18em] text-slate-400 mb-2">Website</p>
+                            <a href="https://blockaisolution.com" class="text-cyan-300 font-semibold hover:text-cyan-200 transition">https://blockaisolution.com</a>
+                        </div>
                     </div>
                 </section>
             </article>
