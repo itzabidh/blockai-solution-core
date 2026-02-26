@@ -1,5 +1,6 @@
 <?php
-include('db_connect.php'); // Tomar database connection file-er nam
+// Database connection include kora holo
+include('db_connect.php'); 
 ?>
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -14,51 +15,15 @@ include('db_connect.php'); // Tomar database connection file-er nam
         :root { --main-bg: #0C0C14; --primary-blue: #00d4ff; --primary-purple: #7000ff; --accent-light: #5effc4; }
         body { font-family: 'Inter', sans-serif; background-color: var(--main-bg); color: #e6edf3; margin: 0; padding: 0; }
         .heading-font { font-family: 'Space Grotesk', sans-serif; }
-        
-        .ocean-glass { 
-            background: rgba(255, 255, 255, 0.02); 
-            backdrop-filter: blur(25px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
-        }
-
-        .gradient-bg-hero {
-            background: radial-gradient(circle at 50% 50%, rgba(112, 0, 255, 0.15) 0%, rgba(0, 0, 0, 0.6) 80%), 
-                        linear-gradient(180deg, var(--main-bg) 0%, #06060c 100%);
-        }
-        
-        .neon-gradient-text {
-            background-image: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .bg-element {
-            position: absolute;
-            background: var(--primary-blue);
-            border-radius: 50%;
-            opacity: 0.1;
-            animation: pulse 15s infinite ease-in-out alternate;
-            z-index: 0;
-        }
-        .bg-element-1 { top: 10%; left: 5%; width: 300px; height: 300px; }
-        .bg-element-2 { bottom: 15%; right: 10%; width: 400px; height: 400px; background: var(--primary-purple); }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.1; }
-            50% { transform: scale(1.2); opacity: 0.2; }
-            100% { transform: scale(1); opacity: 0.1; }
-        }
-
+        .ocean-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); }
+        .gradient-bg-hero { background: radial-gradient(circle at 50% 50%, rgba(112, 0, 255, 0.15) 0%, rgba(0, 0, 0, 0.6) 80%), linear-gradient(180deg, var(--main-bg) 0%, #06060c 100%); }
+        .neon-gradient-text { background-image: linear-gradient(90deg, var(--primary-blue), var(--primary-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .crypto-ticker-container { overflow: hidden; white-space: nowrap; width: 100%; }
         .crypto-ticker-item { display: inline-block; animation: scroll-left 40s linear infinite; }
     </style>
 </head>
 <body class="overflow-x-hidden relative">
-
-    <div class="bg-element bg-element-1"></div>
-    <div class="bg-element bg-element-2"></div>
 
     <nav class="fixed w-full z-50 backdrop-blur-md border-b border-white/5 bg-black/10">
         <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
@@ -69,9 +34,8 @@ include('db_connect.php'); // Tomar database connection file-er nam
                 <span class="heading-font text-2xl font-extrabold tracking-tight text-white uppercase">BlockAI</span>
             </a>
             <div class="hidden md:flex space-x-8 items-center">
-                <a href="#how-it-works" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">How it Works</a>
-                <a href="services.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Marketplace</a>
-                <a href="#roadmap" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Roadmap</a>
+                <a href="#marketplace" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Marketplace</a>
+                <a href="services.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Services</a>
                 <a href="contact.php" class="text-sm font-bold uppercase tracking-wide hover:text-cyan-400 transition">Contact</a>
                 <a href="login.php" class="px-5 py-2 rounded-full border border-cyan-400 text-cyan-400 text-sm font-bold hover:bg-cyan-400 hover:text-black transition">Join BlockAI</a>
             </div>
@@ -86,11 +50,9 @@ include('db_connect.php'); // Tomar database connection file-er nam
             <h1 class="heading-font text-5xl md:text-8xl font-extrabold text-white mb-6 leading-tight">
                 Pioneering <span class="neon-gradient-text">Decentralized Intelligence</span>
             </h1>
-            <p class="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">
-                Empowering the next generation of AI through blockchain. Secure, transparent, and autonomous ecosystem for global intelligence.
-            </p>
+            <p class="text-slate-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto font-light">Empowering the next generation of AI through blockchain. Secure, transparent, and autonomous ecosystem for global intelligence.</p>
             <div class="flex flex-col md:flex-row justify-center gap-6">
-                <a href="login.php" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition">Explore Solutions</a>
+                <a href="#marketplace" class="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-4 rounded-full font-bold shadow-lg hover:scale-105 transition">Explore Marketplace</a>
                 <a href="contact.php" class="ocean-glass px-10 py-4 rounded-full font-bold text-white border border-white/20 hover:bg-white/10 transition">Whitepaper</a>
             </div>
         </div>
@@ -103,206 +65,70 @@ include('db_connect.php'); // Tomar database connection file-er nam
                 <span class="text-slate-400">ETH <span class="text-red-400">$3,800 ▼</span></span><span class="mx-10 text-slate-700">|</span>
                 <span class="text-slate-400">BLOCKAI <span class="text-cyan-400">$2.45 ▲</span></span><span class="mx-10 text-slate-700">|</span>
                 <span class="text-slate-400">AGIX <span class="text-green-400">$0.75 ▲</span></span><span class="mx-10 text-slate-700">|</span>
-                <span class="text-slate-400">OCEAN <span class="text-green-400">$0.92 ▲</span></span><span class="mx-10 text-slate-700">|</span>
-                <span class="text-slate-400">BTC <span class="text-green-400">$68,500 ▲</span></span><span class="mx-10 text-slate-700">|</span>
-                <span class="text-slate-400">ETH <span class="text-red-400">$3,800 ▼</span></span><span class="mx-10 text-slate-700">|</span>
-                <span class="text-slate-400">BLOCKAI <span class="text-cyan-400">$2.45 ▲</span></span><span class="mx-10 text-slate-700">|</span>
-            </div>
-        </div>
-    </section>
-    <section class="section">
-    <div class="container">
-        <div class="section-title text-center">
-            <h2>Our Featured Products</h2>
-            <p>Check out our latest AI solutions and products.</p>
-        </div>
-        
-        <div class="row">
-            <?php
-            // Database theke product ana hocche
-            $query = "SELECT * FROM dbo.BusinessProducts LIMIT 8";
-            $result = mysqli_query($conn, $query);
-
-            if(mysqli_num_rows($result) > 0) {
-                while($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <img src="uploads/<?php echo $row['ProductImage']; ?>" class="card-img-top" alt="Product Image" style="height: 200px; object-fit: cover;">
-                            <div class="card-body text-center">
-                                <h5 class="card-title"><?php echo $row['ProductName']; ?></h5>
-                                <p class="card-text text-primary">Price: $<?php echo $row['ProductPrice']; ?></p>
-                                <a href="product-details.php?id=<?php echo $row['ProductID']; ?>" class="btn btn-primary btn-sm">View Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
-            } else {
-                echo "<p class='text-center'>No products found in database!</p>";
-            }
-            ?>
-        </div>
-    </div>
-</section>
-
-    <section class="py-20 relative z-10">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-2">500+</h2>
-                    <p class="text-slate-500 uppercase text-xs tracking-widest font-bold">Active Nodes</p>
-                </div>
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-2">1.2M</h2>
-                    <p class="text-slate-500 uppercase text-xs tracking-widest font-bold">Data Assets</p>
-                </div>
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-2">150+</h2>
-                    <p class="text-slate-500 uppercase text-xs tracking-widest font-bold">AI Models</p>
-                </div>
-                <div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-2">24/7</h2>
-                    <p class="text-slate-500 uppercase text-xs tracking-widest font-bold">Uptime Rate</p>
-                </div>
             </div>
         </div>
     </section>
 
-    <section class="py-24 relative z-10" id="services">
+    <section id="marketplace" class="py-24 relative z-10">
         <div class="max-w-7xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="heading-font text-4xl md:text-5xl font-bold text-white mb-4">Core Ecosystem</h2>
-                <p class="text-slate-400 max-w-xl mx-auto">Everything you need to build, deploy, and monetize AI in a decentralized world.</p>
+                <h2 class="heading-font text-4xl md:text-5xl font-bold text-white mb-4">AI Marketplace</h2>
+                <p class="text-slate-400 max-w-xl mx-auto">Browse our top-tier decentralized AI solutions from the Business Products vault.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="ocean-glass p-8 rounded-[30px] transition-all hover:-translate-y-2 group">
-                    <div class="w-16 h-16 bg-cyan-400/10 rounded-full flex items-center justify-center mb-6 text-cyan-400 text-2xl group-hover:bg-cyan-400 group-hover:text-black transition-all">
-                        <i class="fa-solid fa-flask"></i>
-                    </div>
-                    <h3 class="heading-font text-2xl font-bold text-white mb-3">AI Research & Dev</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Access bleeding-edge AI models and collaborative research environments with decentralized computing power.</p>
-                    <a href="#" class="text-cyan-400 text-xs font-bold uppercase tracking-wider flex items-center">Explore <i class="fa-solid fa-arrow-right ml-2 text-[10px]"></i></a>
-                </div>
-                <div class="ocean-glass p-8 rounded-[30px] transition-all hover:-translate-y-2 group">
-                    <div class="w-16 h-16 bg-purple-400/10 rounded-full flex items-center justify-center mb-6 text-purple-400 text-2xl group-hover:bg-purple-400 group-hover:text-black transition-all">
-                        <i class="fa-solid fa-database"></i>
-                    </div>
-                    <h3 class="heading-font text-2xl font-bold text-white mb-3">Data Monetization</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Securely tokenize and trade your valuable datasets on our marketplace while maintaining 100% privacy.</p>
-                    <a href="#" class="text-purple-400 text-xs font-bold uppercase tracking-wider flex items-center">Marketplace <i class="fa-solid fa-arrow-right ml-2 text-[10px]"></i></a>
-                </div>
-                <div class="ocean-glass p-8 rounded-[30px] transition-all hover:-translate-y-2 group">
-                    <div class="w-16 h-16 bg-accent-light/10 rounded-full flex items-center justify-center mb-6 text-accent-light text-2xl group-hover:bg-accent-light group-hover:text-black transition-all">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <h3 class="heading-font text-2xl font-bold text-white mb-3">Autonomous Agents</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed mb-6">Deploy self-executing AI agents for decentralized task automation across multiple chain networks.</p>
-                    <a href="#" class="text-accent-light text-xs font-bold uppercase tracking-wider flex items-center">Deploy <i class="fa-solid fa-arrow-right ml-2 text-[10px]"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <?php
+                // Fixed Database Query
+                $query = "SELECT * FROM dbo.BusinessProducts LIMIT 8";
+                $result = mysqli_query($conn, $query);
 
-    <section class="py-24 bg-black/30" id="how-it-works">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-                <div>
-                    <h2 class="heading-font text-4xl md:text-5xl font-bold text-white mb-8">How BlockAI <br><span class="text-cyan-400">Transforms</span> Industries</h2>
-                    <div class="space-y-8">
-                        <div class="flex gap-6">
-                            <div class="flex-none w-12 h-12 rounded-full border border-cyan-400 flex items-center justify-center text-cyan-400 font-bold">1</div>
-                            <div>
-                                <h4 class="text-xl font-bold text-white mb-2">Connect Your Wallet</h4>
-                                <p class="text-slate-400 text-sm">Integrate your Web3 identity to access our decentralized AI nodes and global compute network.</p>
+                if($result && mysqli_num_rows($result) > 0) {
+                    while($row = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <div class="ocean-glass rounded-[30px] p-4 flex flex-col transition-all hover:-translate-y-2">
+                            <img src="uploads/<?php echo $row['ProductImage']; ?>" 
+                                 class="w-full h-48 object-cover rounded-[20px] mb-4" 
+                                 alt="<?php echo $row['ProductName']; ?>">
+                            <div class="px-2 pb-2">
+                                <h3 class="heading-font text-xl font-bold text-white mb-2 truncate"><?php echo $row['ProductName']; ?></h3>
+                                <div class="flex justify-between items-center mb-4">
+                                    <span class="text-cyan-400 font-bold">$<?php echo $row['ProductPrice']; ?></span>
+                                    <span class="text-[10px] uppercase tracking-tighter text-slate-500 bg-white/5 px-2 py-1 rounded">BLOCKAI Network</span>
+                                </div>
+                                <a href="product-details.php?id=<?php echo $row['ProductID']; ?>" 
+                                   class="block text-center bg-white/5 hover:bg-cyan-400 hover:text-black border border-white/10 text-white font-bold py-3 rounded-xl transition-all text-sm uppercase">
+                                   View Details
+                                </a>
                             </div>
                         </div>
-                        <div class="flex gap-6">
-                            <div class="flex-none w-12 h-12 rounded-full border border-purple-400 flex items-center justify-center text-purple-400 font-bold">2</div>
-                            <div>
-                                <h4 class="text-xl font-bold text-white mb-2">Select AI Model</h4>
-                                <p class="text-slate-400 text-sm">Choose from thousands of pre-trained models or upload your own dataset for secure training.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-6">
-                            <div class="flex-none w-12 h-12 rounded-full border border-accent-light flex items-center justify-center text-accent-light font-bold">3</div>
-                            <div>
-                                <h4 class="text-xl font-bold text-white mb-2">Execution & Reward</h4>
-                                <p class="text-slate-400 text-sm">Smart contracts handle the execution and ensure you get paid in BLOCKAI tokens instantly.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative">
-                    <div class="ocean-glass p-2 rounded-[40px] rotate-3 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800" alt="AI Visualization" class="rounded-[35px] opacity-80 group-hover:scale-110 transition duration-700">
-                    </div>
-                    <div class="absolute -bottom-10 -left-10 ocean-glass p-6 rounded-2xl hidden md:block animate-bounce">
-                        <p class="text-xs font-bold text-cyan-400 mb-1">Live Deployment</p>
-                        <p class="text-white text-lg font-bold">Model #429 Active</p>
-                    </div>
-                </div>
+                        <?php
+                    }
+                } else {
+                    echo "<div class='col-span-full text-center text-slate-500'>No products found in the database.</div>";
+                }
+                ?>
             </div>
         </div>
     </section>
 
-    <section class="py-24" id="roadmap">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="heading-font text-4xl font-bold text-center text-white mb-16">2026 Roadmap</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="p-8 border-l-2 border-cyan-400 bg-white/5">
-                    <p class="text-cyan-400 font-bold mb-2">Q1 2026</p>
-                    <h4 class="text-white font-bold mb-3">Foundation</h4>
-                    <p class="text-slate-500 text-xs">Mainnet Launch & Node Provider onboarding.</p>
+    <section class="py-24 bg-black/30">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+            <h2 class="heading-font text-4xl font-bold text-white mb-4">Our Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-12">
+                <div class="ocean-glass p-8 rounded-[30px] group transition">
+                    <i class="fa-solid fa-flask text-3xl text-cyan-400 mb-6"></i>
+                    <h3 class="text-xl font-bold text-white mb-3">AI Research</h3>
+                    <p class="text-slate-400 text-sm">Access decentralized computing power for complex AI training.</p>
                 </div>
-                <div class="p-8 border-l-2 border-purple-400 bg-white/5">
-                    <p class="text-purple-400 font-bold mb-2">Q2 2026</p>
-                    <h4 class="text-white font-bold mb-3">Expansion</h4>
-                    <p class="text-slate-500 text-xs">Decentralized GPU Cluster integration.</p>
+                <div class="ocean-glass p-8 rounded-[30px] group transition">
+                    <i class="fa-solid fa-database text-3xl text-purple-400 mb-6"></i>
+                    <h3 class="text-xl font-bold text-white mb-3">Data Monetization</h3>
+                    <p class="text-slate-400 text-sm">Securely trade datasets on our encrypted blockchain.</p>
                 </div>
-                <div class="p-8 border-l-2 border-accent-light bg-white/5 opacity-50">
-                    <p class="text-accent-light font-bold mb-2">Q3 2026</p>
-                    <h4 class="text-white font-bold mb-3">Ecosystem</h4>
-                    <p class="text-slate-500 text-xs">Public AI Marketplace Beta release.</p>
-                </div>
-                <div class="p-8 border-l-2 border-slate-700 bg-white/5 opacity-50">
-                    <p class="text-slate-700 font-bold mb-2">Q4 2026</p>
-                    <h4 class="text-white font-bold mb-3">Governance</h4>
-                    <p class="text-slate-500 text-xs">Full DAO implementation & Token burn.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 bg-black/20">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="heading-font text-4xl font-bold text-center text-white mb-16">Frequently Asked Questions</h2>
-            <div class="space-y-4">
-                <details class="ocean-glass p-6 rounded-2xl group cursor-pointer" open>
-                    <summary class="text-white font-bold flex justify-between items-center list-none">
-                        Is my data secure with BlockAI?
-                        <i class="fa-solid fa-plus group-open:rotate-45 transition"></i>
-                    </summary>
-                    <p class="text-slate-400 text-sm mt-4 leading-relaxed">Yes, we use Fully Homomorphic Encryption (FHE) to ensure that your data is never decrypted during the AI training process on our nodes.</p>
-                </details>
-                <details class="ocean-glass p-6 rounded-2xl group cursor-pointer">
-                    <summary class="text-white font-bold flex justify-between items-center list-none">
-                        How can I earn rewards?
-                        <i class="fa-solid fa-plus group-open:rotate-45 transition"></i>
-                    </summary>
-                    <p class="text-slate-400 text-sm mt-4 leading-relaxed">You can earn BLOCKAI tokens by providing computing power (Node), contributing high-quality datasets, or developing AI models for the marketplace.</p>
-                </details>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="bg-gradient-to-r from-cyan-600/20 to-purple-600/20 rounded-[40px] p-12 md:p-20 border border-white/10 text-center">
-                <h2 class="heading-font text-4xl md:text-6xl font-bold text-white mb-8">Ready to join the AI <br>Revolution?</h2>
-                <div class="flex flex-col md:flex-row justify-center gap-6">
-                    <button class="bg-white text-black px-12 py-4 rounded-full font-bold hover:bg-cyan-400 transition">Get Started Now</button>
-                    <button class="border border-white/20 text-white px-12 py-4 rounded-full font-bold hover:bg-white/10 transition">Read Docs</button>
+                <div class="ocean-glass p-8 rounded-[30px] group transition">
+                    <i class="fa-solid fa-robot text-3xl text-accent-light mb-6"></i>
+                    <h3 class="text-xl font-bold text-white mb-3">AI Agents</h3>
+                    <p class="text-slate-400 text-sm">Autonomous agents working across global networks.</p>
                 </div>
             </div>
         </div>
@@ -310,52 +136,7 @@ include('db_connect.php'); // Tomar database connection file-er nam
 
     <footer class="bg-[#06060c] pt-20 pb-10 border-t border-white/5 relative z-10">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                <div class="space-y-6">
-                    <div class="flex items-center space-x-3 text-white uppercase font-extrabold text-2xl heading-font">
-                        <div class="w-8 h-8 bg-gradient-to-tr from-cyan-400 to-purple-600 rounded-lg flex items-center justify-center rotate-12">
-                            <i class="fa-solid fa-brain text-white text-xs"></i>
-                        </div>
-                        <span>BlockAI</span>
-                    </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">The world's first decentralized ecosystem for AI models, datasets, and compute power.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-slate-400 hover:text-cyan-400 transition"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#" class="text-slate-400 hover:text-cyan-400 transition"><i class="fa-brands fa-discord"></i></a>
-                        <a href="#" class="text-slate-400 hover:text-cyan-400 transition"><i class="fa-brands fa-github"></i></a>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-6 uppercase text-sm tracking-widest">Ecosystem</h4>
-                    <ul class="space-y-4 text-slate-400 text-sm">
-                        <li><a href="services.php" class="hover:text-cyan-400 transition">Marketplace</a></li>
-                        <li><a href="governance.php" class="hover:text-cyan-400 transition">Governance</a></li>
-                        <li><a href="whitepaper.php" class="hover:text-cyan-400 transition">Whitepaper</a></li>
-                        <li><a href="terms.php" class="hover:text-cyan-400 transition">Terms of Use</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-6 uppercase text-sm tracking-widest">Company</h4>
-                    <ul class="space-y-4 text-slate-400 text-sm">
-                        <li><a href="case-studies.php" class="hover:text-cyan-400 transition">Insights</a></li>
-                        <li><a href="contact.php" class="hover:text-cyan-400 transition">Contact</a></li>
-                        <li><a href="careers.php" class="hover:text-cyan-400 transition">Careers</a></li>
-                        <li><a href="privacy-policy.php" class="hover:text-cyan-400 transition">Privacy Policy</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="text-white font-bold mb-6 uppercase text-sm tracking-widest">Newsletter</h4>
-                    <form class="space-y-3">
-                        <input type="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-cyan-400 transition">
-                        <button type="button" class="w-full bg-cyan-400 text-black font-bold py-3 rounded-xl hover:bg-cyan-300 transition text-sm">Join Now</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-bold tracking-widest uppercase">
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-slate-500 font-bold tracking-widest uppercase gap-4">
                 <p>&copy; <?php echo date("Y"); ?> BLOCKAI SOLUTION | ALL RIGHTS RESERVED.</p>
                 <div class="flex items-center space-x-2">
                     <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
