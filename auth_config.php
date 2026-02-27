@@ -14,19 +14,53 @@ define('CLIENT_SECRET', trim((string) getenv('AZURE_CLIENT_SECRET')));
 define('TENANT_ID', trim((string) getenv('AZURE_TENANT_ID')));
 define('TENANT_NAME', trim((string) (getenv('AZURE_TENANT_NAME') ?: 'blockaisolution26')));
 define('TENANT_DOMAIN', TENANT_NAME !== '' ? TENANT_NAME . '.onmicrosoft.com' : '');
-define('USER_FLOW', trim((string) (getenv('AZURE_USER_FLOW') ?: getenv('AZURE_B2C_USER_FLOW'))));
+define('USER_FLOW_RAW', trim((string) (
+    getenv('AZURE_USER_FLOW')
+    ?: getenv('AZURE_B2C_USER_FLOW')
+    ?: getenv('AZURE_B2C_POLICY')
+    ?: getenv('AZURE_POLICY')
+)));
 
 $authorityConfig = resolveAuthorityConfig();
 define('AUTH_MODE', $authorityConfig['mode']);
 define('AUTHORITY_HOST', $authorityConfig['authority_host']);
 define('AUTHORITY_URL', $authorityConfig['authority_url']);
 define('TOKEN_URL', $authorityConfig['token_url']);
+define('USER_FLOW', $authorityConfig['user_flow']);
 define('SCOPES', resolveScopes());
 
 /**
  * Select a redirect URI that works for production and local testing.
  */
 define('REDIRECT_URI', resolveRedirectUri());
+
+function normalizeUserFlowForMode(string $configuredFlow, string $mode): string
+{
+    $flow = trim($configuredFlow);
+    if ($flow === '') {
+        return '';
+    }
+
+    // Friendly portal names are often copied with spaces; normalize for URLs.
+    $flow = preg_replace('/\s+/', '_', $flow) ?? $flow;
+    $flow = trim($flow);
+    if ($flow === '') {
+        return '';
+    }
+
+    // Keep exact value for CIAM unless explicitly prefixed.
+    if ($mode !== 'b2c') {
+        return $flow;
+    }
+
+    // Allow strict mode to disable automatic normalization.
+    $strictUserFlow = trim((string) getenv('AZURE_USER_FLOW_STRICT')) === '1';
+    if ($strictUserFlow || preg_match('/^b2c_/i', $flow) === 1) {
+        return $flow;
+    }
+
+    return 'B2C_1_' . ltrim($flow, '_');
+}
 
 function resolveAuthorityConfig(): array
 {
@@ -36,6 +70,7 @@ function resolveAuthorityConfig(): array
         $configuredHost = rtrim($configuredHost, '/');
     }
 
+    $rawUserFlow = USER_FLOW_RAW;
     $explicitMode = strtolower(trim((string) getenv('AZURE_AUTH_MODE')));
     if ($explicitMode === 'b2c' || $explicitMode === 'ciam') {
         $mode = $explicitMode;
@@ -43,7 +78,7 @@ function resolveAuthorityConfig(): array
         $mode = 'b2c';
     } elseif ($configuredHost !== '' && stripos($configuredHost, 'ciamlogin.com') !== false) {
         $mode = 'ciam';
-    } elseif (USER_FLOW !== '' && preg_match('/^b2c_/i', USER_FLOW) === 1) {
+    } elseif ($rawUserFlow !== '' && preg_match('/^b2c_/i', $rawUserFlow) === 1) {
         // B2C user flows are commonly named with a B2C_ prefix.
         $mode = 'b2c';
     } else {
@@ -55,9 +90,10 @@ function resolveAuthorityConfig(): array
         $authorityHost = TENANT_NAME . ($mode === 'b2c' ? '.b2clogin.com' : '.ciamlogin.com');
     }
 
+    $userFlow = normalizeUserFlowForMode($rawUserFlow, $mode);
     $pathPrefix = TENANT_DOMAIN;
-    if ($mode === 'b2c' && USER_FLOW !== '') {
-        $pathPrefix .= '/' . USER_FLOW;
+    if ($mode === 'b2c' && $userFlow !== '') {
+        $pathPrefix .= '/' . $userFlow;
     }
 
     $oauthBase = ($authorityHost !== '' && $pathPrefix !== '')
@@ -69,6 +105,7 @@ function resolveAuthorityConfig(): array
         'authority_host' => $authorityHost,
         'authority_url' => $oauthBase !== '' ? $oauthBase . '/authorize' : '',
         'token_url' => $oauthBase !== '' ? $oauthBase . '/token' : '',
+        'user_flow' => $userFlow,
     ];
 }
 
@@ -211,6 +248,13 @@ function getLoginUrl(): string
     // Add policy as query parameter for broad B2C compatibility.
     if (AUTH_MODE === 'b2c' && USER_FLOW !== '') {
         $params['p'] = USER_FLOW;
+    }
+
+    if (AUTH_MODE === 'b2c' && USER_FLOW_RAW !== '' && USER_FLOW !== USER_FLOW_RAW) {
+        authLog('Normalized B2C user flow value', [
+            'configured_user_flow' => USER_FLOW_RAW,
+            'effective_user_flow' => USER_FLOW,
+        ]);
     }
 
     return AUTHORITY_URL . '?' . http_build_query($params);
